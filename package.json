@@ -42,7 +42,7 @@
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
     "node-gtts": "^2.0.2",
-    "parse-ms": "2.1.0",
+    "parse-ms": "3.0.0",
     "path": "^0.12.7",
     "performance-now": "^2.1.0",
     "promise": "^8.1.0",
