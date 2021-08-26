@@ -369,3 +369,4 @@ Fix Stuck on linux, install google chrome stable:
 - [TobyG74](https://github.com/TobyG74/ElainaBOT)
 - [VideFrelan](https://github.com/VideFrelan/vfbot-wa)
 - [SlavyanDesu](https://github.com/SlavyanDesu)
+- [Zekais](https://github.com/fawwaz37)
