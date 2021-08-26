@@ -1130,7 +1130,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 						fs.writeFileSync('./lib/helper/autosticker.json', JSON.stringify(_autostiker))
 						await urbae.reply(from, 'Fitur autosticker berhasil diaktifkan', id)
 					} else if (args[0] === 'disable') {
-						_autostiker.splice(chat.id, 1)
+						let ingroup = _autostiker.indexOf(groupId)
+						_autostiker.splice(ingroup, 1)
 						fs.writeFileSync('./lib/helper/autosticker.json', JSON.stringify(_autostiker))
 						await urbae.reply(from, 'Fitur autostiker berhasil dinonaktifkan', id)
 					} else {
