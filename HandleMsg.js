@@ -114,6 +114,7 @@ let {
 	dapuhyapi,
 	paiskey,
 	leysapi,
+	zekais,
 	zenzapi,
 	apikeyvinz, //IF YOU HAVE THIS APIKEY, YOU CAN CUSTOM IT!
 	authorstc,
@@ -2303,7 +2304,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'infobmkg':
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://zekais-api.herokuapp.com/gempa`)
+					axios.get(`http://zekais-api.herokuapp.com/gempa?apikey=${zekais}`)
 						.then(async (res) => {
 							if (res.data.status == false) return urbae.reply(from, 'REST-API sedang error', id)
 							const imageth = res.data.image
@@ -2322,7 +2323,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'bucin':
-					axios.get(`http://zekais-api.herokuapp.com/bucin`).then(res => {
+					axios.get(`http://zekais-api.herokuapp.com/bucin?apikey=${zekais}`).then(res => {
 						const ayamgrg = res.data.result
 						urbae.reply(from, ayamgrg, id)
 					})
@@ -2335,7 +2336,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'dankmemes':
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://zekais-api.herokuapp.com/dankmemes`)
+					axios.get(`http://zekais-api.herokuapp.com/dankmemes?apikey=${zekais}`)
 						.then(async (res) => {
 							urbae.sendFileFromUrl(from, res.data.result, 'img.jpg', '', id)
 								.catch(err => {
@@ -2349,7 +2350,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'quotesen':
-					axios.get(`http://zekais-api.herokuapp.com/quotesen`)
+					axios.get(`http://zekais-api.herokuapp.com/quotesen?apikey=${zekais}`)
 						.then(async (res) => {
 							const fto = `author : *${res.data.author}*\n\nQuotes : *${res.data.quotes_en}*`;
 							urbae.reply(from, fto, id)
@@ -2424,12 +2425,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'foliokanan':
 					if (args.length == 0) return urbae.reply(from, `Membuat bot menulis teks yang akan dikirim menjadi gambar`, id)
 					const folkan = body.slice(12)
-					await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/foliokanan?text=${folkan}`, '', '', id)
+					await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/foliokanan?text=${folkan}&apikey=${zekais}`, '', '', id)
 					break
 				case prefix + 'foliokiri':
 					if (args.length == 0) return urbae.reply(from, `Membuat bot menulis teks yang akan dikirim menjadi gambar!`, id)
 					const nulisfol1 = body.slice(11)
-					await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/foliokiri?text=${nulisfol1}`, '', '', id)
+					await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/foliokiri?text=${nulisfol1}&apikey=${zekais}`, '', '', id)
 					break
 				case prefix + 'nulis':
 					if (args.length == 0) return urbae.reply(from, `Membuat bot menulis teks yang dikirim menjadi gambar\nPemakaian: ${prefix}nulis [teks]\n\ncontoh: ${prefix}nulis i love you 3000`, id)
@@ -2877,7 +2878,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const encrypt = isQuotedImage ? quotedMsg : message
 						const mediaData = await decryptMedia(encrypt, uaOverride)
 						const inimage = await uploadImages(mediaData, `${sender.id}_img`)
-						await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/thuglife?url=${inimage}`, 'thuglife.jpg', '', id)
+						await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/thuglife?url=${inimage}&apikey=${zekais}`, 'thuglife.jpg', '', id)
 							.catch(() => {
 								urbae.reply(from, 'lagi error', id)
 							})
@@ -2892,7 +2893,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const encrypt = isQuotedImage ? quotedMsg : message
 						const mediaData = await decryptMedia(encrypt, uaOverride)
 						const inimage = await uploadImages(mediaData, `${sender.id}_img`)
-						await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/tobecontinue?url=${inimage}`, 'tobe.jpg', '', id)
+						await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/tobecontinue?url=${inimage}&apikey=${zekais}`, 'tobe.jpg', '', id)
 							.catch(() => {
 								urbae.reply(from, 'Lagi error', id)
 							})
@@ -2979,7 +2980,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'instagram':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
 					const igUrl = body.slice(4)
-					axios.get(`https://zekais-api.herokuapp.com/igdl?url=${igUrl}`)
+					axios.get(`https://zekais-api.herokuapp.com/igdl?url=${igUrl}&apikey=${zekais}`)
 						.then(async (res) => {
 							if (res.data.result[0].type == 'image') {
 								urbae.sendFileFromUrl(from, res.data.result[0].url, 'ig.jpg', '', id)
@@ -3052,7 +3053,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'asupan4':
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://zekais-api.herokuapp.com/ptlvid`)
+					axios.get(`http://zekais-api.herokuapp.com/ptlvid?apikey=${zekais}`)
 						.then(async (res) => {
 							urbae.sendFileFromUrl(from, res.data.result, '', '*R A N D O M  A S U P A N*', id)
 								.catch(() => {
@@ -3459,7 +3460,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'drakorupdate':
 					urbae.reply(from, mess.wait, id)
 					try {
-						const latest = await axios.get(`http://zekais-api.herokuapp.com/drakorlatest`)
+						const latest = await axios.get(`http://zekais-api.herokuapp.com/drakorlatest?apikey=${zekais}`)
 						const belasts = latest.data
 						if (belasts.status == 500) return urbae.reply(from, res.message, id)
 						const { result } = belasts
@@ -3476,7 +3477,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'drakorapik':
 					await urbae.reply(from, mess.wait, id)
 					try {
-						const apikdrak = await axios.get(`http://zekais-api.herokuapp.com/filmapikdrama`)
+						const apikdrak = await axios.get(`http://zekais-api.herokuapp.com/filmapikdrama?apikey=${zekais}`)
 						const apikkz = apikdrak.data
 						const { result } = apikkz
 						let bedrak = `*「 FILM APIK DRAKOR 」*\n`
@@ -3493,7 +3494,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const caridrakor = body.slice(8)
 					urbae.reply(from, mess.wait, id)
 					try {
-						const juduldrakor = await axios.get(`http://zekais-api.herokuapp.com/drakor?query=${caridrakor}`)
+						const juduldrakor = await axios.get(`http://zekais-api.herokuapp.com/drakor?query=${caridrakor}&apikey=${zekais}`)
 						const anjays = juduldrakor.data
 						if (anjays.status == 500) return urbae.reply(from, anjays.message, id)
 						const { download } = anjays
@@ -3789,7 +3790,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'nanimelatest':
 					urbae.reply(from, mess.wait, id)
-					const nanimeurl = await axios.get(`http://zekais-api.herokuapp.com/nanimenew`)
+					const nanimeurl = await axios.get(`http://zekais-api.herokuapp.com/nanimenew?apikey=${zekais}`)
 					const nanimedata = nanimeurl.data
 					if (nanimedata.status == 500) return urbae.reply(from, nanimedata.result, id)
 					const nanimeres = nanimedata.result
@@ -3807,7 +3808,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Mencari anime dari website Nanime gunakan ${prefix}nanimesr query\nContoh: ${prefix}nanimesr sword`, id)
 					const sranime = body.slice(10)
 					urbae.reply(from, mess.wait, id)
-					const sranimeurl = axios.get(`http://zekais-api.herokuapp.com/nanimesr?query=${sranime}`)
+					const sranimeurl = axios.get(`http://zekais-api.herokuapp.com/nanimesr?query=${sranime}&apikey=${zekais}`)
 					const srdatanime = sranimeurl.data
 					if (srdatanime == 500) return urbae.reply(from, srdatanime.result, id)
 					const resultnime = srdatanime.result
@@ -3825,7 +3826,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Masukan url nanime nya\nContoh: ${prefix}nanimeget https://nanime.biz/anime/sword-art-online-alicization-war-of-underworld-2nd-season`, id)
 					const getnanime = body.slice(11)
 					urbae.reply(from, mess.wait, id)
-					const geturlnime = axios.get(`http://zekais-api.herokuapp.com/nanimeget?url=${getnanime}`)
+					const geturlnime = axios.get(`http://zekais-api.herokuapp.com/nanimeget?url=${getnanime}&apikey=${zekais}`)
 					const nanimedata2 = geturlnime.data.result
 					if (geturlnime.data.result.status == 500) return urbae.reply(from, geturlnime.data.result, id)
 					const judulnanime = nanimedata2.title
@@ -4129,7 +4130,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'cerpen':
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://zekais-api.herokuapp.com/cerpen`)
+					axios.get(`http://zekais-api.herokuapp.com/cerpen?apikey=${zekais}`)
 						.then(async (res) => {
 							const ceritanya = `*Judul:* ${res.data.title}\n*Pengarang:* ${res.data.pengarang}\n*Kategori:* ${res.data.category}\n\n*Cerpen:* ${res.data.post}`
 							await urbae.reply(from, ceritanya, id)
@@ -4582,7 +4583,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}tiktok3 link tiktok`, id)
 					const belink = body.slice(9)
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://zekais-api.herokuapp.com/tiktok?url=${belink}`)
+					axios.get(`http://zekais-api.herokuapp.com/tiktok?url=${belink}&apikey=${zekais}`)
 						.then(async (res) => {
 							await urbae.sendFileFromUrl(from, res.data.result, '', '', id)
 								.catch(() => {
@@ -4752,10 +4753,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const linkstik = body.slice(13)
 					try {
 						urbae.reply(from, mess.wait, id)
-						const jadistik = await axios.get(`http://zekais-api.herokuapp.com/stickerline?url=${linkstik}`)
+						const jadistik = await axios.get(`http://zekais-api.herokuapp.com/stickerline?url=${linkstik}&apikey=${zekais}`)
 						const bedaz = jadistik.data.result.stickers
 						let randstik = bedaz[Math.floor(Math.random() * bedaz.length)]
-						const thislink = await axios.get(`http://zekais-api.herokuapp.com/webptomp4?url=${randstik}`)
+						const thislink = await axios.get(`http://zekais-api.herokuapp.com/webptomp4?url=${randstik}&apikey=${zekais}`)
 						const linkres = thislink.data.result
 						await urbae.sendMp4AsSticker(from, linkres, gifxyz, StickerMetadata)
 					} catch (err) {
@@ -4803,7 +4804,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (jamss > 11) return urbae.reply(from, 'Maksimal 10', id)
 					urbae.reply(from, mess.wait, id)
 					try {
-						const beasin = await axios.get(`https://zekais-api.herokuapp.com/igdl?url=${jams}`)
+						const beasin = await axios.get(`https://zekais-api.herokuapp.com/igdl?url=${jams}&apikey=${zekais}`)
 						const beasin2 = beasin.data
 						if (beasin2.status == 500) return urbae.reply(from, `Link tidak valid`, id)
 						for (let i = 0; i < jamss; i++) {
@@ -4841,7 +4842,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Menampilkan list mangatoon dari query\nContoh: ${prefix}mangasearch love`, id)
 					const carimanga = args[0]
 					urbae.reply(from, mess.wait, id)
-					const datamanga = await axios.get(`http://zekais-api.herokuapp.com/mangatoonsr?query=${carimanga}`)
+					const datamanga = await axios.get(`http://zekais-api.herokuapp.com/mangatoonsr?query=${carimanga}&apikey=${zekais}`)
 					const resmanga = datamanga.data
 					const manres = resmanga.result
 					let mangatext = `*「 M A N G A T O O N 」*\n`
@@ -4862,7 +4863,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, 'linknya mana?', id)
 					const linkmanga = args[0]
 					urbae.reply(from, mess.wait, id)
-					const downmanga = await axios.get(`http://zekais-api.herokuapp.com/getmangatoon?url=${linkmanga}`)
+					const downmanga = await axios.get(`http://zekais-api.herokuapp.com/getmangatoon?url=${linkmanga}&apikey=${zekais}`)
 					const downdata = downmanga.data
 					const mangaresult = downdata.result
 					const replys = `*•Judul:* ${downdata.title}\n*•Genre:* ${downdata.genre}\n*•Author:* ${downdata.author}\n*•Rating:* ${downdata.score}\n*•Views:* ${downdata.view_count}\n*•Likes:* ${downdata.like_count}\n*•Desc:* ${downdata.desc}`
@@ -4929,12 +4930,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Menampilkan list spotify yang anda cari!\nGunakan ${prefix}spotifysearch judul lagu\nContoh: ${prefix}spotifysearch young`, id)
 					const carispotify = body.slice(15)
 					urbae.reply(from, mess.wait, id)
-					const spotifyapi = await axios.get(`https://zekais-api.herokuapp.com/spotifysr?query=${carispotify}`)
+					const spotifyapi = await axios.get(`https://api.zeks.me/api/spotify?apikey=${apikeyvinz}&q=${carispotify}`)
 					const spotifydata = spotifyapi.data
-					const spotres = spotifydata.result
+					const spotres = spotifydata.data
 					let spotifytext = `*「 S P O T I F Y 」*\n`
 					for (let i = 0; i < spotres.length; i++) {
-						spotifytext += `\n─────────────────\n\n*•Title:* ${spotres[i].title}\n*•Artists:* ${spotres[i].artists}\n*•Popularity:* ${spotres[i].popularity}\n*•Release Date:* ${spotres[i].release_date}\n*•Url:* ${spotres[i].url}\n`
+						spotifytext += `\n─────────────────\n\n*•Title:* ${spotres[i].title}\n*•Artists:* ${spotres[i].artists}\n*•Album:* ${spotres[i].album}\n*•Url:* ${spotres[i].url}\n`
 					}
 					await urbae.sendFileFromUrl(from, spotres[0].thumb, 'img.jpg', spotifytext, id)
 						.catch(err => {
@@ -4952,9 +4953,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.reply(from, mess.wait, id)
 					rugaapi.spotify(linkspot)
 						.then(async (res) => {
-							if (res.status == 404) return urbae.reply(from, res.message, id)
-							urbae.sendFileFromUrl(from, res.result.thumbnail, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${res.result.title}\n*•Duration:* ${res.result.duration} Sec\n*•Artists:* ${res.result.artists}\n*•Popularity:* ${res.result.popularity}\n\n*_Waitt, lemme send this fuckin' audio_*`, id)
-							urbae.sendFileFromUrl(from, res.result.link, '', '', id)
+							urbae.sendFileFromUrl(from, res.result, '', '', id)
 								.catch(err => {
 									console.log(err)
 									urbae.reply(from, 'Meng-error', id)
@@ -4968,19 +4967,19 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'spotify':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify judul lagu`, id)
 					const carispot = body.slice(9)
-					const spos = await axios.get(`http://lolhuman.herokuapp.com/api/spotifysearch?apikey=${lolhuman}&query=${carispot}`)
+					const spos = await axios.get(`https://api.zeks.me/api/spotify?apikey=${apikeyvinz}&q=${carispot}`)
 					urbae.reply(from, mess.wait, id)
-					rugaapi.spotify(spos.data.result[0].link)
+					urbae.sendFileFromUrl(from, spos.data.data[0].thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${spos.data.data[0].title}\n*•Artists:* ${spos.data.data[0].artists}\n*•Album:* ${spos.data.data[0].album}\n*•Url:* ${spos.data.data[0].url}\n\n_Waitt, lemme send this fuckin' audio_`, id)
+					rugaapi.spotify(spos.data.data[0].url)
 						.then(async (res) => {
-							urbae.sendFileFromUrl(from, res.result.thumbnail, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${res.result.title}\n*•Duration:* ${res.result.duration} Sec\n*•Artists:* ${res.result.artists}\n*•Popularity:* ${res.result.popularity}\n\n*_Waitt, lemme send this fuckin' audio_*`, id)
-							urbae.sendFileFromUrl(from, res.link, '', '', id)
+							urbae.sendFileFromUrl(from, res.result, '', '', id)
 								.catch(() => {
 									urbae.reply(from, 'Error', id)
 								})
 						})
 						.catch(err => {
 							console.log(err)
-							urbae.reply(from, 'Error tuh', id)
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'exec':
@@ -5634,7 +5633,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'happymod':
 					if (args.length == 0) return urbae.reply(from, `Fitur untuk mencari sebuah aplikasi mod dari Happymod\nContoh : ${prefix}happymod pubg`, id)
-					const happymod = await axios.get(`https://zekais-api.herokuapp.com/happymodsr?query=${body.slice(10)}`)
+					const happymod = await axios.get(`https://zekais-api.herokuapp.com/happymodsr?query=${body.slice(10)}&apikey=${zekais}`)
 					const hppy = happymod.data
 					const modo = hppy.result
 					if (modo.length == 0) return urbae.reply(from, 'Tidak dapat menemukan hasil', id)
@@ -5651,11 +5650,11 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'burn':
 					if (args.length == 0) return urbae.reply(from, `textnya mana sayang?`, id)
 					const initextnya = body.slice(6)
-					await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/sbburn?text=${initextnya}`, '', '', id)
+					await urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/sbburn?text=${initextnya}&apikey=${zekais}`, '', '', id)
 					break
 				case prefix + 'wikihow':
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://zekais-api.herokuapp.com/wikihow`)
+					axios.get(`http://zekais-api.herokuapp.com/wikihow?apikey=${zekais}`)
 						.then(async (res) => {
 							const freply = res.data.title
 							await urbae.sendFileFromUrl(from, res.data.url, 'img.jpg', freply, id)
@@ -5866,7 +5865,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const encryptMedia = isQuotedImage ? quotedMsg : message
 						const mediaData = await decryptMedia(encryptMedia, uaOverride)
 						const uploadImagex = await uploadImages(mediaData, `${sender.id}_img`)
-						urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/delete?url=${uploadImagex}`, '', '', id)
+						urbae.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/delete?url=${uploadImagex}&apikey=${zekais}`, '', '', id)
 					} else {
 						urbae.reply(from, 'Format pesan salah', id)
 					}
