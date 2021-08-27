@@ -10,7 +10,7 @@
 <a href="https://github.com/Urbaexyz?tab=followers"><img title="Followers" src="https://img.shields.io/github/followers/Urbaexyz?color=blue&style=flat-square"></a>
 <a href="https://github.com/Urbaexyz/whatsapp-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Urbaexyz/whatsapp-bot?color=blue&style=flat-square"></a>
 <a href="https://github.com/Urbaexyz/whatsapp-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Urbaexyz/whatsapp-bot?color=blue&style=flat-square"></a>
-<img src="https://img.shields.io/github/package-json/v/Urbaexyz/whatsapp-bot">
+<a href="https://github.com/Urbaexyz/whatsapp-bot/blob/main/package.json#L3"><img src="https://img.shields.io/github/package-json/v/Urbaexyz/whatsapp-bot"></a>
 <img src="https://img.shields.io/github/languages/top/Urbaexyz/whatsapp-bot">
 <img src="https://img.shields.io/github/search/Urbaexyz/whatsapp-bot/whatsapp-bot">
 <img src="https://img.shields.io/github/repo-size/Urbaexyz/whatsapp-bot">
