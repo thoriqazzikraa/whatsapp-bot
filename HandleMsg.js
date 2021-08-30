@@ -4608,23 +4608,23 @@ module.exports = HandleMsg = async (urbae, message) => {
 							urbae.reply(from, 'Ada yang Error!', id)
 						})
 					break
-				case prefix + 'tiktok':
-					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
-					const bodynya = body.slice(8)
-					urbae.reply(from, mess.wait, id)
-					axios.get(`https://docs-jojo.herokuapp.com/api/tiktok_nowm?url=${bodynya}`)
-						.then(async (res) => {
-							await urbae.sendFileFromUrl(from, res.data.download, '', `*from:* ${res.data.from}\n*caption:* ${res.data.caption}`, id)
-								.catch(err => {
-									console.log(err)
-									urbae.reply(from, 'Rest Api sedang Error!', id)
-								})
-						})
-						.catch((err) => {
-							console.log(err)
-							urbae.reply(from, err.message, id)
-						})
-					break
+				case prefix+'tiktok':
+             if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
+             const bodynya = body.slice(8)
+			 aruga.reply(from, mess.wait, id)
+			 axios.get(`https://dapuhy-api.herokuapp.com/api/socialmedia/ttdownloader?url=${bodynya}&apikey=${dapuhyapi}`)
+			 .then(async (res) => {
+				 if (res.data.status == false) return aruga.reply(from, `Link tidak valid!`, id)
+				 aruga.sendFileFromUrl(from, res.data.result.nowm, '', '', id)
+				 .catch(() => {
+					 aruga.reply(from, 'Link tidak valid!', id)
+				 })
+			 })
+			 .catch(err => {
+				 console.log(err)
+				 aruga.reply(from, err.message, id)
+			 })
+			 break
 				case prefix + 'tiktoknowm':
 					if (args.length == 0) return urbae.reply(from, `Untuk mendownload video dari tiktok, gunakan ${prefix}tiktoknowm link`, id)
 					const lika = body.slice(12)
