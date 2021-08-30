@@ -19,7 +19,6 @@ const request = require('request-promise')
 const emojiUnicode = require('emoji-unicode')
 const get = require('got')
 const { fetchJson } = require('./utils/fetcher')
-
 const appRoot = require('app-root-path')
 const low = require('lowdb')
 const google = require('google-it')
@@ -2976,6 +2975,23 @@ module.exports = HandleMsg = async (urbae, message) => {
 								})
 						})
 					break
+				case prefix + 'igreels':
+				case prefix + 'instagramreels':
+				case prefix + 'reelsig':
+					if (args.length == 0) return urbae.reply(from, `Untuk mendownload reel instagram gunakan ${prefix}igreel link\nContoh: ${prefix}igreels https://www.instagram.com/reel/CTMQQxunAXb/`, id)
+					const reelink = body.slice(9)
+					axios.get(`https://dapuhy-api.herokuapp.com/api/socialmedia/igdownload?url=${reelink}&apikey=${dapuhyapi}`)
+						.then(async (res) => {
+							if (res.data.status == false) return urbae.reply(from, 'Link tidak valid', id)
+							urbae.sendFileFromUrl(from, res.data.result.url, 'reel.mp4', `*「 INSTAGRAM REEL 」*\n\n•*Username:* ${res.data.user.username}\n•*Name:* ${res.data.user.full_name}\n•*Followers:* ${res.data.user.followers}`, id)
+								.catch(() => {
+									urbae.reply(from, 'Link tidak valid', id)
+								})
+						})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
 				case prefix + 'ig':
 				case prefix + 'instagram':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
@@ -4609,20 +4625,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'tiktok':
-					if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
+					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
 					const bodynya = body.slice(8)
-					aruga.reply(from, mess.wait, id)
+					urbae.reply(from, mess.wait, id)
 					axios.get(`https://dapuhy-api.herokuapp.com/api/socialmedia/ttdownloader?url=${bodynya}&apikey=${dapuhyapi}`)
 						.then(async (res) => {
-							if (res.data.status == false) return aruga.reply(from, `Link tidak valid!`, id)
-							aruga.sendFileFromUrl(from, res.data.result.nowm, '', '', id)
+							if (res.data.status == false) return urbae.reply(from, `Link tidak valid!`, id)
+							urbae.sendFileFromUrl(from, res.data.result.nowm, '', '', id)
 								.catch(() => {
-									aruga.reply(from, 'Link tidak valid!', id)
+									urbae.reply(from, 'Link tidak valid!', id)
 								})
 						})
 						.catch(err => {
 							console.log(err)
-							aruga.reply(from, err.message, id)
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'tiktoknowm':
