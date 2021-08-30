@@ -121,10 +121,10 @@ Run the Whatsapp bot
 after running it you need to scan the qr
 
 ### Information
-- Change ownerNumber on [HandleMsg.js](https://github.com/Urbaexyz/whatsapp-bot/blob/main/HandleMsg.js#L259)
-- Change groupLimit on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/settings/setting.json)
-- Change memberLimit on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/settings/setting.json)
-- Change menu on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/lib/menu.js#L32)
+- Change ownerNumber on [HandleMsg.js](https://github.com/Urbaexyz/whatsapp-bot/blob/main/HandleMsg.js#L263)
+- Change groupLimit on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/settings/setting.json#L3)
+- Change memberLimit on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/settings/setting.json#L2)
+- Change menu on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/lib/menu.js#L34)
 - `Vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.
 - `H4ck3rs404`: H4ck3rs404 API token. you can visit [here](https://h4ck3rs404-api.herokuapp.com/) 
 - `Lolhuman`: LolHuman API token. you can get it [here](http://lolhuman.herokuapp.com/) by purchasing his API key.
