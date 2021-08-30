@@ -129,7 +129,8 @@ after running it you need to scan the qr
 - `H4ck3rs404`: H4ck3rs404 API token. you can visit [here](https://h4ck3rs404-api.herokuapp.com/) 
 - `Lolhuman`: LolHuman API token. you can get it [here](http://lolhuman.herokuapp.com/) by purchasing his API key.
 - `Onlydev`: Only Dev City API token. you can get it [here](https://onlydevcity.herokuapp.com/docs) by purchasing his API key.
-- `Dapuhy Api`: Dapuhy API token. you can get it [here](https://dapuhy-api.herokuapp.com/) by Req Apikey for free.
+- `Dapuhy API`: Dapuhy API token. you can get it [here](https://dapuhy-api.herokuapp.com/) by Req Apikey for free.
+- `Zekais API`: Zekais API token, you can get it [here](https://zekais-api.herokuapp.com/) by purchasing his API key.
 ---
 
 ## Features
