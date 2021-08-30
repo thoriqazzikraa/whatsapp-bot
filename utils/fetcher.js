@@ -19,12 +19,12 @@ const fetchJson = (url, options) => {
 }
 
 exports.getBuffer = getBuffer = async (url) => {
-	const res = await fetch(url, {headers: { 'User-Agent': 'okhttp/4.5.0'}, method: 'GET' })
-	const anu = fs.readFileSync('./src/emror.jpg')
-	if (!res.ok) return { type: 'image/jpeg', result: anu }
-	const buff = await res.buffer()
-	if (buff)
-		return { type: res.headers.get('content-type'), result: buff }
+    const res = await fetch(url, { headers: { 'User-Agent': 'okhttp/4.5.0' }, method: 'GET' })
+    const anu = fs.readFileSync('./src/emror.jpg')
+    if (!res.ok) return { type: 'image/jpeg', result: anu }
+    const buff = await res.buffer()
+    if (buff)
+        return { type: res.headers.get('content-type'), result: buff }
 }
 
 /**
@@ -94,7 +94,7 @@ const fetchBase64 = (url, mimetype) => {
 }
 
 const custom = async (imageUrl, top, bott = '') => new Promise((resolve, reject) => {
-	topText = top.replace(/ /g, '%20').replace('\n','%5Cn')
+    topText = top.replace(/ /g, '%20').replace('\n', '%5Cn')
     fetchBase64(`https://api.memegen.link/images/custom/${topText}/${bott}.png?background=${imageUrl}`, 'image/png')
         .then((result) => resolve(result))
         .catch((err) => {

@@ -56,11 +56,11 @@ const isFiltered = (from) => {
  *@param {Callback} callback
  */
 const download = (url, path, callback) => {
-  request.head(url, () => {
-    request(url)
-      .pipe(fs.createWriteStream(path))
-      .on('close', callback)
-  })
+    request.head(url, () => {
+        request(url)
+            .pipe(fs.createWriteStream(path))
+            .on('close', callback)
+    })
 }
 
 
@@ -84,5 +84,5 @@ module.exports = {
     isUrl,
     color,
     messageLog,
-	download
+    download
 }
