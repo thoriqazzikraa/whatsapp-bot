@@ -2982,8 +2982,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const reelink = body.slice(9)
 					axios.get(`https://dapuhy-api.herokuapp.com/api/socialmedia/igdownload?url=${reelink}&apikey=${dapuhyapi}`)
 						.then(async (res) => {
-							if (res.data.status == false) return urbae.reply(from, 'Link tidak valid', id)
-							urbae.sendFileFromUrl(from, res.data.result.url, 'reel.mp4', `*「 INSTAGRAM REEL 」*\n\n•*Username:* ${res.data.user.username}\n•*Name:* ${res.data.user.full_name}\n•*Followers:* ${res.data.user.followers}`, id)
+							urbae.sendFileFromUrl(from, res.data.result.url, 'reel.mp4', `•*Username:* ${res.data.user.username}\n•*Name:* ${res.data.user.full_name}\n•*Followers:* ${res.data.user.followers}`, id)
 								.catch(() => {
 									urbae.reply(from, 'Link tidak valid', id)
 								})
@@ -2992,6 +2991,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
 						})
+					break
 				case prefix + 'ig':
 				case prefix + 'instagram':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
