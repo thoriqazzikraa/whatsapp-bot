@@ -2978,7 +2978,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'igreels':
 				case prefix + 'instagramreels':
 				case prefix + 'reelsig':
-					if (args.length == 0) return urbae.reply(from, `Untuk mendownload reel instagram gunakan ${prefix}igreel link\nContoh: ${prefix}igreels https://www.instagram.com/reel/CTMQQxunAXb/`, id)
+					if (args.length == 0) return urbae.reply(from, `Untuk mendownload reel instagram gunakan ${prefix}igreels link\nContoh: ${prefix}igreels https://www.instagram.com/reel/CTMQQxunAXb/`, id)
 					const reelink = body.slice(9)
 					axios.get(`https://zekais-api.herokuapp.com/igdl2?url=${reelink}&apikey=${zekais}`)
 						.then(async (res) => {
