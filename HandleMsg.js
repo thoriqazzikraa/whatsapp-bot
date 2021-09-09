@@ -2980,9 +2980,9 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'reelsig':
 					if (args.length == 0) return urbae.reply(from, `Untuk mendownload reel instagram gunakan ${prefix}igreel link\nContoh: ${prefix}igreels https://www.instagram.com/reel/CTMQQxunAXb/`, id)
 					const reelink = body.slice(9)
-					axios.get(`https://dapuhy-api.herokuapp.com/api/socialmedia/igdownload?url=${reelink}&apikey=${dapuhyapi}`)
+					axios.get(`https://zekais-api.herokuapp.com/igdl2?url=${reelink}&apikey=${zekais}`)
 						.then(async (res) => {
-							urbae.sendFileFromUrl(from, res.data.result.url, 'reel.mp4', `•*Username:* ${res.data.user.username}\n•*Name:* ${res.data.user.full_name}\n•*Followers:* ${res.data.user.followers}`, id)
+							urbae.sendFileFromUrl(from, res.data.result[0].url, '', `•*Username:* ${res.data.username}\n•*Name:* ${res.data.fullName}\n•*Followers:* ${res.data.followers}`, id)
 								.catch(() => {
 									urbae.reply(from, 'Link tidak valid', id)
 								})
@@ -4745,6 +4745,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 								})
 						})
 					break
+				case prefix + 'igstory2':
+					if (args.length == 0) return urbae.reply(from, 'Usernamenya mana?', id)
+					const usernamee = body.slice(10)
+					urbae.reply(from, mess.wait, id)
+					axios.get(`https://dapuhy-api.herokuapp.com/api/socialmedia/igstory?username=${usernamee}&apikey=${dapuhyapi}`)
+						.then(async (res) => {
+							if (res.data.status == false) return aruga.reply(from, res.data.message, id)
+							await urbae.sendFileFromUrl(from, res.data.url, '', '', id)
+						})
+						.catch(err => {
+							console.log(err)
+							aruga.reply(from, err.message, id)
+						})
+					break
 				case prefix + 'igstory':
 				case prefix + 'instastory':
 					if (args.length == 0) return urbae.reply(from, `Mencari story dari username, Gunakan ${prefix}igstory username|jumlahyangingindidownload\nContoh: ${prefix}igstory ewkharis|2`, id)
@@ -4836,17 +4850,16 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'postig':
-					if (args.length == 0) return urbae.reply(from, `Fitur untuk mencari post dari instagram seseorang\nketik ${prefix}postig username|jumlah\ncontoh: ${prefix}postig yourrkayesss|3`, id)
-					const wall1 = body.slice(8)
+					if (args.length == 0) return urbae.reply(from, `Fitur untuk mendownload postingan dengan banyak dari instagram seseorang\nketik ${prefix}postig url|jumlah\ncontoh: ${prefix}postig https://www.instagram.com/p/CPdHEUAHjls/ |3`, id)
 					const jml = q.split('|')[0]
 					const jml2 = q.split('|')[1]
 					urbae.reply(from, mess.wait, id)
 					try {
-						const wall = await axios.get(`http://docs-jojo.herokuapp.com/api/insta_v2?username=${jml}`)
+						const wall = await axios.get(`https://zekais-api.herokuapp.com/igdl2?url=${jml}&apikey=${zekais}`)
 						const wall2 = wall.data
 						if (jml2 > 7) return urbae.reply(from, 'Maksimal 7!', id)
 						for (let i = 0; i < jml2; i++) {
-							await urbae.sendFileFromUrl(from, wall2.resource[i].url, '', '', id)
+							await urbae.sendFileFromUrl(from, wall2.result[i].url, '', '', id)
 						}
 					} catch (err) {
 						console.log(err)
