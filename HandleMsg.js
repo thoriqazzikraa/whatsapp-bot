@@ -1614,26 +1614,48 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'playstore':
-					if (!isGroupMsg) return urbae.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
 					if (args.length === 0) return urbae.reply(from, `Kirim perintah *${prefix}playstore [ Query ]*, Contoh : *${prefix}playstore Mobile Legends*`)
 					const keywotp = body.slice(11)
 					urbae.reply(from, mess.wait, id)
 					try {
-						const dataplai = await axios.get(`https://api.vhtear.com/playstore?query=${keywotp}&apikey=${vhtearkey}`)
+						const dataplai = await axios.get(`https://api.zeks.me/api/sgplay?apikey=${apikeyvinz}&q=${keywotp}`)
 						const dataplay = dataplai.data
-						let keluarplay = `*「 PLAYSTORE 」*\n\nHasil Pencarian : ${keywotp}*\n`
-						for (let i = 0; i < dataplay.result.length; i++) {
-							keluarplay += `\n─────────────────\n\n• *Nama* : ${dataplay.result[i].title}\n• *Developer* : ${dataplay.result[i].developer}\n• *Deskripsi* : ${dataplay.result[i].description}\n• *Paket ID* : ${dataplay.result[i].app_id}\n• *Harga* : ${dataplay.result[i].price}\n• *Link App* : https://play.google.com${dataplay.result[i].url}\n`
+						if (dataplay.status == false) return urbae.reply(from, 'Aplikasi yang kamu cari tidak dapat ditemukan atau mungkin Rest Api sedang error', id)
+						const dataresultt = dataplay.result
+						let keluarplay = `*「 P L A Y S T O R E 」*`
+						for (let i = 0; i < dataresultt.length; i++) {
+							keluarplay += `\n─────────────────\n\n• *Nama* : ${dataresultt[i].title}\n• *Developer* : ${dataresultt[i].developer}\n• *Id App* : ${dataresultt[i].appid}\n• *Harga* : ${dataresultt[i].price}\n• *Rating* : ${dataresultt[i].rating}\n• *Link App* : ${dataresultt[i].url}\n`
 						}
-						await urbae.sendFileFromUrl(from, dataplay.result[0].icon, `iconapk.webp`, keluarplay, id)
+						await urbae.sendFileFromUrl(from, dataresultt[0].thumb, ``, keluarplay, id)
 					} catch (err) {
 						console.log(err)
 					}
 					break
+				case prefix + 'infoapp':
+				case prefix + 'infoapk':
+					if (args.length == 0) return urbae.reply(from, `Masukkan id aplikasi\nContoh : ${prefix}infoapp com.tencent.ig`, id)
+					urbae.reply(from, mess.wait, id)
+					const idaplikasi = body.slice(9)
+					axios.get(`https://dapuhy-api.herokuapp.com/api/search/playstore-info?id=${idaplikasi}&apikey=${dapuhyapi}`)
+						.then(async (res) => {
+							if (res.data.status == false) return urbae.reply(from, 'id apk yang kamu cari tidak dapat ditemukan atau mungkin Rest Api sedang error', id)
+							await urbae.sendFileFromUrl(from, res.data.result.icon, '', `*App:* ${res.data.result.title}\n*Snippet:* ${res.data.result.snippet}\n*Version:* ${res.data.result.version}\n*Genre:* ${res.data.result.genre}\n*Price:* ${res.data.result.price}\n*Ratings:* ${res.data.result.rating}\n*User Ratings:* ${res.data.result.ratings}\n*Whatsnew:* ${res.data.result.whatsnew}\n*Desc:* ${res.data.result.description}`, id)
+						})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
+					break
 				case prefix + 'reportbug':
 					urbae.reply(from, mess.wait, id)
 					const reporter = body.slice(11)
-					await urbae.sendText(ownerNumber, `Laporan bug dari : *${pushname}*\nNomor : ${serial.replace('@c.us', '')}\n\nBug : *${reporter}*`)
+					const getuserpicture = await urbae.getProfilePicFromServer(sender.id)
+					if (getuserpicture == undefined) {
+						var profilepicc = errorImg
+					} else {
+						var profilepicc = getuserpicture
+					}
+					await urbae.sendFileFromUrl(ownerNumber, profilepicc, 'prof.jpg', `Laporan bug dari : *${pushname}*\nNomor : ${serial.replace('@c.us', '')}\n\nBug : *${reporter}*`, id)
 					urbae.reply(from, 'Laporan berhasil dikirim ke Owner Bot!', id)
 					break
 				case prefix + 'setgroupname':
@@ -3282,6 +3304,21 @@ module.exports = HandleMsg = async (urbae, message) => {
 						urbae.reply(from, `Tv yang anda cari tidak tersedia`, id)
 					}
 					break
+				case prefix + 'ecchi':
+					urbae.reply(from, mess.wait, id)
+					const echhiurl = await axios.get(`https://dapuhy-api.herokuapp.com/api/kartun/ecchi?apikey=${dapuhy - api}`)
+					const ecchidata = ecchiurl.data
+					const ecchires = ecchidata.result
+					let ecchitext = `*「 GENRE ECCHI 」*\n`
+					for (let i = 0; i < ecchires.length; i++) {
+						ecchitext = `\n─────────────────\n\n*•Judul:* ${ecchires[i].title}\n*•Status:* ${ecchires[i].status}\n*•Url:* ${ecchires[i].url}\n`
+					}
+					await urbae.sendFileFromUrl(from, ecchires[0].thumb, 'thumb.jpg', ecchitext, id)
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
+					break
 				case prefix + 'lk21new':
 					urbae.reply(from, mess.wait, id)
 					try {
@@ -4751,12 +4788,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.reply(from, mess.wait, id)
 					axios.get(`https://dapuhy-api.herokuapp.com/api/socialmedia/igstory?username=${usernamee}&apikey=${dapuhyapi}`)
 						.then(async (res) => {
-							if (res.data.status == false) return aruga.reply(from, res.data.message, id)
+							if (res.data.status == false) return urbae.reply(from, res.data.message, id)
 							await urbae.sendFileFromUrl(from, res.data.url, '', '', id)
 						})
 						.catch(err => {
 							console.log(err)
-							aruga.reply(from, err.message, id)
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'igstory':
