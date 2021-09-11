@@ -3306,7 +3306,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'ecchi':
 					urbae.reply(from, mess.wait, id)
-					const echhiurl = await axios.get(`https://dapuhy-api.herokuapp.com/api/kartun/ecchi?apikey=${dapuhy - api}`)
+					const echhiurl = await axios.get(`https://dapuhy-api.herokuapp.com/api/kartun/ecchi?apikey=${dapuhyapi}`)
 					const ecchidata = ecchiurl.data
 					const ecchires = ecchidata.result
 					let ecchitext = `*「 GENRE ECCHI 」*\n`
