@@ -23,7 +23,7 @@
   "homepage": "https://github.com/Urbaexyz/whatsapp-bot",
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.1",
-    "@open-wa/wa-automate": "^4.20.6",
+    "@open-wa/wa-automate": "^4.20.8",
     "app-root-path": "^3.0.0",
     "axios": "^0.21.1",
     "bent": "^7.3.12",
