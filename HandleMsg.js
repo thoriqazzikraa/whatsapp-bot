@@ -2686,10 +2686,21 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const emoji = emojiUnicode(q)
 					await urbae.reply(from, `Wait....`, id)
 					console.log(`Creating code emoji => ${emoji}`)
-					urbae.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${vhtearkey}`)
+					urbae.sendStickerfromUrl(from, `https://api.zeks.me/api/emoji-image?apikey=${apikeyvinz}&emoji=${emoji}`)
 						.catch((err) => {
 							console.log(err)
 							urbae.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
+						})
+					break
+				case prefix + 'qotd':
+					axios.get(`https://dapuhy-api.herokuapp.com/api/fun/quoteslucu?apikey=${dapuhyapi}`)
+						.then(async (res) => {
+							if (res.data.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
+							urbae.reply(from, res.data.quotes, id)
+						})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'distance':
@@ -3825,15 +3836,41 @@ module.exports = HandleMsg = async (urbae, message) => {
 							urbae.reply(from, err.message, id)
 						})
 					break
+				case prefix + 'npbioskop':
+				case prefix + 'nowplaying':
+					urbae.reply(from, mess.wait, id)
+					const bioskopurl = await axios.get(`https://zenzapi.xyz/api/nowplayingbioskop?apikey=${zenzapi}`)
+					const bioskopdata = bioskopurl.data
+					if (bioskopdata.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
+					const bioskopresult = bioskopdata.result
+					let bioskoptxt = `*「 NOW PLAYING ON BIOSKOP 」*\n`
+					for (let i = 0; i < bioskopresult.length; i++) {
+						bioskoptxt += `\n─────────────────\n\n• *Title:* ${bioskopresult[i].title}\n• *Url:* ${bioskopresult[i].url}\n`
+					}
+					await urbae.sendFileFromUrl(from, bioskopresult[0].img, 'img.jpg', bioskoptxt, id)
+					break
+				case prefix + 'bbcindo':
+					urbae.reply(from, mess.wait, id)
+					const bbcurl = await axios.get(`https://dapuhy-api.herokuapp.com/api/berita/cnn?apikey=${dapuhyapi}`)
+					const bbcdata = bbcurl.data
+					if (bbcdata.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
+					const bbcresult = bbcdata.result
+					let bbctxt = `*「 BBC INDONESIA 」*\n`
+					for (let i = 0; i < bbcresult.length; i++) {
+						bbctxt += `\n─────────────────\n\n• *Berita:* ${bbcresult[i].title}\n• *Upload:* ${bbcresult[i].upload}\n• *Url:* ${bbcresult[i].url}\n`
+					}
+					await urbae.reply(from, bbctxt, id)
+					break
 				case prefix + 'cnnindonesia':
 				case prefix + 'cnnindo':
 					urbae.reply(from, mess.wait, id)
-					const cnnapi = await axios.get(`https://zenzapi.xyz/api/cnnindonesia?apikey=${zenzapi}`)
+					const cnnapi = await axios.get(`https://dapuhy-api.herokuapp.com/api/berita/cnn?apikey=${dapuhyapi}`)
 					const cnndata = cnnapi.data
+					if (cnndata.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
 					const cnnresult = cnndata.result
 					let cnntext = `*「 CNN INDONESIA 」*\n`
 					for (let i = 0; i < cnnresult.length; i++) {
-						cnntext += `\n─────────────────\n\n• *Berita:* ${cnnresult[i].judul}\n• *Tema:* ${cnnresult[i].tema}\n• *Rilis:* ${cnnresult[i].rilis}\n• *Url:* ${cnnresult[i].url}\n`
+						cnntext += `\n─────────────────\n\n• *Berita:* ${cnnresult[i].title}\n• *Upload:* ${cnnresult[i].upload}\n• *Url:* ${cnnresult[i].url}\n`
 					}
 					await urbae.sendFileFromUrl(from, cnnresult[0].thumb, 'img.jpg', cnntext, id)
 						.catch(err => {
