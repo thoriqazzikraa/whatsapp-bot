@@ -2686,7 +2686,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const emoji = emojiUnicode(q)
 					await urbae.reply(from, `Wait....`, id)
 					console.log(`Creating code emoji => ${emoji}`)
-					urbae.sendStickerfromUrl(from, `https://api.zeks.me/api/emoji-image?apikey=${apikeyvinz}&emoji=${emoji}`)
+					urbae.sendImageAsSticker(from, `https://api.zeks.me/api/emoji-image?apikey=${apikeyvinz}&emoji=${emoji}`)
 						.catch((err) => {
 							console.log(err)
 							urbae.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
@@ -5569,7 +5569,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.reply(from, '_Sedang diproses, mohon tunggu sebentar!..._', id)
 					const tahtuy = `https://api.zeks.xyz/api/hartatahta?text=${jreng}&apikey=${apikeyvinz}`
 					urbae.sendFileFromUrl(from, tahtuy, `${jreng}.jpg`, `*_Harta_*\n*_Tahta_*\n*_${jreng}_*`, id)
-					urbae.sendImageAsSticker(from, tahtuy, { author: author, pack: pack, keepScale: true })
+					urbae.sendImageAsSticker(from, tahtuy, StickerMetadata)
 						.catch(() => {
 							urbae.reply(from, 'Error', id)
 						})
