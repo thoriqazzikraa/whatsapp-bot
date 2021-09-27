@@ -501,7 +501,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		if (isAutoStikerOn && isMedia && isImage) {
 			const mediaData = await decryptMedia(message, uaOverride)
 			const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-			await urbae.sendImageAsSticker(from, imageBase64, { author: '@thoriqazzikra_', pack: 'Urbaeexyz' })
+			await urbae.sendImageAsSticker(from, imageBase64, StickerMetadata)
 			console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
 		}
 
@@ -596,6 +596,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				// Menu and TnC
 				case prefix + 'exif':
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
+					if (args.length == 0) return urbae.reply(from, `Usage : ${prefix}exif author|pack\nExample: ${prefix}exif Urbaee|xyz` id)
 					const splitauthor = q.split('|')[1]
 					const packauthor = q.split('|')[0]
 					authorstc = splitauthor
@@ -1748,6 +1749,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'take':
+				case prefix + 'takestick':
 					if (quotedMsg && quotedMsg.type == 'sticker' || quotedMsg && quotedMsg.type == 'image') {
 						if (!q.includes('|')) return await urbae.reply(from, `Untuk mengubah watermark sticker, reply sticker/image dengan caption ${prefix}take package_name | author_name\n\nContoh: ${prefix}takestick PUNYA GUA | videfikri`, id)
 						await urbae.reply(from, mess.wait, id)
@@ -2414,7 +2416,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const getUrl = await uploadImages(mediaData, false)
 						const ImageBase64 = await meme.custom(getUrl, top, bottom)
 						urbae.sendFile(from, ImageBase64, 'image.png', '', null, true)
-						urbae.sendImageAsSticker(from, ImageBase64, { keepScale: true, author: authorr, pack: pack })
+						urbae.sendImageAsSticker(from, ImageBase64, StickerMetadata })
 							.then(() => {
 								urbae.reply(from, 'Ini makasih!', id)
 							})
@@ -4894,7 +4896,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const nihah = await axios.get(`https://api.vhtear.com/wasticker?query=${namstik}&apikey=${vhtearkey}`)
 						const beres = nihah.data
 						for (let i = 0; i < jumstik; i++) {
-							await urbae.sendStickerfromUrl(from, beres.result.data[i], { author: authorr, pack: pack, keepScale: true })
+							await urbae.sendStickerfromUrl(from, beres.result.data[i], StickerMetadata)
 						}
 					} catch (err) {
 						urbae.reply(from, 'Mungkin stiker yang anda cari tidak ada', id)
@@ -5458,7 +5460,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const txtx = body.slice(6)
 					const beattp = await axios.get(`https://api.xteam.xyz/attp?text=${txtx}`)
 					const beresult = beattp.data.result
-					urbae.sendRawWebpAsSticker(from, beresult, { author: authorr, pack: pack }, id)
+					urbae.sendRawWebpAsSticker(from, beresult)
 					break
 				case prefix + 'trigger':
 				case prefix + 'triggered':
@@ -5468,7 +5470,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						canvas.Canvas.trigger(pepa)
 							.then(async (buffer) => {
 								canvas.write(buffer, `${sender.id}_trigger.jpg`)
-								await urbae.sendImageAsSticker(from, `${sender.id}_trigger.jpg`, { author: authorr, pack: pack })
+								await urbae.sendImageAsSticker(from, `${sender.id}_trigger.jpg`, StickerMetadata)
 								fs.unlinkSync(`${sender.id}_trigger.jpg`)
 							})
 					} else if (quotedMsg && quotedMsg.type == 'video' || quotedMsg && quotedMsg.mimetype == 'image/gif') {
@@ -5476,7 +5478,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						canvas.Canvas.trigger(mediaData)
 							.then(async (buffer) => {
 								canvas.write(buffer, `${sender.id}_trigger.jpg`)
-								await urbae.sendImageAsSticker(from, `${sender.id}_trigger.jpg`, { author: authorr, pack: pack })
+								await urbae.sendImageAsSticker(from, `${sender.id}_trigger.jpg`, StickerMetadata)
 								fs.unlinkSync(`${sender.id}_trigger.jpg`)
 							})
 					} else {
