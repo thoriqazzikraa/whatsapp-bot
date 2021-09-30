@@ -2688,7 +2688,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const emoji = emojiUnicode(q)
 					await urbae.reply(from, `Wait....`, id)
 					console.log(`Creating code emoji => ${emoji}`)
-					urbae.sendImageAsSticker(from, `https://api.zeks.me/api/emoji-image?apikey=${apikeyvinz}&emoji=${emoji}`)
+					urbae.sendStickerfromUrl(from, `https://api.zeks.me/api/emoji-image?apikey=${apikeyvinz}&emoji=${emoji}`, StickerMetadata)
 						.catch((err) => {
 							console.log(err)
 							urbae.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
