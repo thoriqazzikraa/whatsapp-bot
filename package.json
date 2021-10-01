@@ -27,6 +27,7 @@
     "app-root-path": "^3.0.0",
     "axios": "^0.21.1",
     "bent": "^7.3.12",
+    "brainly-scraper": "^1.0.3",
     "canvacord": "^5.1.0",
     "chalk": "^4.1.0",
     "dotenv": "^10.0.0",
