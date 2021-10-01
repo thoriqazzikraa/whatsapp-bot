@@ -99,9 +99,6 @@ let {
 	groupLimit,
 	memberLimit,
 	vhtearkey,
-	keepSave,
-	iTechApi,
-	apiKey,
 	banChats,
 	cakrayp,
 	apirey,
@@ -109,18 +106,17 @@ let {
 	lindowapi,
 	onlydev,
 	hackapi,
-	fahmiapi,
 	lolhuman,
 	bxhunter,
 	dapuhyapi,
 	paiskey,
 	leysapi,
 	zekais,
+	caliph,
 	zenzapi,
 	apikeyvinz, //IF YOU HAVE THIS APIKEY, YOU CAN CUSTOM IT!
 	authorstc,
 	packstc,
-	mtc: mtcState
 } = setting
 
 const {
@@ -833,7 +829,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							urbae.reply(from, 'Hayolohhh, ada yang error!!', id)
 						})
 					break
-				case prefix + 'citacita'://Piyobot
+				case prefix + 'citacita'://urbaebot
 					if (!isGroupMsg) return urbae.reply(from, menuId.textPrem())
 					fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/citacita/main/citacita.txt')
 						.then(res => res.text())
@@ -1105,10 +1101,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 					await urbae.sendContact(from, ownerNumber)
 					break
 				case prefix + 'maps':
-					if (!isGroupAdmins) return urbae.reply(from, 'Fitur ini hanya bisa digunakan didalam grup!', id)
-					rugaapi.maps()
-						.then(async (res) => {
-							await urbae.reply(from, `${res}`, id)
+				case prefix + 'map':
+					if (args.length == 0) return urbae.reply(from, `Mencari sebuah kota dari google map\nUsage: ${prefix}maps namakota\nContoh: ${prefix}maps pontianak`, id)
+					urbae.reply(from, mess.wait, id)
+					await urbae.sendFileFromUrl(from, `https://caliph71.xyz/map?apikey=${caliph}&kota=${body.slice(6)}`)
+						.catch(() => {
+							urbae.reply(from, 'Rest Api sedang error', id)
 						})
 					break
 				case prefix + 'wallpaper':
@@ -2278,20 +2276,28 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'brainly':
-					if (args.length == 0) return urbae.reply(from, `Mencari sebuah jawaban dari website Brainly!\nContoh : ${prefix} contoh bilangan bulat`, id)
-					const brain = body.slice(9)
-					urbae.reply(from, mess.wait, id)
-					rugaapi.brainly(brain)
-						.then(async (res) => {
-							const jamban = res.data
-							urbae.reply(from, jamban, id)
-								.catch((err) => {
-									urbae.reply(from, 'Error!', id)
-								})
-								.catch((err) => {
-									urbae.reply(from, 'Error', id)
-								})
+					if (args.length >= 2) {
+						const BrainlySearch = require('./lib/brainly')
+						let tanya = body.slice(9)
+						let jum = Number(tanya.split('.')[1]) || 2
+						if (jum > 10) return urbae.reply(from, 'Max 10!', id)
+						if (Number(tanya[tanya.length - 1])) {
+							tanya
+						}
+						urbae.reply(from, `➸ *Pertanyaan* : ${tanya.split('.')[0]}\n\n➸ *Jumlah jawaban* : ${Number(jum)}`, id)
+						await BrainlySearch(tanya.split('.')[0], Number(jum), function (res) {
+							res.forEach(x => {
+								if (x.jawaban.fotoJawaban.length == 0) {
+									urbae.reply(from, `➸ *Pertanyaan* : ${x.pertanyaan}\n\n➸ *Jawaban* : ${x.jawaban.judulJawaban}\n`, id)
+									urbae.sendText(from, 'nihh lord')
+								} else {
+									urbae.reply(from, `➸ *Pertanyaan* : ${x.pertanyaan}\n\n➸ *Jawaban* 〙: ${x.jawaban.judulJawaban}\n\n➸ *Link foto jawaban* : ${x.jawaban.fotoJawaban.join('\n')}`, id)
+								}
+							})
 						})
+					} else {
+						urbae.reply(from, 'Usage :\n/brainly [pertanyaan] [.jumlah]\n\nEx : \n/brainly NKRI .2', id)
+					}
 					break
 				case prefix + 'readmore':
 					const read = arg.split('|')[0]
@@ -4750,13 +4756,13 @@ module.exports = HandleMsg = async (urbae, message) => {
 							console.log(err)
 						})
 					break
-				case prefix + 'lolivid': //BY : piyo
+				case prefix + 'lolivid': //BY : urbae
 					urbae.reply(from, mess.wait, id)
 					fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/loli.txt')
 						.then(res => res.text())
 						.then(body => {
-							let lolipiyo = body.split('\n')
-							let papololi = lolipiyo[Math.floor(Math.random() * lolipiyo.length)]
+							let loliurbae = body.split('\n')
+							let papololi = loliurbae[Math.floor(Math.random() * loliurbae.length)]
 							urbae.sendFileFromUrl(from, papololi, 'loli.mp4', 'Nih asu', id)
 								.then(() => console.log('Success sending Video Loli'))
 						})
