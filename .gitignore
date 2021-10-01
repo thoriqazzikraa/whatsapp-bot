@@ -2,11 +2,11 @@
 node_modules
 # Dot files
 .idea
-.node-persist
+**.node-persist**
 # Log files
 debug.log
 # Session files
-*.data.json
+**.data.json
 # Workspace files
 *.code-workspace
 # Lock files
