@@ -216,21 +216,17 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const pengirim = sender.id
 		const serial = sender.id
 		const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
-		const isNsfwOn = isGroupMsg ? _nsfw.includes(groupId) : false
+		const isNsfwOn = _nsfw.includes(chatId)
 		const betime = moment(t * 1000).format('DD/MM/YY')
 		const time = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
-		const timee = moment(t * 1000).format('HH:mm:ss')
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const userId = sender.id.substring(9, 13)
 		const blockNumber = await urbae.getBlockedIds()
 		const groupMembers = isGroupMsg ? await urbae.getGroupMembersId(groupId) : ''
 		const GroupLinkDetector = antilink.includes(chatId)
-		const stickermsg = message.type === 'sticker'
 
 		// Bot Prefix
 		const commands = caption || body || ''
-		const argxx = commands.toLowerCase()
-		const argss = commands.split(' ')
 		const command = commands.toLowerCase().split(' ')[0] || ''
 		const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~`,*zxcv!?@#$%^&.\/\\©^]/.test(command) ? command.match(/^[!?#$,^.,/\/\\©^]/gi) : '-'
 		global.prefix
@@ -339,13 +335,14 @@ module.exports = HandleMsg = async (urbae, message) => {
 		}
 
 		const mess = {
+			grouponly: 'Fitur ini hanya bisa digunakan didalam Grup!',
 			restmes: 'Rest API sedang error',
 			sendfileaudio: '*_Tunggu sebentar, audio sedang dikirim_*',
 			sendfilevideo: '*_Tunggu sebentar, video sedang dikirim_*',
 			wait: '_Waitt, lemme process this shit_',
 			nsfwalready: 'Fitur NSFW sudah aktif sebelumnya di grup ini',
-			nsfwoff: 'Fitur NSFW belum aktif di grup ini',
-			nsfwon: 'Fitur NSFW sudah aktif di grup ini',
+			nsfwoff: 'Fitur NSFW berhasil dimatikan',
+			nsfwon: 'Fitur NSFW berhasil diaktifkan',
 			prem: `Command Premium!\nHalo ${pushname} Mau menjadi user premium? ga mahal kok bang\n\n20rb = PREMIUM SAMPE KIAMAT\n\nJika anda berminat, silahkan chat pada Owner\n\nwa.me/${ownerNumber.replace('@c.us', '')}\n\nTrims~\n-Thoriq Azzikra`,
 			error: {
 				St: `[❗] Kirim gambar dengan caption *${prefix}sticker* atau tag gambar yang sudah dikirim`,
@@ -6183,15 +6180,13 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.reply(from, 'berhasil mendelete semua id didalam database welcome.json', id)
 					break
 				case prefix + 'nsfw':
-					if (!isGroupMsg) return urbae.reply(from, 'Fitur ini hanya bisa digunakan didalam grup', id)
-					if (!isGroupAdmins) return urbae.reply(from, 'Fitur ini hanya bisa digunakan oleh Admin Grup!', id)
 					if (args[0] === 'on') {
-						if (_nsfw.includes(groupId)) return urbae.reply(from, mess.nsfwalready, id)
-						_nsfw.push(groupId)
+						if (_nsfw.includes(chatId)) return urbae.reply(from, mess.nsfwalready, id)
+						_nsfw.push(chatId)
 						fs.writeFileSync('./lib/database/group/nsfw.json', JSON.stringify(_nsfw))
 						urbae.reply(from, mess.nsfwon, id)
 					} else if (args[0] === 'off') {
-						var nsfwsplice = _nsfw.indexOf(groupId)
+						var nsfwsplice = _nsfw.indexOf(chatId)
 						_nsfw.splice(nsfwsplice, 1)
 						fs.writeFileSync('./lib/database/group/nsfw.json', JSON.stringify(_nsfw))
 						urbae.reply(from, mess.nsfwoff, id)
