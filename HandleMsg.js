@@ -5121,9 +5121,11 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Mendownload lagu dari spotify menggunakan link spotify\nPenggunaan : ${prefix}spotifydown url track\nContoh : ${prefix}spotifydown https://open.spotify.com/track/3OP8UeYimRl9HCNxMg7Ihl`, id)
 					const linkspot = body.slice(13)
 					urbae.reply(from, mess.wait, id)
-					rugaapi.spotify(linkspot)
+					rugaapi.spotify2(linkspot)
 						.then(async (res) => {
-							urbae.sendFileFromUrl(from, res.result, '', '', id)
+							if (res.status == 400) return urbae.reply(from, 'Link tidak valid atau rest api sedang error!', id)
+							urbae.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg',  `「 *SPOTIFY* 」\n\n*•Title:* ${res.title}\n*•Artists:* ${res.artists}\n*•Album:* ${res.album}\n*•Release Date:* ${res.release}\n\n${mess.sendfileaudio}`, id)
+							urbae.sendFileFromUrl(from, res.mp3, '', '', id)
 								.catch(err => {
 									console.log(err)
 									urbae.reply(from, 'Meng-error', id)
@@ -5135,11 +5137,30 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'spotify':
+					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify2 judul lagu`, id)
+					const carispot2 = body.slice(9)
+					const spos2 = await axios.get(`https://api.zeks.me/api/spotify?apikey=${apikeyvinz}&q=${carispot2}`)
+					urbae.reply(from, mess.wait, id)
+					urbae.sendFileFromUrl(from, spos2.data.data[0].thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${spos2.data.data[0].title}\n*•Artists:* ${spos2.data.data[0].artists}\n*•Album:* ${spos2.data.data[0].album}\n*•Url:* ${spos2.data.data[0].url}\n\n${mess.sendfileaudio}`, id)
+					rugaapi.spotify2(spos2.data.data[0].url)
+					.then(async (res) => {
+						if (res.status == 404) return urbae.reply(from, 'Link tidak valid atau rest api sedang error', id)
+						urbae.sendFileFromUrl(from, res.mp3, '', '', id)
+						.catch(() => {
+							urbae.reply(from, 'Meng-error', id)
+						})
+					})
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					})
+					break
+				case prefix + 'spotify2':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify judul lagu`, id)
-					const carispot = body.slice(9)
+					const carispot = body.slice(10)
 					const spos = await axios.get(`https://api.zeks.me/api/spotify?apikey=${apikeyvinz}&q=${carispot}`)
 					urbae.reply(from, mess.wait, id)
-					urbae.sendFileFromUrl(from, spos.data.data[0].thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${spos.data.data[0].title}\n*•Artists:* ${spos.data.data[0].artists}\n*•Album:* ${spos.data.data[0].album}\n*•Url:* ${spos.data.data[0].url}\n\n_Waitt, lemme send this fuckin' audio_`, id)
+					urbae.sendFileFromUrl(from, spos.data.data[0].thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${spos.data.data[0].title}\n*•Artists:* ${spos.data.data[0].artists}\n*•Album:* ${spos.data.data[0].album}\n*•Url:* ${spos.data.data[0].url}\n\n${mess.sendfileaudio}`, id)
 					rugaapi.spotify(spos.data.data[0].url)
 						.then(async (res) => {
 							urbae.sendFileFromUrl(from, res.result, '', '', id)
