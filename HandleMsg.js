@@ -5124,7 +5124,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					rugaapi.spotify2(linkspot)
 						.then(async (res) => {
 							if (res.status == 400) return urbae.reply(from, 'Link tidak valid atau rest api sedang error!', id)
-							urbae.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg',  `「 *SPOTIFY* 」\n\n*•Title:* ${res.title}\n*•Artists:* ${res.artists}\n*•Album:* ${res.album}\n*•Release Date:* ${res.release}\n\n${mess.sendfileaudio}`, id)
+							urbae.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${res.title}\n*•Artists:* ${res.artists}\n*•Album:* ${res.album}\n*•Release Date:* ${res.release}\n\n${mess.sendfileaudio}`, id)
 							urbae.sendFileFromUrl(from, res.mp3, '', '', id)
 								.catch(err => {
 									console.log(err)
@@ -5143,17 +5143,17 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.reply(from, mess.wait, id)
 					urbae.sendFileFromUrl(from, spos2.data.data[0].thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${spos2.data.data[0].title}\n*•Artists:* ${spos2.data.data[0].artists}\n*•Album:* ${spos2.data.data[0].album}\n*•Url:* ${spos2.data.data[0].url}\n\n${mess.sendfileaudio}`, id)
 					rugaapi.spotify2(spos2.data.data[0].url)
-					.then(async (res) => {
-						if (res.status == 404) return urbae.reply(from, 'Link tidak valid atau rest api sedang error', id)
-						urbae.sendFileFromUrl(from, res.mp3, '', '', id)
-						.catch(() => {
-							urbae.reply(from, 'Meng-error', id)
+						.then(async (res) => {
+							if (res.status == 404) return urbae.reply(from, 'Link tidak valid atau rest api sedang error', id)
+							urbae.sendFileFromUrl(from, res.mp3, '', '', id)
+								.catch(() => {
+									urbae.reply(from, 'Meng-error', id)
+								})
 						})
-					})
-					.catch(err => {
-						console.log(err)
-						urbae.reply(from, err.message, id)
-					})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
 					break
 				case prefix + 'spotify2':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify judul lagu`, id)
