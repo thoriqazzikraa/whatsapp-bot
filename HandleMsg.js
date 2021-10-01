@@ -829,7 +829,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							urbae.reply(from, 'Hayolohhh, ada yang error!!', id)
 						})
 					break
-				case prefix + 'citacita'://urbaebot
+				case prefix + 'citacita'://Piyobot
 					if (!isGroupMsg) return urbae.reply(from, menuId.textPrem())
 					fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/citacita/main/citacita.txt')
 						.then(res => res.text())
@@ -4756,7 +4756,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							console.log(err)
 						})
 					break
-				case prefix + 'lolivid': //BY : urbae
+				case prefix + 'lolivid': //BY : Piyobot
 					urbae.reply(from, mess.wait, id)
 					fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/loli.txt')
 						.then(res => res.text())
