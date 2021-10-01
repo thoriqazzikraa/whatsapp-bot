@@ -12,8 +12,3 @@ debug.log
 # Lock files
 package-lock.json
 logs
-
-# managed
-**.data.json
-**.node-persist**
-# end managed
