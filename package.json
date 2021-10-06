@@ -52,25 +52,11 @@
     "request-promise": "^4.2.6",
     "rumus-bdr": "^1.0.0",
     "sastrawijs": "^1.0.3",
-    "sharp": "0.28.3",
     "stream": "0.0.2",
     "translatte": "^3.0.0",
-    "uuid": "^8.3.2",
-    "uuidv4": "^6.2.7",
     "ytdl-core": "^4.5.0"
   },
   "directories": {
     "lib": "lib"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/eslint-parser": "^7.15.7",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1",
-    "eslint-plugin-standard": "^5.0.0"
   }
 }
