@@ -254,7 +254,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const StickerMetadatacrop = { author: authorstc, pack: packstc, keepScale: false }
 
 		// [IDENTIFY]
-		const ownerNumber = "62895334951166@c.us"
+		const ownerNumber = "917993034080@c.us"
 		const errorImg = "https://i.ibb.co/DYLd6fk/baukrysie.jpg"
 		const isOwnerBot = ownerNumber.includes(pengirim)
 		const isOwner = ownerNumber.includes(pengirim)
@@ -270,10 +270,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 		if (isCmd && !isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta')) }
 		if (isCmd && isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) }
 
-		if (chats == 'Assalamualaikum') {
+		if (chats == 'Hello') {
 			urbae.reply(from, 'Waalaikumsalam wr wb.', id)
 		}
-		if (chats == 'assalamualaikum') {
+		if (chats == 'hello') {
 			urbae.reply(from, 'Waalaikumsalam wr wb.', id)
 		}
 		if (mentionedJidList.includes(ownerNumber)) { /*Y'ALL CAN CUSTOM THIS WHATEVER YOU WANT!*/
