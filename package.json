@@ -24,7 +24,7 @@
   "dependencies": {
     "@open-wa/wa-automate": "^4.12.3",
     "app-root-path": "^3.0.0",
-    "axios": "^0.22.0",
+    "axios": "^0.23.0",
     "bent": "^7.3.12",
     "brainly-scraper": "^1.0.3",
     "canvacord": "^5.1.0",
