@@ -2,6 +2,9 @@ const { create, vf } = require('@open-wa/wa-automate')
 const { color, options } = require('./function')
 const left = require('./lib/left')
 const welcome = require('./lib/welcome')
+const express = require('express')
+const app = express()
+const PORT = process.env.PORT
 const figlet = require('figlet')
 const fs = require('fs-extra')
 const HandleMsg = require('./HandleMsg')
@@ -17,7 +20,14 @@ const start = async (urbae = new urbae()) => {
         console.log(color('-> [STATE]'), state)
         if (state === 'CONFLICT') urbae.forceRefocus()
         if (state === 'UNPAIRED') urbae.forceRefocus()
+			
+	
+	app.get('/', (req, res) => res.status(200).send('Urbaeexyz Bot'))
+    const PORT = process.env.PORT || 8080 || 5000 || 3000
+    app.listen(PORT, () => {
+        console.log(color('App is Running!', 'yellow'))
     })
+	})
 
     urbae.onAddedToGroup(async (chat) => {
         await urbae.sendText(chat.groupMetadata.id, 'Terima kasih sudah memasukkan bot kedalam grup kalian')
