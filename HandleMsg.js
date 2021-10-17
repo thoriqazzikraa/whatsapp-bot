@@ -1101,7 +1101,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'map':
 					if (args.length == 0) return urbae.reply(from, `Mencari sebuah kota dari google map\nUsage: ${prefix}maps namakota\nContoh: ${prefix}maps pontianak`, id)
 					urbae.reply(from, mess.wait, id)
-					await urbae.sendFileFromUrl(from, `https://caliph71.xyz/map?apikey=${caliph}&kota=${body.slice(6)}`)
+					await urbae.sendFileFromUrl(from, `https://api.clph.me/map?apikey=${caliph}&kota=${body.slice(6)}`)
 						.catch(() => {
 							urbae.reply(from, 'Rest Api sedang error', id)
 						})
