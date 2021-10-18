@@ -38,7 +38,7 @@ const processTime = (timestamp, now) => {
 const options = (start) => {
     const options = {
         sessionId: 'URBAE',
-        useChrome: true,
+		headless: true,
         qrTimeout: 0,
         authTimeout: 0,
         restartOnCrash: start,
