@@ -38,8 +38,9 @@ const processTime = (timestamp, now) => {
 const options = (start) => {
     const options = {
         sessionId: 'URBAE',
-		headless: true,
+	headless: true,
         qrTimeout: 0,
+	qrQuality: 0.1,
         authTimeout: 0,
         restartOnCrash: start,
         cacheEnabled: false,
