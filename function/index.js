@@ -39,7 +39,6 @@ const options = (start) => {
     const options = {
         sessionId: 'URBAE',
         useChrome: true,
-		PUPPETEER_SKIP_DOWNLOAD=true,
         qrTimeout: 0,
         authTimeout: 0,
         restartOnCrash: start,
