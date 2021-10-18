@@ -65,6 +65,55 @@
 - [Git](https://git-scm.com/download)
 - [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases)
 
+
+# Deploy On Heroku Tutorial
+
+- Pertama, Fork repo ini terlebih dahulu
+
+
+- Lalu, Buat App di heroku
+
+![Create New App _ Heroku - Google Chrome 18_10_2021 11_04_26](https://user-images.githubusercontent.com/89589243/137668202-13a303ae-8317-40de-8ba4-3e343f086db3.png)
+
+- Setelah itu pergi ke settings
+
+![Create New App _ Heroku - Google Chrome 18_10_2021 11_04_43](https://user-images.githubusercontent.com/89589243/137668309-5e4051e6-ea49-492d-99d2-df41ec5498db.png)
+
+- Dan scroll kebawah sedikit cari kata Add BuildPacks
+
+  Dan Copas url dibawah ini ke BuildPack
+ 
+  https://github.com/heroku/heroku-buildpack-chromedriver
+ 
+  https://github.com/heroku/heroku-buildpack-google-chrome
+ 
+![Create New App _ Heroku - Google Chrome 18_10_2021 11_05_28](https://user-images.githubusercontent.com/89589243/137668441-04a1bc6f-a084-48d5-9008-ff5df82cb241.png)
+
+- Pencet tombol Reveal Config Vars, dan masukkan key dan value dibawah ini seperti digambar 
+
+  Key :
+
+  CHROMEDRIVER_PATH
+ 
+  Value :
+ 
+  /app/.chromedriver/bin/chromedriver
+  
+![urbae-bot · Settings _ Heroku - Google Chrome 18_10_2021 11_19_37](https://user-images.githubusercontent.com/89589243/137668743-de3823ea-749b-4ef2-8fd8-362c12e4ff0b.png)
+
+- Setelah itu ke Deploy dan Connect ke Github untuk mendeploy repo yang sudah di fork
+
+![urbae-bot · GitHub _ Heroku - Google Chrome 18_10_2021 11_23_56](https://user-images.githubusercontent.com/89589243/137669237-c1f785fa-1e65-46b8-ab9f-718786bf051d.png)
+
+- Setelah itu klik Deploy Branch dan buka View Logs, dan tunggu saja sampai scan qr muncul
+
+
+![urbae-bot · GitHub _ Heroku - Google Chrome 18_10_2021 11_27_47](https://user-images.githubusercontent.com/89589243/137669369-e508e707-00eb-4200-a63a-7262127e931d.png)
+
+
+![Create New App _ Heroku - Google Chrome 18_10_2021 11_10_19](https://user-images.githubusercontent.com/89589243/137669463-7b776cfb-28a2-40e4-8245-83e274887ddb.png)
+
+  
 # FFMPEG LINUX/UBUNTU SSH
 ```sudo apt install ffmpeg```
 Setelah diinstal Ketik ini di Terminal
