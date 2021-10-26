@@ -340,6 +340,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 			sendfileaudio: '*_Tunggu sebentar, audio sedang dikirim_*',
 			sendfilevideo: '*_Tunggu sebentar, video sedang dikirim_*',
 			wait: '_Waitt, lemme process this shit_',
+			nsfwnoton: 'Fitur NSFW belum aktif pada grup ini',
 			nsfwalready: 'Fitur NSFW sudah aktif sebelumnya di grup ini',
 			nsfwoff: 'Fitur NSFW berhasil dimatikan',
 			nsfwon: 'Fitur NSFW berhasil diaktifkan',
@@ -1151,7 +1152,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					};
 					break
 				case prefix + 'boobs':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/boobs').then(res => {
@@ -1160,7 +1161,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					});
 					break
 				case prefix + 'gifhentai':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/Random_hentai_gif').then(res => {
@@ -1177,7 +1178,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.sendStickerfromUrl(from, giftub, `RandoBlow.gif`, 'Random Blowjob!', id)
 					break
 				case prefix + 'pussy':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/pussy').then(res => {
@@ -1186,7 +1187,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					});
 					break
 				case prefix + 'rhentai':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/Random_hentai_gif').then(res => {
@@ -1194,7 +1195,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					});
 					break
 				case prefix + 'kissgif':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/kiss').then(res => {
@@ -1203,7 +1204,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					});
 					break
 				case prefix + 'sologif':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/solog').then(res => {
@@ -1211,7 +1212,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'anal':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/anal').then(res => {
@@ -1219,7 +1220,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'feetgif':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/feetg').then(res => {
@@ -1227,7 +1228,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'ttgif':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/boobs').then(res => {
@@ -1235,7 +1236,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'cumgif':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/cum').then(res => {
@@ -1243,7 +1244,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					});
 					break
 				case prefix + 'bjgif':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/bj').then(res => {
@@ -1251,7 +1252,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					});
 					break
 				case prefix + 'nsfwgif':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/nsfw_neko_gif').then(res => {
@@ -1284,7 +1285,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					});
 					break
 				case prefix + 'nekonsfw':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					axios.get('https://nekos.life/api/v2/img/nsfw_neko_gif').then(res => {
@@ -1292,7 +1293,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'lesbian':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/les').then(res => {
@@ -1492,7 +1493,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'bokep': // MFARELS
 				case prefix + 'randombokep': // MFARELS
 				case prefix + 'bkp': // MFARELS
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					const mskkntl = fs.readFileSync('./lib/18+.json') // MFARELS
 					const kntlnya = JSON.parse(mskkntl) // MFARELS
@@ -3039,7 +3040,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'doujin':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					if (args.length == 0) return urbae.reply(from, `Mencari doujin gunakan ${prefix}doujin judul\nContoh : ${prefix}doujin my sister`, id)
 					const doujsearch = body.slice(8)
@@ -3058,7 +3059,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'nhpdf':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (args.length == 0) return urbae.reply(from, `Kode nuklir tidak ditemukan\nUsage : ${prefix}nhpdf 20935`, id)
 					rugaapi.nhpdf(args)
 						.then(async (res) => {
@@ -3469,7 +3470,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'r18+':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					fetchJson(`https://h4ck3rs404-api.herokuapp.com/api/randomp?apikey=${hackapi}`)
 						.then(async (res) => {
@@ -3749,7 +3750,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'xnxx':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					if (args.length == 0) return urbae.reply(from, `Mendapatkan detail video dari website xnxx, Gunakan ${prefix}xnxx link\nContoh: ${prefix}xnxx https://www.xnxx.com/video-kt0nb99/who_is_she_big_hot_girl_asia_japan_korean_jav`, id)
 					const pcas = body.slice(6)
@@ -3767,7 +3768,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'xnxxsearch':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					if (args.length == 0) return urbae.reply(from, `Mencari video dari website XNXX, Gunakan ${prefix}xnxxsearch judul\nContoh: ${prefix}xnxxsearch japan`, id)
 					const xsch = body.slice(12)
@@ -3802,7 +3803,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.reply(from, jawabananime, id)
 					break
 				case prefix + 'phsearch':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					if (args.length == 0) return urbae.reply(from, `Mencari bokep dari website Pornhub, gunakan ${prefix}phsearch judul\nContoh: ${prefix}phsearch step sister`, id)
 					const phword = body.slice(10)
@@ -4278,7 +4279,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'cersex':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					rugaapi.cersex()
 						.then(async (res) => {
@@ -4437,7 +4438,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'sreddit':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari gambar dari sub reddit\nketik: ${prefix}sreddit [search]\ncontoh: ${prefix}sreddit naruto`, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					const carireddit = body.slice(9)
@@ -5055,7 +5056,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'javhd':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					if (args.length == 0) return urbae.reply(from, `Fitur untuk mencari yaa you know lah mwehehe\nUsage : ${prefix}javhd title\nContoh: ${prefix}javhd big tits`, id)
 					const carijav = body.slice(7)
@@ -5077,7 +5078,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'javporn':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					if (args.length == 0) return urbae.reply(from, `Fitur untuk mencari yaa you know lah mwehehe\nUsage : ${prefix}javporn title\nContoh: ${prefix}javporn mom`, id)
 					const cariporn = body.slice(9)
@@ -6277,7 +6278,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'trapnime':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/trap').then(res => {
@@ -6285,7 +6286,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'kuni':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/kuni').then(res => {
@@ -6293,7 +6294,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'classic':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/classic').then(res => {
@@ -6301,7 +6302,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'spank':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					axios.get('https://nekos.life/api/v2/img/spank').then(res => {
@@ -6309,7 +6310,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break
 				case prefix + 'randomhentai':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwoff, id)
+					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.sendText(from, mess.wait);
 					urbae.sendFileFromUrl(from, `https://zenzapi.xyz/api/morensfw/hentai?apikey=${zenzapi}`, '', '', id)
