@@ -341,7 +341,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 			sendfileaudio: '*_Tunggu sebentar, audio sedang dikirim_*',
 			sendfilevideo: '*_Tunggu sebentar, video sedang dikirim_*',
 			wait: '_Waitt, lemme process this shit_',
-			nsfwnoton: 'Fitur NSFW belum aktif pada grup ini',
+			nsfwnoton: 'Fitur NSFW belum aktif pada chat ini',
 			nsfwalready: 'Fitur NSFW sudah aktif sebelumnya di grup ini',
 			nsfwoff: 'Fitur NSFW berhasil dimatikan',
 			nsfwon: 'Fitur NSFW berhasil diaktifkan',
