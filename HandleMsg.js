@@ -4165,7 +4165,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					await urbae.sendFileFromUrlFrom(from, `https://pencarikode.xyz/api/chika?apikey=${paiskey}`, 'chika.mp4', '', id)
 					break
 				case prefix + 'tomp3':
-					if (isMedia && isQuotedVideo || isVideo) {
+					if (isMedia || isQuotedVideo || isVideo) {
 						await urbae.reply(from, mess.wait, id)
 						const encryptMedia = isQuotedVideo ? quotedMsg : message
 						const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
