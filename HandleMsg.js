@@ -241,8 +241,9 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const waver = await urbae.getWAVersion()
 		const uaOverride = process.env.UserAgent
 		const url = args.length !== 0 ? args[0] : ''
+		const isVideo = type === 'video'
 		const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
-		const isQuotedVideo = quotedMsg && quotedMsg.type === 'video/mp4'
+		const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
 		const isQuotedGif = quotedMsg && quotedMsg.type === 'gif'
 		const isQuotedAudio = quotedMsg && quotedMsg.type === 'audio'
 		const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
@@ -4164,10 +4165,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 					await urbae.sendFileFromUrlFrom(from, `https://pencarikode.xyz/api/chika?apikey=${paiskey}`, 'chika.mp4', '', id)
 					break
 				case prefix + 'tomp3':
-					if (isMedia && isQuotedVideo || isQuotedFile) {
+					if (isMedia && isQuotedVideo || isVideo) {
 						await urbae.reply(from, mess.wait, id)
-						const encryptMedia = isQuotedVideo || isQuotedFile ? quotedMsg : message
-						const _mimetype = isQuotedVideo || isQuotedFile ? quotedMsg.mimetype : mimetype
+						const encryptMedia = isQuotedVideo ? quotedMsg : message
+						const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
 						console.log(color('[WAPI]', 'green'), 'Downloading and decrypting media...')
 						const mediaData = await decryptMedia(encryptMedia, uaOverride)
 						const temp = './temp'
