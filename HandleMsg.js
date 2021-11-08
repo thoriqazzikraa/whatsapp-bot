@@ -2956,12 +2956,13 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'stcnobg':
 				case prefix + 'stikernobg':
 				case prefix + 'stickernobg':
-					if (isMedia && isImage || isQuotedImage) {
+					if (isMedia || isImage || isQuotedImage) {
 						await urbae.reply(from, mess.wait, id)
 						const encryptMedia = isQuotedImage ? quotedMsg : message
-						const mediaData = await decryptMedia(encryptMedia, uaOverride)
-						const jadimg = await uploadImages(mediaData, false)
-						urbae.sendImageAsSticker(from, `http://lolhuman.herokuapp.com/api/removebg?apikey=${lolhuman}&img=${jadimg}`, StickerMetadata)
+						const mimetipeee = isQuotedImage ? quotedMsg.mimetype : mimetype
+						const mediaData = await decryptMedia(quotedMsg, uaOverride)
+						const heynobg = `data:${quotedMsg.mimetipeee};base64,${mediaData.toString('base64')}`)
+						urbae.sendImageAsSticker(from, heynobg, { author: '@thoriqazzikraa', pack: 'Urbaeexyz', removebg: true })
 					} else {
 						urbae.reply(from, `Reply/post foto dengan caption ${prefix}nobg`, id)
 					}
