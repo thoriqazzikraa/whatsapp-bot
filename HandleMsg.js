@@ -2961,7 +2961,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const encryptMedia = isQuotedImage ? quotedMsg : message
 						const mimetipeee = isQuotedImage ? quotedMsg.mimetype : mimetype
 						const mediaData = await decryptMedia(quotedMsg, uaOverride)
-						const heynobg = `data:${quotedMsg.mimetipeee};base64,${mediaData.toString('base64')}`)
+						const heynobg = `data:${quotedMsg.mimetipeee};base64,${mediaData.toString('base64')}`
 						urbae.sendImageAsSticker(from, heynobg, { author: '@thoriqazzikraa', pack: 'Urbaeexyz', removebg: true })
 					} else {
 						urbae.reply(from, `Reply/post foto dengan caption ${prefix}nobg`, id)
