@@ -6713,11 +6713,14 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 				case prefix + 'ttp':
 					if (args.length == 0) return urbae.reply(from, 'textnya mana?', id)
 					const beword = body.slice(5)
-					//axios.get(`https://api.areltiyan.site/sticker_maker?text=${beword}`)
-					urbae.sendStickerfromUrl(from, `http://api.lolhuman.xyz/api/ttp?apikey=${lolhuman}&text=${beword}`, 'get', StickerMetadata)
+					axios.get(`https://api.xteam.xyz/ttp?text=${beword}`)
+					.then(async (res) => {
+						if (res.data.status == false || res.data.status == 500) return urbae.reply(from, 'Rest api sedang error', id)
+						urbae.sendImageAsSticker(from, res.data.result, StickerMetadata)
 						.then(async () => {
-							console.log(color(`Text To Image processed for ${processTime(t, moment())} seconds`, 'aqua'))
+							console.log(color(`Text To Picture processed for ${processTime(t, moment())} seconds`, 'aqua'))
 						})
+					})
 						.catch(err => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
