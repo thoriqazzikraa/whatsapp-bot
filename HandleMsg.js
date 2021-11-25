@@ -712,7 +712,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'ceritahorror':
 				case prefix + 'ceritahoror':
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://lolhuman.herokuapp.com/api/ceritahoror?apikey=${lolhuman}`)
+					axios.get(`http://api.lolhuman.xyz/api/ceritahoror?apikey=${lolhuman}`)
 						.then(async (res) => {
 							const becapt = `*Judul:* ${res.data.result.title}\n*Desk:* ${res.data.result.desc}\n*Cerita:* ${res.data.result.story}`
 							await urbae.sendFileFromUrl(from, res.data.result.thumbnail, 'thumb.jpg', becapt, id)
@@ -2859,7 +2859,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const uploadimg = await uploadImages(mediaData, `${sender.id}_img`)
 						const beimgbb = await axios.get(`https://videfikri.com/api/imgbb/?urlgbr=${uploadimg}&title=Urbaeexyz`)
 						const dataimage = beimgbb.data.result.url
-						await urbae.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/editor/pencil?apikey=${lolhuman}&img=${dataimage}`, '', '', id)
+						await urbae.sendFileFromUrl(from, `http://api.lolhuman.xyz/api/editor/pencil?apikey=${lolhuman}&img=${dataimage}`, '', '', id)
 							.catch(err => {
 								console.log(err)
 								urbae.reply(from, 'Terjadi kesalahan saat mengupload Foto', id)
@@ -2867,7 +2867,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					} else if (args[0]) {
 						urbae.reply(from, mess.wait, id)
 						const textlink = args[0]
-						await urbae.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/editor/pencil?apikey=${lolhuman}&img=${textlink}`, '', '', id)
+						await urbae.sendFileFromUrl(from, `http://api.lolhuman.xyz/api/editor/pencil?apikey=${lolhuman}&img=${textlink}`, '', '', id)
 					} else {
 						urbae.reply(from, `kirim/reply foto dengan caption ${prefix}gambarpensil`, id)
 					}
@@ -2938,7 +2938,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const skript = isQuotedImage ? quotedMsg : message
 						const mediaData = await decryptMedia(skript, uaOverride)
 						const linksx = await uploadImages(mediaData, `${sender.id}_img`)
-						await urbae.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/convert/imgtopdf?apikey=${lolhuman}&img=${linksx}`, `${sender.id}`, '', id)
+						await urbae.sendFileFromUrl(from, `http://api.lolhuman.xyz/api/convert/imgtopdf?apikey=${lolhuman}&img=${linksx}`, `${sender.id}`, '', id)
 					} else {
 						urbae.reply(from, 'Format pesan salah', id)
 					}
@@ -3087,7 +3087,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'asupan5':
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://lolhuman.herokuapp.com/api/asupan?apikey=${lolhuman}`)
+					axios.get(`http://api.lolhuman.xyz/api/asupan?apikey=${lolhuman}`)
 						.then(async (res) => {
 							if (res.data.status == 404) return urbae.reply(from, res.data.message, id)
 							await urbae.sendFileFromUrl(from, res.data.result, `asupan.mp4`, `*R A N D O M  A S U P A N*`, id)
@@ -3747,7 +3747,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					if (args.length == 0) return urbae.reply(from, `Mendapatkan detail video dari website xnxx, Gunakan ${prefix}xnxx link\nContoh: ${prefix}xnxx https://www.xnxx.com/video-kt0nb99/who_is_she_big_hot_girl_asia_japan_korean_jav`, id)
 					const pcas = body.slice(6)
-					axios.get(`http://lolhuman.herokuapp.com/api/xnxx?apikey=${lolhuman}&url=${pcas}`)
+					axios.get(`http://api.lolhuman.xyz/api/xnxx?apikey=${lolhuman}&url=${pcas}`)
 						.then(async (res) => {
 							await urbae.sendFileFromUrl(from, res.data.result.thumbnail, 'img.jpg', `「 *XNXX* 」\n\n*Title:* ${res.data.result.title}\n*Duration:* ${res.data.result.duration}\n*Views:* ${res.data.result.view}\n*Rating:* ${res.data.result.rating}\n*Like:* ${res.data.result.like}\n*Dislike:* ${res.data.result.dislike}\n*Comment:* ${res.data.result.comment}`, id)
 							const inihasilvid = res.data.result.link[1].link
@@ -4504,7 +4504,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'memeindo2':
 					urbae.reply(from, mess.wait, id)
-					await urbae.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/meme/memeindo?apikey=${lolhuman}`, 'img.jpg', '', id)
+					await urbae.sendFileFromUrl(from, `http://api.lolhuman.xyz/api/meme/memeindo?apikey=${lolhuman}`, 'img.jpg', '', id)
 					break
 				case prefix + 'memeindo':
 					await axios.get(`https://api.zeks.xyz/api/memeindo?apikey=${apikeyvinz}`).then(res => {
@@ -4708,7 +4708,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'ig2':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}ig2 linkig`, id)
 					urbae.reply(from, '_Scrapping Metadataa..._', id)
-					axios.get(`http://lolhuman.herokuapp.com/api/instagram2?apikey=${lolhuman}&url=${body.slice(5)}`)
+					axios.get(`http://api.lolhuman.xyz/api/instagram2?apikey=${lolhuman}&url=${body.slice(5)}`)
 						.then(async (res) => {
 							urbae.sendFileFromUrl(from, res.data.result.media[0], 'ig.mp4', '', id)
 								.catch(err => {
@@ -5375,7 +5375,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Mencari wallpaper dengan query, gunakan ${prefix}searchwp2 query`, id)
 					const cariwp2 = body.slice(10)
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://lolhuman.herokuapp.com/api/wallpaper2?apikey=${lolhuman}&query=${cariwp2}`)
+					axios.get(`http://api.herokuapp.xyz/api/wallpaper2?apikey=${lolhuman}&query=${cariwp2}`)
 						.then(async (res) => {
 							await urbae.sendFileFromUrl(from, res.data.result, '', '', id)
 								.catch(() => {
@@ -5708,7 +5708,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Untuk menstalk akun youtube seseorang\nKetik ${prefix}stalkyt nama channel\nContoh: ${prefix}stalkyt CUCO`, id)
 					urbae.reply(from, mess.wait, id)
 					const ytstlk = body.slice(9)
-					axios.get(`http://lolhuman.herokuapp.com/api/ytchannel?apikey=${lolhuman}&query=${ytstlk}`)
+					axios.get(`http://api.lolhuman.xyz/api/ytchannel?apikey=${lolhuman}&query=${ytstlk}`)
 						.then(async (res) => {
 							await urbae.sendFileFromUrl(from, res.data.result[0].channel_picture.medium.url, 'img.jpg', `*Nama Channel:* ${res.data.result[0].channel_name}\n*Tentang Channel:* ${res.data.result[0].channel_about}\n*Id Channel:* ${res.data.result[0].channel_id}\n*Channel Created:* ${res.data.result[0].channel_created}`, id)
 								.catch(() => {
@@ -5723,7 +5723,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return await urbae.reply(from, `Untuk mendapatkan foto dari username tiktok\nUsage : ${prefix}tiktokpic itsandani`, id)
 					const namaih = body.slice(11)
 					urbae.reply(from, mess.wait, id)
-					urbae.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/pptiktok/${namaih}?apikey=${lolhuman}`, 'img.jpg', '', id)
+					urbae.sendFileFromUrl(from, `http://api.lolhuman.xyz/api/pptiktok/${namaih}?apikey=${lolhuman}`, 'img.jpg', '', id)
 						.catch(() => {
 							urbae.reply(from, 'error', id)
 						})
@@ -6714,7 +6714,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 					if (args.length == 0) return urbae.reply(from, 'textnya mana?', id)
 					const beword = body.slice(5)
 					//axios.get(`https://api.areltiyan.site/sticker_maker?text=${beword}`)
-					urbae.sendStickerfromUrl(from, `http://lolhuman.herokuapp.com/api/ttp?apikey=${lolhuman}&text=${beword}`, 'get', StickerMetadata)
+					urbae.sendStickerfromUrl(from, `http://api.lolhuman.xyz/api/ttp?apikey=${lolhuman}&text=${beword}`, 'get', StickerMetadata)
 						.then(async () => {
 							console.log(color(`Text To Image processed for ${processTime(t, moment())} seconds`, 'aqua'))
 						})
