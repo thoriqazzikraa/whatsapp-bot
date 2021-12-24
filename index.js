@@ -15,19 +15,19 @@ const start = async (urbae = new urbae()) => {
     console.log(color('------------------------------------------------------------------------', 'white'))
     console.log(color('[CREATOR]', 'aqua'), color('Thoriq Azzikra', 'magenta'))
     console.log(color('[BOT]', 'aqua'), color('URBAE BOT is now Online!', 'magenta'))
-    console.log(color('[VER]', 'aqua'), color('2.7.0', 'magenta'))
+    console.log(color('[VER]', 'aqua'), color('2.7.2', 'magenta'))
     urbae.onStateChanged((state) => {
         console.log(color('-> [STATE]'), state)
         if (state === 'CONFLICT') urbae.forceRefocus()
         if (state === 'UNPAIRED') urbae.forceRefocus()
-			
-	
-	app.get('/', (req, res) => res.status(200).send('Urbaeexyz Bot'))
-    const PORT = process.env.PORT || 8080 || 5000 || 3000
-    app.listen(PORT, () => {
-        console.log(color('App is Running!', 'yellow'))
+
+
+        app.get('/', (req, res) => res.status(200).send('Urbaeexyz Bot'))
+        const PORT = process.env.PORT || 8080 || 5000 || 3000
+        app.listen(PORT, () => {
+            console.log(color('App is Running!', 'yellow'))
+        })
     })
-	})
 
     urbae.onAddedToGroup(async (chat) => {
         await urbae.sendText(chat.groupMetadata.id, 'Terima kasih sudah memasukkan bot kedalam grup kalian')
