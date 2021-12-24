@@ -5140,9 +5140,9 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const spos2 = await axios.get(`https://api.zeks.me/api/spotify?apikey=${apikeyvinz}&q=${carispot2}`)
 					urbae.reply(from, mess.wait, id)
 					urbae.sendFileFromUrl(from, spos2.data.data[0].thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${spos2.data.data[0].title}\n*•Artists:* ${spos2.data.data[0].artists}\n*•Album:* ${spos2.data.data[0].album}\n*•Url:* ${spos2.data.data[0].url}\n\n${mess.sendfileaudio}`, id)
-					rugaapi.spotify2(spos2.data.data[0].url)
+					rugaapi.spotify(spos2.data.data[0].url)
 						.then(async (res) => {
-							if (res.status == 404) return urbae.reply(from, 'Link tidak valid atau rest api sedang error', id)
+							if (res.status == 500) return urbae.reply(from, 'Link tidak valid atau rest api sedang error', id)
 							urbae.sendFileFromUrl(from, res.mp3, '', '', id)
 								.catch(() => {
 									urbae.reply(from, 'Meng-error', id)
@@ -5211,6 +5211,19 @@ module.exports = HandleMsg = async (urbae, message) => {
 									console.log(err)
 									urbae.reply(from, err.message, id)
 								})
+						})
+					break
+				case prefix + 'ytmp4hd':
+					if (args.length == 0) return urbae.reply(from, `Masukkan link youtube, contoh : ${prefix}ytmp4hd https://www.youtube.com/watch?v=WuWfNapyjKI`, id)
+					axios.get(`https://api.dapuhy.ga/api/socialmedia/aiovideodl?url=${body.slice(9)}&apikey=${dapuhyapi}`)
+						.then(async (res) => {
+							if (res.data.status == 500) return urbae.reply(from, 'Link tidak valid atau mungkin Rest Api sedang error', id)
+							if (res.data.status == 400) return urbae.reply(from, res.data.message, id)
+							urbae.sendFileFromUrl(from, res.data.thumb, 'img.jpg', `「 *YT MP4 HD* 」\n\nTitle: ${res.data.title}\nDuration: ${res.data.duration}\nQuality: ${res.data.medias[2].quality}\nSize: ${res.data.medias[2].formattedSize}\n\n${mess.sendfilevideo}`, id)
+							await urbae.sendFileFromUrl(from, res.data.medias[2].url, `${res.data.title}.mp4`, `*${res.data.title}`, id)
+						})
+						.catch(err => {
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
@@ -6714,13 +6727,13 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 					if (args.length == 0) return urbae.reply(from, 'textnya mana?', id)
 					const beword = body.slice(5)
 					axios.get(`https://api.xteam.xyz/ttp?text=${beword}`)
-					.then(async (res) => {
-						if (res.data.status == false || res.data.status == 500) return urbae.reply(from, 'Rest api sedang error', id)
-						urbae.sendImageAsSticker(from, res.data.result, StickerMetadata)
-						.then(async () => {
-							console.log(color(`Text To Picture processed for ${processTime(t, moment())} seconds`, 'aqua'))
+						.then(async (res) => {
+							if (res.data.status == false || res.data.status == 500) return urbae.reply(from, 'Rest api sedang error', id)
+							urbae.sendImageAsSticker(from, res.data.result, StickerMetadata)
+								.then(async () => {
+									console.log(color(`Text To Picture processed for ${processTime(t, moment())} seconds`, 'aqua'))
+								})
 						})
-					})
 						.catch(err => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
@@ -6819,8 +6832,45 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 					}
 					await urbae.reply(from, hih, id)
 					break
+				case prefix + 'bcgrup':
+					if (!isOwnerB) return urbae.reply(from, `Command ini hanya bisa digunakan oleh Owner Bot`, id)
+					bcgruptxt = body.slice(8)
+					txtbcgrp = `${bcgruptxt}\n\n〘 *U R B A E  B O T* 〙`
+					const semuagrup2 = await urbae.getAllGroups();
+					if (quotedMsg && quotedMsg.type == 'image') {
+						const mediaData = await decryptMedia(quotedMsg)
+						const imageBase6444 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+						for (let allgroupbc of semuagrup2) {
+							var cekgrup = await urbae.getChatById(allgroupbc)
+							if (!cekgrup.isReadOnly) urbae.sendImage(allgroupbc, imageBase6444, 'img.jpg', txtbcgrp)
+						}
+						urbae.reply(from, 'Broadcast type image for All Groups was Successfully', id)
+					} else if (quotedMsg && quotedMsg.type == 'audio' || quotedMsg && quotedMsg.type == 'ptt') {
+						const mediaData = await decryptMedia(quotedMsg)
+						const audiobase6444 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+						for (let allgroupbc of semuagrup2) {
+							var cekgrup = await urbae.getChatById(allgroupbc)
+							if (!cekgrup.isReadOnly) urbae.sendPtt(allgroupbc, audiobase6444, 'audio.mp3')
+						}
+						urbae.reply(from, 'Broadcast type Audio for All Groups was Successfully', id)
+					} else if (quotedMsg && quotedMsg.type == 'sticker') {
+						const mediaData = await decryptMedia(quotedMsg)
+						const stickbase6444 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+						for (let allgroupbc of semuagrup2) {
+							var cekgrup = await urbae.getChatById(allgroupbc)
+							if (!cekgrup.isReadOnly) urbae.sendImageAsSticker(allgroupbc, stickbase6444, StickerMetadata)
+						}
+						urbae.reply(from, 'Broadcast type Sticker for All Groups was successfully')
+					} else {
+						for (let allgroupbc of semuagrup2) {
+							var cekgrup = await urbae.getChatById(allgroupbc)
+							if (!cekgrup.isReadOnly) urbae.sendText(allgroupbc, txtbcgrp)
+						}
+						urbae.reply(from, 'Broadcast was successfully', id)
+					}
+					break
 				case prefix + 'bc':
-					if (!isOwnerB) return urbae.reply(from, `Perintah ini hanya untuk Owner Urbae`, id)
+					if (!isOwnerB) return urbae.reply(from, `Command ini hanya bisa digunakan oleh Owner Bot`, id)
 					bctxt = body.slice(4)
 					txtbc = `〘 *U R B A E  B O T* 〙\n\n${bctxt}`
 					const semuagrup = await urbae.getAllChatIds();
