@@ -43,7 +43,7 @@
     "marked": "^4.0.9",
     "moment-timezone": "^0.5.33",
     "node-cron": "^3.0.0",
-    "node-fetch": "^2.6.5",
+    "node-fetch": "^3.1.0",
     "node-gtts": "^2.0.2",
     "parse-ms": "2.1.0",
     "path": "^0.12.7",
