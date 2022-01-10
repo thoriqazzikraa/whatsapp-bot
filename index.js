@@ -17,6 +17,7 @@ const start = async (urbae = new urbae()) => {
         console.log(color('-> [STATE]'), state)
         if (state === 'CONFLICT') urbae.forceRefocus()
         if (state === 'UNPAIRED') urbae.forceRefocus()
+        })
 
     urbae.onAddedToGroup(async (chat) => {
         await urbae.sendText(chat.groupMetadata.id, 'Terima kasih sudah memasukkan bot kedalam grup kalian')
