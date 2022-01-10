@@ -29,7 +29,7 @@
     "brainly-scraper-v2": "^1.0.3",
     "canvacord": "^5.1.0",
     "chalk": "4.1.2",
-    "colors": "1.4.0,
+    "colors": "1.4.0",
     "dotenv": "^10.0.0",
     "emoji-unicode": "^2.0.1",
     "express": "^4.17.2",
