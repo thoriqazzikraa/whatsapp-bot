@@ -177,7 +177,7 @@ function identify(buffer) {
 		const pathh = './audio.mp3'
 		bodyForm.append('audio', buffer, 'file.mp3')
 		bodyForm.append('apikey', `${apikeyvinz}`)
-		axios('https://api.zeks.xyz/api/searchmusic', {
+		axios('https://api.zeks.me/api/searchmusic', {
 			method: 'POST',
 			headers: {
 				"Content-Type": "multipart/form-data",
@@ -255,7 +255,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const StickerMetadatacrop = { author: authorstc, pack: packstc, keepScale: false }
 
 		// [IDENTIFY]
-		const ownerNumber = "628xx@c.us"
+		const ownerNumber = "62895334951166@c.us"
 		const errorImg = "https://i.ibb.co/DYLd6fk/baukrysie.jpg"
 		const isOwnerBot = ownerNumber.includes(pengirim)
 		const isOwner = ownerNumber.includes(pengirim)
@@ -1306,7 +1306,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'aesthetic':
 					urbae.reply(from, mess.wait, id)
-					axios.get(`https://api.zeks.xyz/api/estetikpic?apikey=${apikeyvinz}`)
+					axios.get(`https://api.zeks.me/api/estetikpic?apikey=${apikeyvinz}`)
 						.then(async (res) => {
 							await urbae.sendFileFromUrl(from, res.data.result.result, 'img.jpg', 'nihh pict estetiknya', id)
 								.catch(() => {
@@ -2724,7 +2724,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const glitch2 = q.split('|')[1]
 						if (glitch1.length > 10) return urbae.reply(from, '*Teks1 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
 						if (glitch2.length > 15) return urbae.reply(from, '*Teks2 Terlalu Panjang!*\n_Maksimal 15 huruf!_', id)
-						urbae.sendFileFromUrl(from, `https://api.zeks.xyz/api/gtext?text1=${glitch1}&text2=${glitch2}&apikey=${apikeyvinz}`, '', id)
+						urbae.sendFileFromUrl(from, `https://api.zeks.me/api/gtext?text1=${glitch1}&text2=${glitch2}&apikey=${apikeyvinz}`, '', id)
 							.catch(err => {
 								console.log(err)
 								urbae.reply(from, 'Terjadi kesalahan, silahkan coba lagi', id)
@@ -2777,8 +2777,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'linknobg':
 					if (args.length == 0) return urbae.reply(from, 'Kirim link untuk menjadikan sticker nobg', id)
 					const linkid = body.slice(10)
-					await urbae.sendFileFromUrl(from, `https://api.zeks.xyz/api/removebg?apikey=${apikeyvinz}&url=${linkid}`, 'img.jpg', 'nehh', id)
-					await urbae.sendImageAsSticker(from, `https://api.zeks.xyz/api/removebg?apikey=${apikeyvinz}&url=${linkid}`)
+					await urbae.sendFileFromUrl(from, `https://api.zeks.me/api/removebg?apikey=${apikeyvinz}&url=${linkid}`, 'img.jpg', 'nehh', id)
+					await urbae.sendImageAsSticker(from, `https://api.zeks.me/api/removebg?apikey=${apikeyvinz}&url=${linkid}`)
 						.catch(() => {
 							urbae.reply(from, 'Error', id)
 						})
@@ -2789,7 +2789,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const encryptMedia = isQuotedImage ? quotedMsg : message
 						const mediaData = await decryptMedia(encryptMedia, uaOverride)
 						const linkImg = await uploadImages(mediaData, `${sender.id}_img`)
-						axios.get(`https://api.zeks.xyz/api/sketchf?img=${linkImg}&apikey=${apikeyvinz}`)
+						axios.get(`https://api.zeks.me/api/sketchf?img=${linkImg}&apikey=${apikeyvinz}`)
 							.then(async (res) => {
 								await urbae.sendFileFromUrl(from, res.data.result, 'img.jpg', '', id)
 							})
@@ -3431,7 +3431,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const playlists = body.slice(12)
 					urbae.reply(from, mess.wait, id)
 					try {
-						const ytplays = await fetchJson(`https://api.zeks.xyz/api/ytplaylist?apikey=${apikeyvinz}&q=${playlists}`)
+						const ytplays = await fetchJson(`https://api.zeks.me/api/ytplaylist?apikey=${apikeyvinz}&q=${playlists}`)
 						if (ytplays.status == false) return urbae.reply(from, 'Playlist yang anda cari tidak ada', id)
 						const { result } = await ytplays
 						let playsyt = `*「 YOUTUBE  PLAYLISTS  」*\n`
@@ -3995,7 +3995,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const ytsher = body.slice(10)
 					urbae.reply(from, mess.wait, id)
 					try {
-						const response2 = await fetch(`https://api.zeks.xyz/api/yts?q=${ytsher}&apikey=${apikeyvinz}`)
+						const response2 = await fetch(`https://api.zeks.me/api/yts?q=${ytsher}&apikey=${apikeyvinz}`)
 						if (!response2.ok) throw new Error(`unexpected response ${response2.statusText}`)
 						const jsonserc = await response2.json()
 						const { result } = await jsonserc
@@ -4507,7 +4507,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					await urbae.sendFileFromUrl(from, `http://api.lolhuman.xyz/api/meme/memeindo?apikey=${lolhuman}`, 'img.jpg', '', id)
 					break
 				case prefix + 'memeindo':
-					await axios.get(`https://api.zeks.xyz/api/memeindo?apikey=${apikeyvinz}`).then(res => {
+					await axios.get(`https://api.zeks.me/api/memeindo?apikey=${apikeyvinz}`).then(res => {
 						urbae.sendFileFromUrl(from, `${res.data.result}`, 'image.jpg', 'nehh njeng', id)
 						console.log('Success')
 					})
@@ -4517,7 +4517,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'darkjokes':
 					urbae.reply(from, mess.wait, id)
-					await axios.get(`https://api.zeks.xyz/api/darkjokes?apikey=${apikeyvinz}`).then(res => {
+					await axios.get(`https://api.zeks.me/api/darkjokes?apikey=${apikeyvinz}`).then(res => {
 						urbae.sendFileFromUrl(from, `${res.data.result}`, 'image.jpg', 'nehh njeng', id)
 					})
 						.catch((err) => {
@@ -4589,7 +4589,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'stalking':
 					if (args.length == 0) return urbae.reply(from, `Untuk men-stalk akun instagram seseorang\nketik ${prefix}stalkig [username]\ncontoh: ${prefix}stalkig thoriqazzikraa`, id)
 					urbae.reply(from, mess.wait, id)
-					fetchJson(`https://api.zeks.xyz/api/igstalk?apikey=${apikeyvinz}&username=${body.slice(9)}`)
+					fetchJson(`https://api.zeks.me/api/igstalk?apikey=${apikeyvinz}&username=${body.slice(9)}`)
 						.then(async (res) => {
 							if (res.status == false) return urbae.reply(from, `Fitur ini sedang error atau usernamenya salah, silahkan gunakan ${prefix}igstalk`, id)
 							const picture = res.profile_pic
@@ -4782,7 +4782,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Untuk mendownload video dari tiktok, gunakan ${prefix}tiktoknowm link`, id)
 					const lika = body.slice(12)
 					urbae.reply(from, mess.wait, id)
-					axios.get(`https://api.zeks.xyz/api/tiktok?url=${lika}&apikey=${apikeyvinz}`)
+					axios.get(`https://api.zeks.me/api/tiktok?url=${lika}&apikey=${apikeyvinz}`)
 						.then(async (res) => {
 							await urbae.sendFileFromUrl(from, res.data.no_watermark, '', `*music name: ${res.data.music_name}*`, id)
 							await urbae.sendFileFromUrl(from, res.data.audio, '', '', id)
@@ -5200,7 +5200,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'play3':
 					if (args.length == 0) return urbae.reply(from, `what are u looking for?`, id)
 					const linuxsc = body.slice(7)
-					fetchJson(`https://api.zeks.xyz/api/yts?apikey=${apikeyvinz}&q=${linuxsc}`)
+					fetchJson(`https://api.zeks.me/api/yts?apikey=${apikeyvinz}&q=${linuxsc}`)
 						.then(async (res) => {
 							console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result[0].video.title}\nDurasi: ${res.result[0].video.duration} detik`, 'aqua'))
 							await urbae.sendFileFromUrl(from, res.result[0].video.thumbnail_src, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result[0].video.title}\n*Duration:* ${res.result[0].video.duration} detik\n*Views:* ${res.result[0].video.views}\n*Uploaded:* ${res.result[0].video.upload_date}\n*Channel:* ${res.result[0].uploader.username}\n*Url:* ${res.result[0].video.url}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id)
@@ -5230,7 +5230,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
 					//axios.get(`https://cakrayp.herokuapp.com/api/youtube/search?query=${body.slice(6)}&apikey=${cakrayp}`)
 					axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(6)}`)
-						//fetchJson(`https://api.zeks.xyz/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)}`)
+						//fetchJson(`https://api.zeks.me/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)}`)
 						.then(async (res) => {
 							if (res.data.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
 							console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} seconds`, 'aqua'))
@@ -5293,7 +5293,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari video dari youtube\n\nPenggunaan: ${prefix}play judul video`, id)
 					//axios.get(`https://cakrayp.herokuapp.com/api/youtube/search?query=${body.slice(9)}&apikey=${cakrayp}`)
 					axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(9)}`)
-						//fetchJson(`https://api.zeks.xyz/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)}`)
+						//fetchJson(`https://api.zeks.me/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)}`)
 						.then(async (res) => {
 							if (res.data.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
 							console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} seconds`, 'aqua'))
@@ -5685,7 +5685,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (!jreng) return urbae.reply(from, `Kirim perintah *${prefix}tahta [teks]*\n\nContoh *${prefix}tahta elaina*`, id)
 					if (jreng.length > 7) return urbae.reply(from, 'Maksimal 7 Huruf!', id)
 					urbae.reply(from, '_Sedang diproses, mohon tunggu sebentar!..._', id)
-					const tahtuy = `https://api.zeks.xyz/api/hartatahta?text=${jreng}&apikey=${apikeyvinz}`
+					const tahtuy = `https://api.zeks.me/api/hartatahta?text=${jreng}&apikey=${apikeyvinz}`
 					urbae.sendFileFromUrl(from, tahtuy, `${jreng}.jpg`, `*_Harta_*\n*_Tahta_*\n*_${jreng}_*`, id)
 					urbae.sendImageAsSticker(from, tahtuy, StickerMetadata)
 						.catch(() => {
@@ -5916,7 +5916,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'simi2':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}simi2 halo anjing`, id)
 					const anjg = body.slice(7)
-					axios.get(`https://api.zeks.xyz/api/simi?apikey=${apikeyvinz}&text=${anjg}`).then(res => {
+					axios.get(`https://api.zeks.me/api/simi?apikey=${apikeyvinz}&text=${anjg}`).then(res => {
 						console.log(color(`${anjg}`, 'green'))
 						const babuy = `${res.data}`
 						urbae.reply(from, babuy, id)
