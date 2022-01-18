@@ -763,6 +763,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const jame = moment(t * 1000).format('HH:mm:ss')
 					const pictrand = menupict
 					urbae.sendFileFromUrl(from, pictrand, 'img.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver))
+					.then(() => ((isGroupMsg) && (isGroupAdmins)) ? urbae.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
 					break
 				case prefix + 'menuadmin':
 					if (!isGroupMsg) return urbae.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
