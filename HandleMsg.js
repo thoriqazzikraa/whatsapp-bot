@@ -203,7 +203,7 @@ var timeStart = Date.now() / 1000
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 module.exports = HandleMsg = async (urbae, message) => {
 	try {
-		const { type, id, fromMe, from, t, sender, isGroupMsg, chat, chatId, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, author, mentionedJidList, } = message
+		const { type, id, fromMe, from, t, sender, buttons, selectedButtonId, isGroupMsg, chat, chatId, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, author, mentionedJidList, } = message
 		let { body } = message
 		var { name, formattedTitle, gcok } = chat
 		let { pushname, verifiedName, formattedName } = sender
@@ -230,7 +230,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const command = commands.toLowerCase().split(' ')[0] || ''
 		const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~`,*zxcv!?@#$%^&.\/\\©^]/.test(command) ? command.match(/^[!?#$,^.,/\/\\©^]/gi) : '-'
 		global.prefix
-		body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
+		body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
 		const arg = body.trim().substring(body.indexOf(' ') + 1)
 		const args = body.trim().split(/ +/).slice(1)
 		const q = args.join(' ')
@@ -762,8 +762,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'menu':
 					const jame = moment(t * 1000).format('HH:mm:ss')
 					const pictrand = menupict
-					urbae.sendFileFromUrl(from, pictrand, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
-						.then(() => ((isGroupMsg) && (isGroupAdmins)) ? urbae.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
+					urbae.sendFileFromUrl(from, pictrand, 'img.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver))
 					break
 				case prefix + 'menuadmin':
 					if (!isGroupMsg) return urbae.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
@@ -2096,7 +2095,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'addimg':
-					let addmg = body.slice(8)
+					let addmg = q
 					if (quotedMsg && quotedMsg.type === 'image') {
 						var mediaData = await decryptMedia(quotedMsg, uaOverride)
 						var filename = `./media/image/${addmg}.jpg`
@@ -2114,7 +2113,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					fs.writeFileSync('./lib/database/listimage.json', JSON.stringify(listimg))
 					break
 				case prefix + 'delimg':
-					let delx = listimg.indexOf(body.slice(7))
+					let delx = listimg.indexOf(q)
 					listimg.splice(delx, 1)
 					fs.writeFileSync('./lib/database/listimage.json', JSON.stringify(listimg))
 					urbae.reply(from, `image dengan nama ${delx} berhasil didelete dari database`, id)
@@ -2123,7 +2122,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'addstik':
 				case prefix + 'addsticker':
 				case prefix + 'addstick':
-					let nmHii = body.slice(11)
+					let nmHii = q
 					if (quotedMsg && quotedMsg.type === 'image' || quotedMsg && quotedMsg.type === 'sticker') {
 						var mediaData = await decryptMedia(quotedMsg, uaOverride)
 						var filename = `./media/pic/sticker/${nmHii}.jpeg`
@@ -5234,23 +5233,21 @@ module.exports = HandleMsg = async (urbae, message) => {
 						.then(async (res) => {
 							if (res.data.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
 							console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} seconds`, 'aqua'))
-							const thumbnailytHD = res.data.result.result[0].thumbnails[1].url
 							const thumbnailytSD = res.data.result.result[0].thumbnails[0].url
-							if (thumbnailytHD == undefined || thumbnailytHD == '') {
-								var changethumb = thumbnailytSD
-							} else {
-								var changethumb = thumbnailytHD
-							}
-							await urbae.sendFileFromUrl(from, changethumb, 'thumb.jpg', `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} seconds\nViews: ${res.data.result.result[0].viewCount.text}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\nUrl: ${res.data.result.result[0].link}\n\n${mess.sendfileaudio}`, id)
+							await urbae.sendFileFromUrl(from, thumbnailytSD, 'thumb.jpg', `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} seconds\nViews: ${res.data.result.result[0].viewCount.text}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\nUrl: ${res.data.result.result[0].link}\n\n${mess.sendfileaudio}`, id)
 							//await urbae.sendFileFromUrl(from, res.data.result[0].thumbnail, 'thumbnail.jpg', `「 *PLAY* 」\n\n*Title:* ${res.data.result[0].title}\n*Duration:* ${res.data.result[0].timestamp} seconds\n*Views:* ${res.data.result[0].views}\n*Uploaded:* ${res.data.result[0].ago}\n*Channel:* ${res.data.result[0].author.name}\n*Url:* ${res.data.result[0].url}\n\n*_Wait, audio sedang dikirim_*`, id)
 							//await urbae.sendFileFromUrl(from, res.result[0].video.thumbnail_src, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result[0].video.title}\n*Duration:* ${res.result[0].video.duration} detik\n*Views:* ${res.result[0].video.views}\n*Uploaded:* ${res.result[0].video.upload_date}\n*Channel:* ${res.result[0].uploader.username}\n*Verified Channel:* ${res.result[0].uploader.verified}\n*Url:* ${res.result[0].video.url}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id)
-							rugaapi.ymp3v2(`https://youtu.be/${res.data.result.result[0].id}`)
-								.then(async (res) => {
-									if (res.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
-									const playlink = res.result.link
-									urbae.sendFileFromUrl(from, playlink, '', '', id)
+							rugaapi.ymp3v2(res.data.result.result[0].link)
+							.then(res => {
+								if (res.status == 500) return urbae.reply(from, 'Sedang error', id)
+								console.log(res)
+								urbae.sendFileFromUrl(from, res.url, '', '', id)
+								.catch((err) => {
+									console.log(err)
+									urbae.reply(from, 'Error', id)
 								})
 						})
+	})
 						.catch(err => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
@@ -5292,25 +5289,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'play2':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari video dari youtube\n\nPenggunaan: ${prefix}play judul video`, id)
 					//axios.get(`https://cakrayp.herokuapp.com/api/youtube/search?query=${body.slice(9)}&apikey=${cakrayp}`)
-					axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(9)}`)
+					axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${q}`)
 						//fetchJson(`https://api.zeks.me/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)}`)
 						.then(async (res) => {
 							if (res.data.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
 							console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} seconds`, 'aqua'))
-							const thumbnailytHD2 = res.data.result.result[0].thumbnails[1].url
 							const thumbnailytSD2 = res.data.result.result[0].thumbnails[0].url
-							if (thumbnailytHD2 == undefined || thumbnailytHD2 == '') {
-								var changethumb2 = thumbnailytSD2
-							} else {
-								var changethumb2 = thumbnailytSD2
-							}
-							await urbae.sendFileFromUrl(from, changethumb2, 'thumb.jpg', `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} seconds\nViews: ${res.data.result.result[0].viewCount.text}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\nUrl: ${res.data.result.result[0].link}\n\n${mess.sendfilevideo}`, id)
+							await urbae.sendFileFromUrl(from, thumbnailytSD2, 'thumb.jpg', `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} seconds\nViews: ${res.data.result.result[0].viewCount.text}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\nUrl: ${res.data.result.result[0].link}\n\n${mess.sendfilevideo}`, id)
 							//await urbae.sendFileFromUrl(from, res.data.result[0].thumbnail, 'thumbnail.jpg', `「 *PLAY* 」\n\n*Title:* ${res.data.result[0].title}\n*Duration:* ${res.data.result[0].timestamp} seconds\n*Views:* ${res.data.result[0].views}\n*Uploaded:* ${res.data.result[0].ago}\n*Channel:* ${res.data.result[0].author.name}\n*Url:* ${res.data.result[0].url}\n\n*_Wait, video sedang dikirim_*`, id)
 							//await urbae.sendFileFromUrl(from, res.result[0].video.thumbnail_src, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result[0].video.title}\n*Duration:* ${res.result[0].video.duration} detik\n*Views:* ${res.result[0].video.views}\n*Uploaded:* ${res.result[0].video.upload_date}\n*Channel:* ${res.result[0].uploader.username}\n*Verified Channel:* ${res.result[0].uploader.verified}\n*Url:* ${res.result[0].video.url}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id)
 							rugaapi.ymp4v2(`https://youtu.be/${res.data.result.result[0].id}`)
-								.then(async (res) => {
-									if (res.status == false) return urbae.reply(from, 'Rest Api sedang error', id)
-									urbae.sendFileFromUrl(from, res.result.link, '', '', id)
+								.then(res => {
+									if (res.status == 500) return urbae.reply(from, 'Rest Api sedang error', id)
+										console.log(res)
+									urbae.sendFileFromUrl(from, res.url, '', '', id)
 								})
 						})
 						.catch(err => {
@@ -6194,12 +6186,13 @@ module.exports = HandleMsg = async (urbae, message) => {
 						fs.writeFileSync('./lib/database/group/nsfw.json', JSON.stringify(_nsfw))
 						urbae.reply(from, mess.nsfwon, id)
 					} else if (args[0] === 'off') {
+						if (!isPrem) return urbae.reply(from, 'Command ini hanya untuk premium user', id)
 						var nsfwsplice = _nsfw.indexOf(chatId)
 						_nsfw.splice(nsfwsplice, 1)
 						fs.writeFileSync('./lib/database/group/nsfw.json', JSON.stringify(_nsfw))
 						urbae.reply(from, mess.nsfwoff, id)
 					} else {
-						urbae.reply(from, 'Pilih on atau off admin', id)
+						urbae.reply(from, 'Pilih on/off', id)
 					}
 					break
 				case prefix + 'welcome':
