@@ -2660,16 +2660,18 @@ module.exports = HandleMsg = async (urbae, message) => {
 								.save(`./temp/audio/${result.videoId}.mp3`)
 								.on('progress', p => {
 									readline.cursorTo(process.stdout, 0)
-									process.stdout.write(color(`${p.targetSize}kb downloaded`, 'cyan'))
+									process.stdout.write(`${p.targetSize}kb downloaded`)
 								})
 								.on('end', () => {
 									console.log(`\nDone, ${(Date.now() - deyy) / 1000}s`)
 									urbae.sendFile(from, `./temp/audio/${result.videoId}.mp3`, '', '', id)
+									.then(() => {
 									console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
 									setTimeout(() => {
 										fs.unlinkSync(`./temp/audio/${result.videoId}.mp3`)
 										console.log(color(`Success delete file ${result.videoId}.mp3`, 'cyan'))
 									}, 10000)
+									})
 								})
 						})
 						.catch(err => {
@@ -5271,16 +5273,18 @@ module.exports = HandleMsg = async (urbae, message) => {
 								.save(`./temp/audio/${res[0].videoId}.mp3`)
 								.on('progress', p => {
 									readline.cursorTo(process.stdout, 0)
-									process.stdout.write(color(`${p.targetSize}kb downloaded`, 'cyan'))
+									process.stdout.write(`${p.targetSize}kb downloaded`)
 								})
 								.on('end', () => {
 									console.log(`\nDone, ${(Date.now() - deyy) / 1000}s`)
 									urbae.sendFile(from, `./temp/audio/${res[0].videoId}.mp3`, '', '', id)
+									.then(() => {
 									console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
 									setTimeout(() => {
 										fs.unlinkSync(`./temp/audio/${res[0].videoId}.mp3`)
 										console.log(color(`Success delete file ${res[0].videoId}.mp3`, 'cyan'))
 									}, 10000)
+									})
 								})
 						})
 					break
