@@ -12,3 +12,7 @@ debug.log
 # Lock files
 package-lock.json
 logs
+
+# managed
+**_IGNORE_**
+# end managed
