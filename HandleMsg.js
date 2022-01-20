@@ -757,9 +757,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 					try {
 						let evaled = await eval(q)
 						if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
+						urbae.reply(from, evaled, id)
 					} catch (err) {
 						console.error(err)
-						urbae.reply(from, 'Kode Js salah', id)
+						urbae.reply(from, err.message, id)
 					}
 					break
 				case prefix + 'p':
@@ -2665,13 +2666,13 @@ module.exports = HandleMsg = async (urbae, message) => {
 								.on('end', () => {
 									console.log(`\nDone, ${(Date.now() - deyy) / 1000}s`)
 									urbae.sendFile(from, `./temp/audio/${result.videoId}.mp3`, '', '', id)
-									.then(() => {
-									console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
-									setTimeout(() => {
-										fs.unlinkSync(`./temp/audio/${result.videoId}.mp3`)
-										console.log(color(`Success delete file ${result.videoId}.mp3`, 'cyan'))
-									}, 10000)
-									})
+										.then(() => {
+											console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
+											setTimeout(() => {
+												fs.unlinkSync(`./temp/audio/${result.videoId}.mp3`)
+												console.log(color(`Success delete file ${result.videoId}.mp3`, 'cyan'))
+											}, 10000)
+										})
 								})
 						})
 						.catch(err => {
@@ -3046,20 +3047,21 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'ig':
 				case prefix + 'instagram':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
-					const igUrl = body.slice(4)
-					axios.get(`https://zekais-api.herokuapp.com/igdl?url=${igUrl}&apikey=${zekais}`)
-						.then(async (res) => {
-							if (res.data.result[0].type == 'image') {
-								urbae.sendFileFromUrl(from, res.data.result[0].url, 'ig.jpg', '', id)
-							} else if (res.data.result[0].type == 'video') {
-								await urbae.sendFileFromUrl(from, res.data.resul[0].url, 'ig.mp4', `*from: ${res.data.result.username}*\n*fullname: ${res.data.result.fullname}*\n*caption: ${res.data.result.caption}*`, id)
-							} else {
-								urbae.reply(from, 'Terjadi kesalahan', id)
-							}
+					urbae.reply(from, mess.wait, id)
+					hxzapi.igdl(q)
+						.then(result => {
+							console.log(result)
+							urbae.sendFileFromUrl(from, result.medias[0].url, '', '', id)
+								.then(() => {
+									console.log('Success sending Media')
+								})
+								.catch(() => {
+									urbae.reply(from, 'Sedang error', id)
+								})
 						})
 						.catch(err => {
 							console.log(err)
-							urbae.reply(from, `Error\nSilahkan gunakan ${prefix}ig2 atau ${prefix}postigurl`, id)
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'doujin':
@@ -4022,18 +4024,15 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'ytsearch':
 					if (args.length === 0) return urbae.reply(from, `Kirim perintah *${prefix}ytsearch [ Query ]*, Contoh : ${prefix}ytsearch alan walker alone`)
-					const ytsher = body.slice(10)
 					urbae.reply(from, mess.wait, id)
 					try {
-						const response2 = await fetch(`https://api.zeks.me/api/yts?q=${ytsher}&apikey=${apikeyvinz}`)
-						if (!response2.ok) throw new Error(`unexpected response ${response2.statusText}`)
-						const jsonserc = await response2.json()
-						const { result } = await jsonserc
-						let xixixi = `*「 YOUTUBE SEARCH 」*\n\n*Hasil Pencarian : ${ytsher}*\n`
-						for (let i = 0; i < result.length; i++) {
-							xixixi += `\n─────────────────\n\n• *Judul* : ${result[i].video.title}\n• *Ditonton* : ${result[i].video.views}\n• *Durasi* : ${result[i].video.duration} detik\n• *Uploaded* : ${result[i].video.upload_date}\n• *Channel* : ${result[i].uploader.username}\n• *Verified Channel* : ${result[i].uploader.verified}\n• *Url* : ${result[i].video.url}\n`
+						const response2 = await yt.ytSearch(q)
+						const jsonserc = await response2
+						let xixixi = `*「 YOUTUBE SEARCH 」*`
+						for (let i = 0; i < jsonserc.length; i++) {
+							xixixi += `\n─────────────────\n\n• *Title* : ${jsonserc[i].title}\n• *Views* : ${jsonserc[i].views}\n• *Duration* : ${jsonserc[i].timestamp} Sec\n• *Uploaded* : ${jsonserc[i].ago}\n• *videoId:* ${jsonserc[i].videoId}\n• *Url* : ${jsonserc[i].url}\n`
 						}
-						await urbae.sendFileFromUrl(from, result[0].video.thumbnail_src, 'thumbserc.jpg', xixixi, id)
+						await urbae.sendFileFromUrl(from, jsonserc[0].thumbnail, 'thumbserc.jpg', xixixi, id)
 					} catch (err) {
 						console.log(err)
 						await urbae.sendFileFromUrl(from, errorurl2, 'error.png', '💔️ Maaf, Video tidak ditemukan')
@@ -4793,19 +4792,22 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'tiktok':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
-					const bodynya = body.slice(8)
+					const bodynya = q
 					urbae.reply(from, mess.wait, id)
-					axios.get(`https://dapuhy-api.herokuapp.com/api/socialmedia/ttdownloader?url=${bodynya}&apikey=${dapuhyapi}`)
-						.then(async (res) => {
-							if (res.data.status == false) return urbae.reply(from, `Link tidak valid!`, id)
-							urbae.sendFileFromUrl(from, res.data.result.nowm, '', '', id)
+					hxzapi.ttdownloader(q)
+						.then(result => {
+							//urbae.sendFileFromUrl(from, data.thumbnail, 'thumb.jpg', `「 *TIKTOK* 」\n\n*Caption:* ${data.title}\n*Quality:* ${data.medias[1].quality}\n*Size:* ${data.medias[1].formattedSize}\n\n${mess.sendfilevideo}`, id)
+							urbae.sendFileFromUrl(from, result.nowm, '', '', id)
+								.then(() => {
+									console.log('Success sending video')
+								})
 								.catch(() => {
-									urbae.reply(from, 'Link tidak valid!', id)
+									urbae.reply(from, 'Sedang error atau mungkin link video tidak valid', id)
 								})
 						})
-						.catch(err => {
-							console.log(err)
-							urbae.reply(from, err.message, id)
+						.catch(error => {
+							console.log(error)
+							urbae.reply(from, error.message, id)
 						})
 					break
 				case prefix + 'tiktoknowm':
@@ -4929,22 +4931,21 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'igstory':
 				case prefix + 'instastory':
-					if (args.length == 0) return urbae.reply(from, `Mencari story dari username, Gunakan ${prefix}igstory username|jumlahyangingindidownload\nContoh: ${prefix}igstory ewkharis|2`, id)
-					const xas1 = q.split('|')[0]
-					const xas2 = q.split('|')[1]
+					if (args.length == 0) return urbae.reply(from, `Mencari story dari username, Gunakan ${prefix}igstory username jumlahyangingindidownload\nContoh: ${prefix}igstory ewkharis|2`, id)
+					const xas1 = args[0]
+					const xas2 = args[1]
 					urbae.reply(from, mess.wait, id)
-					try {
-						const xas3 = await axios.get(`https://cakrayp.herokuapp.com/api/instagram/story?username=${xas1}&apikey=${cakrayp}`)
-						const xas4 = xas3.data
-						if (xas4.result.totally == 0) return urbae.reply(from, xas4.result.stories.message, id)
-						if (xas2 > 11) return urbae.reply(from, 'Maksimal 10!', id)
-						for (let i = 0; i < xas2; i++) {
-							await urbae.sendFileFromUrl(from, xas4.result.stories[i].url, '', '', id)
-						}
-					} catch (err) {
-						console.log(err)
-						urbae.reply(from, 'Maaf, username salah, silahkan masukkan username yang benar', id)
-					}
+					hxzapi.igstory(xas1)
+						.then(result => {
+							if (xas2 > 11) return urbae.reply(from, 'Maksimal 10!', id)
+							for (let i = 0; i < xas2; i++) {
+								urbae.sendFileFromUrl(from, result.medias[i].url, '', '', id)
+							}
+						})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
 					break
 				case prefix + 'stickerline':
 				case prefix + 'stikerline':
@@ -5258,6 +5259,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
+					urbae.reply(from, mess.wait, id)
 					yt.ytSearch(q)
 						.then(async (res) => {
 							console.log(color(`Title: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}`, 'magenta'))
@@ -5278,13 +5280,13 @@ module.exports = HandleMsg = async (urbae, message) => {
 								.on('end', () => {
 									console.log(`\nDone, ${(Date.now() - deyy) / 1000}s`)
 									urbae.sendFile(from, `./temp/audio/${res[0].videoId}.mp3`, '', '', id)
-									.then(() => {
-									console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
-									setTimeout(() => {
-										fs.unlinkSync(`./temp/audio/${res[0].videoId}.mp3`)
-										console.log(color(`Success delete file ${res[0].videoId}.mp3`, 'cyan'))
-									}, 10000)
-									})
+										.then(() => {
+											console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
+											setTimeout(() => {
+												fs.unlinkSync(`./temp/audio/${res[0].videoId}.mp3`)
+												console.log(color(`Success delete file ${res[0].videoId}.mp3`, 'cyan'))
+											}, 10000)
+										})
 								})
 						})
 					break
