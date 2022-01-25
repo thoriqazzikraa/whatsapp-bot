@@ -17,6 +17,8 @@ const path = require('path')
 const bdr = require('rumus-bdr')
 const ffmpeg = require('fluent-ffmpeg')
 const canvas = require('canvacord')
+const nekoslife = require('nekos.life')
+const getnekos = new nekoslife()
 const hxzapi = require('hxz-api')
 const request = require('request-promise')
 const emojiUnicode = require('emoji-unicode')
@@ -300,43 +302,62 @@ module.exports = HandleMsg = async (urbae, message) => {
 		var role = 'Copper V'
 		if (levelRole >= 5) {
 			role = 'Copper IV'
-		} else if (levelRole >= 10) {
+		}
+		if (levelRole >= 10) {
 			role = 'Copper III'
-		} else if (levelRole >= 15) {
+		}
+		if (levelRole >= 15) {
 			role = 'Copper II'
-		} else if (levelRole >= 20) {
+		}
+		if (levelRole >= 20) {
 			role = 'Copper I'
-		} else if (levelRole >= 25) {
+		} 
+		if (levelRole >= 25) {
 			role = 'Silver V'
-		} else if (levelRole >= 30) {
+		}
+		if (levelRole >= 30) {
 			role = 'Silver IV'
-		} else if (levelRole >= 35) {
+		}
+		if (levelRole >= 35) {
 			role = 'Silver III'
-		} else if (levelRole >= 40) {
+		}
+		if (levelRole >= 40) {
 			role = 'Silver II'
-		} else if (levelRole >= 45) {
+		}
+		if (levelRole >= 45) {
 			role = 'Silver I'
-		} else if (levelRole >= 50) {
+		}
+		if (levelRole >= 50) {
 			role = 'Gold V'
-		} else if (levelRole >= 55) {
+		}
+		if (levelRole >= 55) {
 			role = 'Gold IV'
-		} else if (levelRole >= 60) {
+		}
+		if (levelRole >= 60) {
 			role = 'Gold III'
-		} else if (levelRole >= 65) {
+		}
+		if (levelRole >= 65) {
 			role = 'Gold II'
-		} else if (levelRole >= 70) {
+		}
+		if (levelRole >= 70) {
 			role = 'Gold I'
-		} else if (levelRole >= 75) {
+		}
+		if (levelRole >= 75) {
 			role = 'Platinum V'
-		} else if (levelRole >= 80) {
+		}
+		if (levelRole >= 80) {
 			role = 'Platinum IV'
-		} else if (levelRole >= 85) {
+		}
+		if (levelRole >= 85) {
 			role = 'Platinum III'
-		} else if (levelRole >= 90) {
+		}
+		if (levelRole >= 90) {
 			role = 'Platinum II'
-		} else if (levelRole >= 95) {
+		}
+		if (levelRole >= 95) {
 			role = 'Platinum I'
-		} else if (levelRole > 100) {
+		}
+		if (levelRole > 100) {
 			role = 'Exterminator'
 		}
 
@@ -465,7 +486,6 @@ module.exports = HandleMsg = async (urbae, message) => {
 			}
 		}
 
-
 		//fitur anti link
 		if (isGroupMsg && GroupLinkDetector && !isGroupAdmins && !isOwner) {
 			if (chats.match(/(https:\/\/chat.whatsapp.com)/gi)) {
@@ -583,8 +603,11 @@ module.exports = HandleMsg = async (urbae, message) => {
 		if (isBlocked && isCmd) {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua'))
 		}
+		
 
 		urbae.setPresence(true)
+		
+		urbae.sendSeen(chatId, true)
 
 		if (isCmd && isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB || isPrem) {
 			switch (command) {
@@ -629,6 +652,28 @@ module.exports = HandleMsg = async (urbae, message) => {
 						urbae.reply(from, 'Bot telah di unmuted pada grup ini!', id)
 					}
 					break
+				case prefix + 'refresh':
+				case prefix + 'restart':
+					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
+					urbae.sendText(from, 'Restart Bot in')
+					await sleep(1000)
+					urbae.sendText(from, '5')
+					await sleep(1000)
+					urbae.sendText(from, '4')
+					await sleep(1000)
+					urbae.sendText(from, '3')
+					await sleep(1000)
+					urbae.sendText(from, '2')
+					await sleep(1000)
+					urbae.sendText(from, '1')
+					await sleep(1000)
+					urbae.sendText(from, `Refresh Bot`)
+					await sleep(10000)
+					urbae.refresh()
+					.then(() => {
+						urbae.reply(from, 'Success refresh page', id)
+					})
+					break
 				case prefix + 'private':
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
 					if (setting.banChats === true) return
@@ -653,8 +698,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const timestamp = speed();
 					const latensi = speed() - timestamp
 					const charged = await urbae.getIsPlugged();
-					const device = await urbae.getMe()
-					const deviceinfo = `- Battery Level : ${device.battery}%\n  ├ Is Charging : ${charged}\n  └ 24 Hours Online : ${device.is24h}\n  ├ OS Version : ${device.phone.os_version}\n  └ Build Number : ${device.phone.os_build_number}\n\n _*Jam :*_ ${moment(t * 1000).format('HH:mm:ss')}`
+					const device = await urbae.getMe() 
+					const deviceinfo = `- Battery Level : ${device.battery}%\n ├ Device : ${device.phone.device_manufacturer}\n ├ Device Model : ${device.phone.device_model}\n ├ Is Charging : ${charged}\n ├ 24 Hours Online : ${device.is24h}\n ├ OS Version : ${device.phone.os_version}\n └ Build Number : ${device.phone.os_build_number}\n\n _*Jam :*_ ${moment(t * 1000).format('HH:mm:ss')}`
 					urbae.sendText(from, `*Device Info*\n${deviceinfo}\n\nPenggunaan RAM: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB*\nCPU: *${os.cpus().length}*\n\nStatus :\n- *${loadedMsg}* Loaded Messages\n- *${groups.length}* Group Chats\n- *${chatIds.length - groups.length}* Personal Chats\n- *${chatIds.length}* Total Chats\n\nSpeed: ${latensi.toFixed(4)} _Second_`)
 					break
 				case prefix + 'setpic':
@@ -768,7 +813,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'menu':
 					const jame = moment(t * 1000).format('HH:mm:ss')
 					const pictrand = menupict
-					urbae.sendFileFromUrl(from, pictrand, 'img.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver))
+					urbae.sendFileFromUrl(from, pictrand, 'img.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
 						.then(() => ((isGroupMsg) && (isGroupAdmins)) ? urbae.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
 					break
 				case prefix + 'menuadmin':
@@ -963,43 +1008,62 @@ module.exports = HandleMsg = async (urbae, message) => {
 							var roles = 'Copper V'
 							if (resp[i].level >= 5) {
 								roles = 'Copper IV'
-							} else if (resp[i].level >= 10) {
+							}
+							if (resp[i].level >= 10) {
 								roles = 'Copper III'
-							} else if (resp[i].level >= 15) {
+							}
+							if (resp[i].level >= 15) {
 								roles = 'Copper II'
-							} else if (resp[i].level >= 20) {
+							}
+							if (resp[i].level >= 20) {
 								roles = 'Copper I'
-							} else if (resp[i].level >= 25) {
+							}
+							if (resp[i].level >= 25) {
 								roles = 'Silver V'
-							} else if (resp[i].level >= 30) {
+							}
+							if (resp[i].level >= 30) {
 								roles = 'Silver IV'
-							} else if (resp[i].level >= 35) {
+							}
+							if (resp[i].level >= 35) {
 								roles = 'Silver III'
-							} else if (resp[i].level >= 40) {
+							}
+							if (resp[i].level >= 40) {
 								roles = 'Silver II'
-							} else if (resp[i].level >= 45) {
+							}
+							if (resp[i].level >= 45) {
 								roles = 'Silver I'
-							} else if (resp[i].level >= 50) {
+							}
+							if (resp[i].level >= 50) {
 								roles = 'Gold V'
-							} else if (resp[i].level >= 55) {
+							}
+							if (resp[i].level >= 55) {
 								roles = 'Gold IV'
-							} else if (resp[i].level >= 60) {
+							}
+							if (resp[i].level >= 60) {
 								roles = 'Gold III'
-							} else if (resp[i].level >= 65) {
+							}
+							if (resp[i].level >= 65) {
 								roles = 'Gold II'
-							} else if (resp[i].level >= 70) {
+							}
+							if (resp[i].level >= 70) {
 								roles = 'Gold I'
-							} else if (resp[i].level >= 75) {
+							}
+							if (resp[i].level >= 75) {
 								roles = 'Platinum V'
-							} else if (resp[i].level >= 80) {
+							}
+							if (resp[i].level >= 80) {
 								roles = 'Platinum IV'
-							} else if (resp[i].level >= 85) {
+							}
+							if (resp[i].level >= 85) {
 								roles = 'Platinum III'
-							} else if (resp[i].level >= 90) {
+							}
+							if (resp[i].level >= 90) {
 								roles = 'Platinum II'
-							} else if (resp[i].level >= 95) {
+							}
+							if (resp[i].level >= 95) {
 								roles = 'Platinum I'
-							} else if (resp[i].level > 100) {
+							}
+							if (resp[i].level > 100) {
 								roles = 'Exterminator'
 							}
 							leaderboard += `${i + 1}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
@@ -1138,34 +1202,56 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'neko':
-					try {
-						urbae.reply(from, mess.wait, id)
-						axios.get('https://akaneko-api.herokuapp.com/api/neko').then(res => {
-							urbae.sendFileFromUrl(from, res.data.url, 'neko.jpeg', 'Neko *Nyaa*~');
-							urbae.sendStickerfromUrl(from, res.data.url, StickerMetadata)
-						});
-					} catch (err) {
-						console.log(err);
-						throw (err);
-					};
+					urbae.reply(from, mess.wait, id)
+					getnekos.sfw.neko()
+					.then(nekos => {
+						urbae.sendFileFromUrl(from, nekos.url, '', '', id)
+						urbae.sendImageAsSticker(from, nekos.url, StickerMetadata)
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
+					})
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					})
 					break
 				case prefix + 'boobs':
 					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
-					axios.get('https://nekos.life/api/v2/img/boobs').then(res => {
-						urbae.sendStickerfromUrl(from, res.data.url, '', 'bakaaa hentaii>~<');
-						urbae.sendFileFromUrl(from, res.data.url, StickerMetadata)
-					});
+					getnekos.nsfw.boobs()
+					.then(boobs => {
+						urbae.sendFileFromUrl(from, boobs.url, '', '', id)
+						urbae.sendImageAsSticker(from, boobs.url, StickerMetadata)
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
+					})
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					})
 					break
 				case prefix + 'gifhentai':
 					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
-					axios.get('https://nekos.life/api/v2/img/Random_hentai_gif').then(res => {
-						urbae.sendFileFromUrl(from, res.data.url, '', '', id)
-						urbae.sendStickerfromUrl(from, res.data.url, StickerMetadata)
-					});
+					getnekos.nsfw.randomHentaiGif()
+						.then(hentai => {
+							urbae.sendFileFromUrl(from, hentai.url, '', '', id)
+							urbae.sendImageAsSticker(from, hentai.url, StickerMetadata)
+							.catch(err => {
+								console.log(err)
+								urbae.reply(from, err.message, id)
+							})
+						})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
 					break
 				case prefix + 'bjanime':
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
@@ -1756,9 +1842,9 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const mediaData = await decryptMedia(quotedMsg)
 						const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
 						await urbae.sendImageAsSticker(from, imageBase64, { author: `${authors}`, pack: `${packnames}` })
-							.catch(async (err) => {
-								console.error(err)
-								await urbae.reply(from, 'Error!', id)
+							.catch(err => {
+								console.log(err)
+								urbae.reply(from, 'Error!', id)
 							})
 					} else if (isMedia && type === 'image' || isMedia && type === 'sticker') {
 						await urbae.reply(from, mess.wait, id)
@@ -4722,18 +4808,29 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'facebook':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}fb [linkfb]*`, id)
 					urbae.reply(from, '_Scrapping Metadata...._', id)
-					axios.get(`https://videfikri.com/api/fbdl/?urlfb=${body.slice(4)}`)
-						.then(async (res) => {
-							const linkvid = res.data.result.url
-							const linkah = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${linkvid}`)
-							const jadiinlink = linkah.data.result
-							if (!isPrem && !isOwnerB) return urbae.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${jadiinlink}`, id)
-							await urbae.sendFileFromUrl(from, linkvid, '', '', id)
-								.catch(() => {
-									urbae.reply(from, `Error...`, id)
-								})
+					lol.Facebook(q)
+					.then(data => {
+						console.log(data)
+						const fbdownhd = data.medias[1].url
+						if (fbdownhd == 0 || fbdownhd == '') {
+							var fbdownsd = data.medias[0].url
+						} else {
+							var fbdownsd = fbdownhd
+						}
+						urbae.sendFileFromUrl(from, fbdownsd, '', '', id)
+						.then(() => {
+							console.log('Success sending file')
 						})
-					break
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
+					})
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					})
+					break						
 				case prefix + 'ig2':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}ig2 linkig`, id)
 					urbae.reply(from, '_Scrapping Metadataa..._', id)
@@ -5259,6 +5356,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
+						if (!isPrem) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					yt.ytSearch(q)
 						.then(async (res) => {
@@ -5325,6 +5423,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'playvid'://silahkan kalian custom sendiri jika ada yang ingin diubah
 				case prefix + 'play2':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari video dari youtube\n\nPenggunaan: ${prefix}play judul video`, id)
+						if (!isPrem) return urbae.reply(from, mess.prem, id)
 					yt.ytSearch(q)
 						.then(async (res) => {
 							console.log(color(`Title: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}`, 'magenta'))
@@ -5334,7 +5433,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							yt.ytMp4(res[0].url)
 								.then(result => {
 									urbae.sendFileFromUrl(from, result.url, '', '', id)
-										.catch(() => {
+										.catch((err) => {
 											console.log(err)
 											urbae.reply(from, 'Sedang error', id)
 										})
