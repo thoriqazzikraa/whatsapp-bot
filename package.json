@@ -32,6 +32,7 @@
     "colors": "1.4.0",
     "dotenv": "^10.0.0",
     "emoji-unicode": "^2.0.1",
+    "facebook-nologin-scraper": "^0.1.0",
     "figlet": "^1.5.2",
     "file-type": "16.5.3",
     "flag": "^4.4.0",
@@ -43,6 +44,7 @@
     "lowdb": "1.0.0",
     "marked": "^4.0.9",
     "moment-timezone": "^0.5.34",
+    "nekos.life": "^2.0.9",
     "node-cron": "^3.0.0",
     "node-fetch": "2.6.6",
     "node-gtts": "^2.0.2",
@@ -60,7 +62,8 @@
     "translatte": "^3.0.0",
     "xfarr-api": "^1.0.3",
     "yt-search": "^2.10.3",
-    "ytdl-core": "^4.10.0"
+    "ytdl-core": "^4.10.0",
+    "yuzzu-api": "^1.0.2"
   },
   "directories": {
     "lib": "lib"
