@@ -13,6 +13,7 @@ const chalk = require('chalk')
 const translatte = require('translatte')
 const ms = require('parse-ms')
 const bent = require('bent')
+const lyricsq = require('music-lyrics')
 const path = require('path')
 const bdr = require('rumus-bdr')
 const ffmpeg = require('fluent-ffmpeg')
@@ -955,8 +956,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const userLevel = level.getLevelingLevel(sender.id, _level)
 					const userXp = level.getLevelingXp(sender.id, _level)
 					const ppLink = await urbae.getProfilePicFromServer(serial)
-					if (ppLink === 'ERROR: 401') {
-						var pepe = errorImg
+					if (ppLink === 'ERROR: 404') {
+						var pepe = menupict
 					} else {
 						pepe = ppLink
 					}
@@ -1738,7 +1739,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const reporter = body.slice(11)
 					const getuserpicture = await urbae.getProfilePicFromServer(sender.id)
 					if (getuserpicture == undefined) {
-						var profilepicc = errorImg
+						var profilepicc = menupict
 					} else {
 						var profilepicc = getuserpicture
 					}
@@ -3198,18 +3199,6 @@ module.exports = HandleMsg = async (urbae, message) => {
 						.catch(err => {
 							console.log(err)
 							urbae.reply(from, 'Terjadi kesalahan, coba lagi nanti')
-						})
-					break
-				case prefix + 'nhpdf':
-					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
-					if (args.length == 0) return urbae.reply(from, `Kode nuklir tidak ditemukan\nUsage : ${prefix}nhpdf 20935`, id)
-					rugaapi.nhpdf(args)
-						.then(async (res) => {
-							if (!isPrem && !isOwnerB) return urbae.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\nLink: ${res.pdf_file}`, id)
-							await urbae.sendFileFromUrl(from, `${res.pdf_file}`, '', `${res.title}`, id)
-						})
-						.catch(() => {
-							urbae.reply(from, 'Error', id)
 						})
 					break
 				case prefix + 'asupan7':
@@ -4758,11 +4747,14 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'lyrics':
 				case prefix + 'lirik':
-					if (args.length == 0) return urbae.reply(from, `Untuk mencari lirik dari sebuah lagu\bketik: ${prefix}lirik [judul_lagu]`, id)
-					axios.get(`https://zenzapi.xyz/api/liriklagu?query=${body.slice(7)}&apikey=${zenzapi}`)
-						.then(async (res) => {
-							if (res.data.status == false) return urbae.reply(from, 'Lirik yang kamu cari tidak ada', id)
-							await urbae.sendFileFromUrl(from, res.data.result.thumb, 'thumb.jpg', `Judul : ${res.data.result.judul}\nPenyanyi : ${res.data.result.penyanyi}\nLirik : ${res.data.result.lirik}`, id)
+					if (q.length == 0) return urbae.reply(from, `Usage: ${prefix}lirik judul dan nama penyanyi\nContoh: ${prefix}lirik payung teduh resah`, id)
+					lyricsq.search(q)
+						.then(res => {
+							urbae.reply(from, res, id)
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
 						})
 						.catch(err => {
 							console.log(err)
@@ -6962,7 +6954,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 							const myXp = level.getLevelingXp(sender.id, _level)
 							const reqXp = 5 * Math.pow(userLevel, 2) + 50 * 1 + 100
 							const { status } = sts
-							if (pic == undefined) {
+							if (pic == undefined || pic == 'ERROR: 404') {
 								var pfp = menupict
 							} else {
 								var pfp = pic
