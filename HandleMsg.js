@@ -19,6 +19,7 @@ const ffmpeg = require('fluent-ffmpeg')
 const canvas = require('canvacord')
 const nekoslife = require('nekos.life')
 const getnekos = new nekoslife()
+const xteamapi = require('xteam-api')
 const hxzapi = require('hxz-api')
 const request = require('request-promise')
 const emojiUnicode = require('emoji-unicode')
@@ -250,6 +251,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const url = args.length !== 0 ? args[0] : ''
 		const isVideo = type === 'video'
 		const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
+		const isQuotedChat = quotedMsg && quotedMsg.type === 'chat'
 		const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
 		const isQuotedGif = quotedMsg && quotedMsg.type === 'gif'
 		const isQuotedAudio = quotedMsg && quotedMsg.type === 'audio'
@@ -311,7 +313,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		}
 		if (levelRole >= 20) {
 			role = 'Copper I'
-		} 
+		}
 		if (levelRole >= 25) {
 			role = 'Silver V'
 		}
@@ -603,10 +605,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 		if (isBlocked && isCmd) {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua'))
 		}
-		
+
 
 		urbae.setPresence(true)
-		
+
 		urbae.sendSeen(chatId, true)
 
 		if (isCmd && isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB || isPrem) {
@@ -670,9 +672,9 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.sendText(from, `Refresh Bot`)
 					await sleep(10000)
 					urbae.refresh()
-					.then(() => {
-						urbae.reply(from, 'Success refresh page', id)
-					})
+						.then(() => {
+							urbae.reply(from, 'Success refresh page', id)
+						})
 					break
 				case prefix + 'private':
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
@@ -698,7 +700,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const timestamp = speed();
 					const latensi = speed() - timestamp
 					const charged = await urbae.getIsPlugged();
-					const device = await urbae.getMe() 
+					const device = await urbae.getMe()
 					const deviceinfo = `- Battery Level : ${device.battery}%\n ├ Device : ${device.phone.device_manufacturer}\n ├ Device Model : ${device.phone.device_model}\n ├ Is Charging : ${charged}\n ├ 24 Hours Online : ${device.is24h}\n ├ OS Version : ${device.phone.os_version}\n └ Build Number : ${device.phone.os_build_number}\n\n _*Jam :*_ ${moment(t * 1000).format('HH:mm:ss')}`
 					urbae.sendText(from, `*Device Info*\n${deviceinfo}\n\nPenggunaan RAM: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB*\nCPU: *${os.cpus().length}*\n\nStatus :\n- *${loadedMsg}* Loaded Messages\n- *${groups.length}* Group Chats\n- *${chatIds.length - groups.length}* Personal Chats\n- *${chatIds.length}* Total Chats\n\nSpeed: ${latensi.toFixed(4)} _Second_`)
 					break
@@ -1204,36 +1206,36 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'neko':
 					urbae.reply(from, mess.wait, id)
 					getnekos.sfw.neko()
-					.then(nekos => {
-						urbae.sendFileFromUrl(from, nekos.url, '', '', id)
-						urbae.sendImageAsSticker(from, nekos.url, StickerMetadata)
+						.then(nekos => {
+							urbae.sendFileFromUrl(from, nekos.url, '', '', id)
+							urbae.sendImageAsSticker(from, nekos.url, StickerMetadata)
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
+						})
 						.catch(err => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
 						})
-					})
-					.catch(err => {
-						console.log(err)
-						urbae.reply(from, err.message, id)
-					})
 					break
 				case prefix + 'boobs':
 					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
 					if (!isPrem && !isOwnerB) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id);
 					getnekos.nsfw.boobs()
-					.then(boobs => {
-						urbae.sendFileFromUrl(from, boobs.url, '', '', id)
-						urbae.sendImageAsSticker(from, boobs.url, StickerMetadata)
+						.then(boobs => {
+							urbae.sendFileFromUrl(from, boobs.url, '', '', id)
+							urbae.sendImageAsSticker(from, boobs.url, StickerMetadata)
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
+						})
 						.catch(err => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
 						})
-					})
-					.catch(err => {
-						console.log(err)
-						urbae.reply(from, err.message, id)
-					})
 					break
 				case prefix + 'gifhentai':
 					if (!isNsfwOn) return urbae.reply(from, mess.nsfwnoton, id)
@@ -1243,10 +1245,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 						.then(hentai => {
 							urbae.sendFileFromUrl(from, hentai.url, '', '', id)
 							urbae.sendImageAsSticker(from, hentai.url, StickerMetadata)
-							.catch(err => {
-								console.log(err)
-								urbae.reply(from, err.message, id)
-							})
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
 						})
 						.catch(err => {
 							console.log(err)
@@ -2039,13 +2041,42 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'tr':
-					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}tr [kodebahasa] [reply caption]\n\ncontoh : ${prefix}tr id [reply caption}`, id)
-					const suwayy0 = arg.split('|')[0]
-					const suwayy00 = quotedMsg.type == 'chat' ? quotedMsg.body : quotedMsg.type == 'image' ? quotedMsg.caption : ''
-					axios.get(`https://amm-api-translate.herokuapp.com/translate?engine=google&text=${suwayy00}&to=${suwayy0}`).then(res => {
-						const trans = res.data.data.result
-						urbae.reply(from, trans, id)
-					})
+				case prefix + 'translate':
+					if (quotedMsg) {
+						const replytext = quotedMsg.body
+						const textid = args[0]
+						translatte(replytext, { to: textid })
+							.then(res => {
+								console.log(color(res.text, 'cyan'))
+								urbae.reply(from, res.text, id)
+									.catch(err => {
+										console.log(err)
+										urbae.reply(from, `${err.message}\nKode bahasa tidak valid\nketik ${prefix}kodebahasa untuk mengetahui kode bahasa`, id)
+									})
+							})
+							.catch(err => {
+								console.log(err)
+								urbae.reply(from, `${err.message}\nKode bahasa tidak valid\nketik ${prefix}kodebahasa untuk mengetahui kode bahasa`, id)
+							})
+					} else if (q) {
+						let totext = q.substring(0, q.indexOf('|') - 1)
+						let textctr = q.substring(q.lastIndexOf('|') + 2)
+						translatte(textctr, { to: totext })
+							.then(res => {
+								console.log(color(res.text, 'cyan'))
+								urbae.reply(from, res.text, id)
+									.catch(err => {
+										console.log(err)
+										urbae.reply(from, `Kode bahasa tidak valid\nketik ${prefix}kodebahasa untuk mengetahui kode bahasa`, id)
+									})
+							})
+							.catch(err => {
+								console.log(err)
+								urbae.reply(from, `${err.message}\nKode bahasa tidak valid\nketik ${prefix}kodebahasa untuk mengetahui kode bahasa`, id)
+							})
+					} else {
+						urbae.reply(from, `Format pesan salah\n Usage : ${prefix}tr kodenegara text\ncontoh ${prefix}tr id | who are you\nBisa juga dengan mereply pesan\nCth : ${prefix}tr id pesan yang direply`, id)
+					}
 					break
 				case prefix + 'npm':
 					if (!q) return await urbae.reply(from, `Format salah!\ngunakan ${prefix}npm package_name`, id)
@@ -4809,28 +4840,28 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}fb [linkfb]*`, id)
 					urbae.reply(from, '_Scrapping Metadata...._', id)
 					lol.Facebook(q)
-					.then(data => {
-						console.log(data)
-						const fbdownhd = data.medias[1].url
-						if (fbdownhd == 0 || fbdownhd == '') {
-							var fbdownsd = data.medias[0].url
-						} else {
-							var fbdownsd = fbdownhd
-						}
-						urbae.sendFileFromUrl(from, fbdownsd, '', '', id)
-						.then(() => {
-							console.log('Success sending file')
+						.then(data => {
+							console.log(data)
+							const fbdownhd = data.medias[1].url
+							if (fbdownhd == 0 || fbdownhd == '') {
+								var fbdownsd = data.medias[0].url
+							} else {
+								var fbdownsd = fbdownhd
+							}
+							urbae.sendFileFromUrl(from, fbdownsd, '', '', id)
+								.then(() => {
+									console.log('Success sending file')
+								})
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
 						})
 						.catch(err => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
 						})
-					})
-					.catch(err => {
-						console.log(err)
-						urbae.reply(from, err.message, id)
-					})
-					break						
+					break
 				case prefix + 'ig2':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}ig2 linkig`, id)
 					urbae.reply(from, '_Scrapping Metadataa..._', id)
@@ -5356,7 +5387,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-						if (!isPrem) return urbae.reply(from, mess.prem, id)
+					if (!isPrem) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					yt.ytSearch(q)
 						.then(async (res) => {
@@ -5423,7 +5454,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'playvid'://silahkan kalian custom sendiri jika ada yang ingin diubah
 				case prefix + 'play2':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari video dari youtube\n\nPenggunaan: ${prefix}play judul video`, id)
-						if (!isPrem) return urbae.reply(from, mess.prem, id)
+					if (!isPrem) return urbae.reply(from, mess.prem, id)
 					yt.ytSearch(q)
 						.then(async (res) => {
 							console.log(color(`Title: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}`, 'magenta'))
@@ -5502,9 +5533,6 @@ module.exports = HandleMsg = async (urbae, message) => {
 					try {
 						ttsGB.save('./media/tts.mp3', dataText, function () {
 							urbae.sendPtt(from, './media/tts.mp3', id)
-							setTimeout(() => {
-								fs.unlinkSync('./media/tts.mp3')
-							}, 30000)
 						})
 					} catch (err) {
 						urbae.reply(from, err, id)
@@ -5700,9 +5728,22 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'attp':
 					if (args.length == 0) return urbae.reply(from, 'teksnya mana sayang?', id)
 					const txtx = body.slice(6)
-					const beattp = await axios.get(`https://api.xteam.xyz/attp?text=${txtx}`)
-					const beresult = beattp.data.result
-					urbae.sendRawWebpAsSticker(from, beresult)
+					xteamapi.API.free.attp(txtx)
+						.then(res => {
+							console.log(color(res.status, 'cyan'))
+							urbae.sendRawWebpAsSticker(from, res.result)
+								.then(async () => {
+									console.log(color(`Animation Text To Picture processed for ${processTime(t, moment())} seconds`, 'aqua'))
+								})
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
+						})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
 					break
 				case prefix + 'trigger':
 				case prefix + 'triggered':
@@ -6819,15 +6860,6 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 						urbae.reply(from, duitnya, id)
 					})
 					break
-				case prefix + 'translate':
-					if (args.length == 0) return urbae.reply(from, `Untuk translate kata gunakan ${prefix}translate [kode bahasa]|Kata kata\n\nContoh : ${prefix}translate en|Bagaimana kabarmu?`, id)
-					const suway1 = arg.split('|')[0]
-					const suway2 = arg.split('|')[1]
-					await axios.get(`https://amm-api-translate.herokuapp.com/translate?engine=google&text=${suway2}&to=${suway1}`).then(res => {
-						const texttr = res.data.data.result
-						urbae.reply(from, texttr, id)
-					})
-					break
 				case prefix + 'santet': //work
 					if (!isGroupMsg) return urbae.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
 					if (mentionedJidList.length === 0) return urbae.reply(from, 'Tag member yang mau disantet, contoh : /santet @wahyu | karena dia gay', id)
@@ -6852,12 +6884,16 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 				case prefix + 'ttp':
 					if (args.length == 0) return urbae.reply(from, 'textnya mana?', id)
 					const beword = body.slice(5)
-					axios.get(`https://api.xteam.xyz/ttp?text=${beword}`)
-						.then(async (res) => {
-							if (res.data.status == false || res.data.status == 500) return urbae.reply(from, 'Rest api sedang error', id)
-							urbae.sendImageAsSticker(from, res.data.result, StickerMetadata)
+					xteamapi.API.free.ttp(beword)
+						.then(res => {
+							console.log(color(res.status, 'cyan'))
+							urbae.sendImageAsSticker(from, res.result, StickerMetadata)
 								.then(async () => {
 									console.log(color(`Text To Picture processed for ${processTime(t, moment())} seconds`, 'aqua'))
+								})
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
 								})
 						})
 						.catch(err => {
@@ -6927,7 +6963,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 							const reqXp = 5 * Math.pow(userLevel, 2) + 50 * 1 + 100
 							const { status } = sts
 							if (pic == undefined) {
-								var pfp = errorImg
+								var pfp = menupict
 							} else {
 								var pfp = pic
 							}
@@ -6943,7 +6979,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 							const reqXp = 5 * Math.pow(userLevel, 2) + 50 * 1 + 100
 							const { status } = sts
 							if (pic == undefined) {
-								var pfp = errorImg
+								var pfp = menupict
 							} else {
 								var pfp = pic
 							}
