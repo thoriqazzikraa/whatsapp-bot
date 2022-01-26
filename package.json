@@ -56,7 +56,7 @@
     "request-promise": "^4.2.6",
     "rumus-bdr": "^1.0.0",
     "sastrawijs": "^1.0.3",
-    "sharp": "0.28.3",
+    "sharp": "0.29.3",
     "stream": "0.0.2",
     "translatte": "^3.0.1",
     "xfarr-api": "^1.0.3",
