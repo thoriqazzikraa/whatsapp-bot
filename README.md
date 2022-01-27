@@ -171,7 +171,7 @@ Run the Whatsapp bot
 after running it you need to scan the qr
 
 ### Information
-- Change ownerNumber on [HandleMsg.js](https://github.com/Urbaexyz/whatsapp-bot/blob/main/HandleMsg.js#L257)
+- Change ownerNumber on [HandleMsg.js](https://github.com/Urbaexyz/whatsapp-bot/blob/main/HandleMsg.js#L268)
 - Change groupLimit on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/settings/setting.json#L3)
 - Change memberLimit on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/settings/setting.json#L2)
 - Change menu on [this section](https://github.com/Urbaexyz/whatsapp-bot/blob/main/lib/menu.js#L34)
