@@ -606,7 +606,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		if (isBlocked && isCmd) {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua'))
 		}
-		
+
 		urbae.setPresence(true)
 
 		urbae.sendSeen(chatId, true)
@@ -1829,10 +1829,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const mediaData = await decryptMedia(quotedMsg)
 						const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
 						await urbae.sendImageAsSticker(from, imageBase64, StickerMetadata)
-						.catch(err => {
-							console.log(err)
-							urbae.reply(from, err.message, id)
-						})
+							.catch(err => {
+								console.log(err)
+								urbae.reply(from, err.message, id)
+							})
 					} else {
 						urbae.reply(from, 'Reply stikernya bang', id)
 					}
@@ -2302,17 +2302,17 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
 						if (message.type == 'video') {
 							urbae.sendMp4AsSticker(from, imageBase64, gifcrop, StickerMetadata)
-							.then(async () => {
-								console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
-							})
-							.catch(err => {
-								urbae.reply(from, err.message, id)
-							})
+								.then(async () => {
+									console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
+								})
+								.catch(err => {
+									urbae.reply(from, err.message, id)
+								})
 						} else if (message.type == 'image') {
 							urbae.sendImageAsSticker(from, imageBase64, StickerMetadatacrop)
-							.then(async () => {
-								console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
-							})
+								.then(async () => {
+									console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
+								})
 						}
 					} else if (quotedMsg && quotedMsg.type == 'image' || quotedMsg && quotedMsg.type === 'video') {
 						urbae.reply(from, mess.wait, id)
@@ -2320,20 +2320,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
 						if (quotedMsg.type == 'video') {
 							urbae.sendMp4AsSticker(from, imageBase64, gifcrop, StickerMetadata)
-							.then(async () => {
-								console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
-							})
-							.catch(err => {
-								urbae.reply(from, err.message, id)
-							})
+								.then(async () => {
+									console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
+								})
+								.catch(err => {
+									urbae.reply(from, err.message, id)
+								})
 						} else if (quotedMsg.type == 'image') {
 							urbae.sendImageAsSticker(from, imageBase64, StickerMetadatacrop)
-							.then(async (res) => {
-								console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
-							})
-							.catch(err => {
-								urbae.reply(from, err.message, id)
-							})
+								.then(async (res) => {
+									console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
+								})
+								.catch(err => {
+									urbae.reply(from, err.message, id)
+								})
 						}
 					} else {
 						urbae.reply(from, mess.error.St, id)
@@ -2767,7 +2767,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				//Media
 				case prefix + 'ytmp3':
 					if (args.length == 0) return urbae.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp3 [link_yt]`, id)
-						if (!isPrem) return urbae.reply(from, mess.prem, id)
+					if (!isPrem) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					yt.ytMp3(q)
 						.then(result => {
@@ -3112,10 +3112,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const mimetypeqtmg = quotedMsg.mimetype
 						const heynobg3 = `data:${mimetypeqtmg};base64,${mediaData.toString('base64')}`
 						urbae.sendImageAsSticker(from, heynobg3, { author: authorstc, pack: packstc, removebg: true })
-						.catch(err => {
-							console.log(err)
-							urbae.reply(from, err.message, id)
-						})
+							.catch(err => {
+								console.log(err)
+								urbae.reply(from, err.message, id)
+							})
 					} else {
 						urbae.reply(from, `Reply/post foto dengan caption ${prefix}nobg`, id)
 					}
@@ -3159,18 +3159,18 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const pinq2 = q.substring(q.lastIndexOf('|') + 2)
 					urbae.reply(from, mess.wait, id)
 					hxzapi.pinterest(pinq1)
-					.then(res => {
-						for (let i = 0; i < pinq2; i++) {
-						if (pinq2 > 11) return urbae.reply(from, 'Maksimal 10', id)
-							urbae.sendFileFromUrl(from, res[i], '', '', id)
+						.then(res => {
+							for (let i = 0; i < pinq2; i++) {
+								if (pinq2 > 11) return urbae.reply(from, 'Maksimal 10', id)
+								urbae.sendFileFromUrl(from, res[i], '', '', id)
+									.catch(err => {
+										urbae.reply(from, err.message, id)
+									})
+							}
+						})
 						.catch(err => {
 							urbae.reply(from, err.message, id)
 						})
-						}
-					})
-					.catch(err => {
-						urbae.reply(from, err.message, id)
-					})
 					break
 				case prefix + 'igreels':
 				case prefix + 'instagramreels':
@@ -4776,7 +4776,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (q.length == 0) return urbae.reply(from, `Usage: ${prefix}lirik judul dan nama penyanyi\nContoh: ${prefix}lirik payung teduh resah`, id)
 					lyricsq.search(q)
 						.then(res => {
-						if (res == undefined || res == '') return urbae.reply(from, `Maaf lirik ${q} tidak dapat ditemukan`, id)
+							if (res == undefined || res == '') return urbae.reply(from, `Maaf lirik ${q} tidak dapat ditemukan`, id)
 							urbae.reply(from, res, id)
 								.catch(err => {
 									console.log(err)
@@ -5438,10 +5438,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 								.on('end', () => {
 									console.log(`\nDone, ${(Date.now() - deyy) / 1000}s`)
 									urbae.sendFile(from, `./temp/audio/${res[0].videoId}.mp3`, '', '', id)
-											.catch(err => {
-												console.log(err)
-												urbae.reply(from, err.message, id)
-											})
+										.catch(err => {
+											console.log(err)
+											urbae.reply(from, err.message, id)
+										})
 										.then(() => {
 											console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
 											setTimeout(() => {
@@ -5478,30 +5478,30 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (q.length == 0) return urbae.reply(from, `Untuk mendownload video dari snap youtube, gunakan ${prefix}ytshorts link snap`, id)
 					urbae.reply(from, mess.wait, id)
 					ytdown.getBasicInfo(q)
-					.then(res => {
-						if (res.formats[1].url == 0 || res.formats[1].url == undefined || res.formats[1].url == '') {
-							var lowqual = res.formats[0].url
-						} else {
-							var lowqual = res.formats[1].url
-						}
-						if (res.formats[1].qualityLabel == 0 || res.formats[1].qualityLabel == undefined) {
-							var qualname = res.formats[0].qualityLabel
-						} else {
-							var qualname = res.formats[1].qualityLabel
-						}
-						urbae.sendFileFromUrl(from, lowqual, '', `Title: ${res.videoDetails.title}\nViews: ${res.videoDetails.viewCount}\nChannel: ${res.player_response.videoDetails.author}\nQuality: ${qualname}`, id)
-						.then(() => {
-							console.log(color(`Success sending media to ${pushname}`, 'cyan'))
+						.then(res => {
+							if (res.formats[1].url == 0 || res.formats[1].url == undefined || res.formats[1].url == '') {
+								var lowqual = res.formats[0].url
+							} else {
+								var lowqual = res.formats[1].url
+							}
+							if (res.formats[1].qualityLabel == 0 || res.formats[1].qualityLabel == undefined) {
+								var qualname = res.formats[0].qualityLabel
+							} else {
+								var qualname = res.formats[1].qualityLabel
+							}
+							urbae.sendFileFromUrl(from, lowqual, '', `Title: ${res.videoDetails.title}\nViews: ${res.videoDetails.viewCount}\nChannel: ${res.player_response.videoDetails.author}\nQuality: ${qualname}`, id)
+								.then(() => {
+									console.log(color(`Success sending media to ${pushname}`, 'cyan'))
+								})
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
 						})
 						.catch(err => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
 						})
-					})
-					.catch(err => {
-						console.log(err)
-						urbae.reply(from, err.message, id)
-					})
 					break
 				case prefix + 'playvid'://silahkan kalian custom sendiri jika ada yang ingin diubah
 				case prefix + 'play2':
@@ -6250,24 +6250,24 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'block':
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
 					if (quotedMsgObj) {
-					var qmunblok = quotedMsgObj.sender.id
-					if (qmunblok.includes(blockNumber)) return urbae.reply(from, `${quotedMsgObj.sender.pushname} sudah di block sebelumnya`, id)
-					urbae.contactBlock(qmunblok)
-					urbae.reply(from, `Berhasil memblokir ${quotedMsgObj.sender.pushname}`, id)
-					} else if(q) {
+						var qmunblok = quotedMsgObj.sender.id
+						if (qmunblok.includes(blockNumber)) return urbae.reply(from, `${quotedMsgObj.sender.pushname} sudah di block sebelumnya`, id)
+						urbae.contactBlock(qmunblok)
+						urbae.reply(from, `Berhasil memblokir ${quotedMsgObj.sender.pushname}`, id)
+					} else if (q) {
 						var yepo = q + '@c.us'
 						if (yepo.includes(blockNumber)) return urbae.reply(from, `${args[0]} sudah diblock sebelumnya`, id)
-							urbae.contactBlock(yepo)
-					urbae.reply(from, `Berhasil mengunblock ${yepo}`, id)
-					} else if(mentionedJidList) {
+						urbae.contactBlock(yepo)
+						urbae.reply(from, `Berhasil mengunblock ${yepo}`, id)
+					} else if (mentionedJidList) {
 						if (mentionedJidList[0].includes(blockNumber)) return urbae.reply(from, `${mentionedJidList[0]} sudah diblock sebelumnya`, id)
 						for (let i = 0; i < mentionedJidList.length; i++) {
-						await urbae.contactUnblock(mentionedJidList[i])
-						urbae.reply(from, `Berhasil mengunblock ${mentionedJidList[0]}`, id)
-					}
-						} else {
-							urbae.reply(from, 'format pesan salah', id)
+							await urbae.contactUnblock(mentionedJidList[i])
+							urbae.reply(from, `Berhasil mengunblock ${mentionedJidList[0]}`, id)
 						}
+					} else {
+						urbae.reply(from, 'format pesan salah', id)
+					}
 					break
 				case prefix + 'oaddprem':
 					var qmbann = quotedMsgObj.sender.id
@@ -6283,24 +6283,24 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'unblock':
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
 					if (quotedMsgObj) {
-					var qmunblok = quotedMsgObj.sender.id
-					if (qmunblok.includes(blockNumber)) return urbae.reply(from, `${quotedMsgObj.sender.pushname} tidak ada didalam database Block`, id)
-					urbae.contactUnblock(qmunblok)
-					urbae.reply(from, `Berhasil mengunblock ${quotedMsgObj.sender.pushname}`, id)
-					} else if(q) {
+						var qmunblok = quotedMsgObj.sender.id
+						if (qmunblok.includes(blockNumber)) return urbae.reply(from, `${quotedMsgObj.sender.pushname} tidak ada didalam database Block`, id)
+						urbae.contactUnblock(qmunblok)
+						urbae.reply(from, `Berhasil mengunblock ${quotedMsgObj.sender.pushname}`, id)
+					} else if (q) {
 						var yepo = q + '@c.us'
 						if (yepo.includes(blockNumber)) return urbae.reply(from, `${args[0]} tidak ada didalam database block`, id)
-							urbae.contactUnblock(yepo)
-					urbae.reply(from, `Berhasil mengunblock ${yepo}`, id)
-					} else if(mentionedJidList) {
+						urbae.contactUnblock(yepo)
+						urbae.reply(from, `Berhasil mengunblock ${yepo}`, id)
+					} else if (mentionedJidList) {
 						if (mentionedJidList[0].includes(blockNumber)) return urbae.reply(from, `${mentionedJidList[0]} tidak ada didalam database block`, id)
 						for (let i = 0; i < mentionedJidList.length; i++) {
-						await urbae.contactUnblock(mentionedJidList[i])
-						urbae.reply(from, `Berhasil mengunblock ${mentionedJidList[0]}`, id)
-					}
-						} else {
-							urbae.reply(from, 'format pesan salah', id)
+							await urbae.contactUnblock(mentionedJidList[i])
+							urbae.reply(from, `Berhasil mengunblock ${mentionedJidList[0]}`, id)
 						}
+					} else {
+						urbae.reply(from, 'format pesan salah', id)
+					}
 					break
 				case prefix + 'odelprem':
 					var qmban2 = quotedMsgObj.sender.id
