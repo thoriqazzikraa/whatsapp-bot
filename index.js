@@ -12,7 +12,7 @@ const start = async (urbae = new urbae()) => {
     console.log(color('------------------------------------------------------------------------', 'white'))
     console.log(color('[CREATOR]', 'aqua'), color('Thoriq Azzikra', 'magenta'))
     console.log(color('[BOT]', 'aqua'), color('URBAE BOT is now Online!', 'magenta'))
-    console.log(color('[VER]', 'aqua'), color('2.8.2', 'magenta'))
+    console.log(color('[VER]', 'aqua'), color('2.8.5', 'magenta'))
     urbae.onStateChanged((state) => {
         console.log(color('-> [STATE]'), state)
         if (state === 'CONFLICT') urbae.forceRefocus()
@@ -27,7 +27,6 @@ const start = async (urbae = new urbae()) => {
         await welcome(urbae, heuh)
         left(urbae, heuh)
     }))
-
 
     urbae.onMessage((message) => {
         HandleMsg(urbae, message)
