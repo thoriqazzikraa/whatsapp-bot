@@ -815,7 +815,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'menu':
 					const jame = moment(t * 1000).format('HH:mm:ss')
 					const pictrand = menupict
-					urbae.sendFileFromUrl(from, menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
+					urbae.sendFileFromUrl(from, pictrand, '', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
+					.then(() => ((isGroupMsg) && (isGroupAdmins)) ? urbae.reply(from, `Menu Admin Grup: *${prefix}menuadmin*`, id) : null)
 					break
 				case prefix + 'menuadmin':
 					if (!isGroupMsg) return urbae.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
