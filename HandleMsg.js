@@ -103,6 +103,7 @@ let listvn = JSON.parse(fs.readFileSync('./lib/database/listvn.json'))
 let cogann = JSON.parse(fs.readFileSync('./lib/helper/cogan.json'))
 let cecann = JSON.parse(fs.readFileSync('./lib/helper/cecan.json'))
 let listimg = JSON.parse(fs.readFileSync('./lib/database/listimage.json'))
+let antivirtex = JSON.parse(fs.readFileSync('./lib/database/group/antivirtex.json'))
 
 let {
 	groupLimit,
@@ -225,6 +226,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const pengirim = sender.id
 		const serial = sender.id
 		const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
+		const isVirtexOn = isGroupMsg ? antivirtex.includes(groupId) : false
 		const isNsfwOn = _nsfw.includes(chatId)
 		const betime = moment(t * 1000).format('DD/MM/YY')
 		const time = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
@@ -521,6 +523,19 @@ module.exports = HandleMsg = async (urbae, message) => {
 				}
 			} catch (err) {
 				console.error(err)
+			}
+		}
+		
+		if (isGroupMsg && isVirtexOn && isBotGroupAdmins) {
+			try {
+				if (chats.length > 1000) {
+					urbae.removeParticipant(groupId, sender.id)
+					console.log(`Berhasil mengeluarkan ${pushname} dengan jumlah text ${chats.length}`)
+					urbae.reply(from, 'Virtex detected', id)
+				}
+			} catch (err) {
+				console.log(err)
+				urbae.reply(from, err.message, id)
 			}
 		}
 
@@ -1851,7 +1866,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const mediaData = await decryptMedia(quotedMsg)
 						const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
 						if (authors == 0 || authors == '' || authors == undefined) {
-							var clones = '▪️'
+							var clones = '❏'
 						} else {
 							var clones = authors
 						}
@@ -4810,7 +4825,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'chord':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lirik dan chord dari sebuah lagu\bketik: ${prefix}chord [judul_lagu]`, id)
 					const chordq = body.slice(7)
-					axios.get(`https://docs-jojo.herokuapp.com/api/chord?q=${chordqq}`)
+					axios.get(`https://docs-jojo.herokuapp.com/api/chord?q=${chordq}`)
 						.then(async (res) => {
 							if (res.data.status == false) return urbae.reply(from, res.data.error, id)
 							const textchord = `Chord Guitar : ${chordq}\n\n${res.data.result}`
@@ -6270,17 +6285,6 @@ module.exports = HandleMsg = async (urbae, message) => {
 						urbae.reply(from, 'format pesan salah', id)
 					}
 					break
-				case prefix + 'oaddprem':
-					var qmbann = quotedMsgObj.sender.id
-					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya untuk Owner bot!', id)
-					try {
-						prem.push(qmbann)
-						fs.writeFileSync('./lib/database/prem.json', JSON.stringify(prem))
-						urbae.reply(from, 'Success add member to Premium user!', id)
-					} catch {
-						urbae.reply(from, 'Maaf, terjadi kesalan', id)
-					}
-					break
 				case prefix + 'unblock':
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
 					if (quotedMsgObj) {
@@ -6303,24 +6307,45 @@ module.exports = HandleMsg = async (urbae, message) => {
 						urbae.reply(from, 'format pesan salah', id)
 					}
 					break
-				case prefix + 'odelprem':
-					var qmban2 = quotedMsgObj.sender.id
-					if (!isOwnerB) return urbae.reply(from, 'Fitur ini hanya bisa digunakan oleh Owner Bot!', id)
-					try {
-						let xnxx = prem.indexOf(qmban2)
-						prem.splice(xnxx, 1)
+				case prefix + 'delprem':
+					if (!isOwnerB) return urbae.reply(from, 'Owner Bot Only', id)
+					if (q) {
+						var yusplice = q + '@c.us'
+						var reguy = prem.indexOf(yusplice)
+						var jumlahprem = prem.length
+						prem.splice(reguy, 1)
 						fs.writeFileSync('./lib/database/prem.json', JSON.stringify(prem))
-						urbae.reply(from, 'Success delete Premium member!', id)
-					} catch {
-						urbae.reply(from, 'Maaf, terjadi kesalahan saat membanned member', id)
+						urbae.reply(from, `Berhasil menghapus ${yusplice} dari Premium menjadi Regular\nJumlah didalam database: ${jumlahprem}`, id)
+					} else if (quotedMsgObj) {
+						var iduser = quotedMsgObj.sender.id
+						var incheck = prem.indexOf(iduser)
+						var jumlahprem = prem.length
+						prem.splice(incheck, 1)
+						fs.writeFileSync('./lib/database/prem.json', JSON.stringify(prem))
+						urbae.reply(from, `Berhasil menghapus ${quotedMsgObj.sender.pushname} dari Premium menjadi Regular\nJumlah didalam database: ${jumlahprem}`, id)
+					} else {
+						urbae.reply(from, 'format pesan salah', id)
 					}
 					break
 				case prefix + 'addprem':
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
-					if (args.length == 0) return urbae.reply(from, `Untuk menambah seseorang menjadi member premium`, id)
-					prem.push(args[0] + '@c.us')
-					fs.writeFileSync('./lib/database/prem.json', JSON.stringify(prem))
-					urbae.reply(from, 'success add', id)
+					if (q) {
+						var yupi = q + '@c.us'
+						var jumlahprem = prem.length
+						if (yupi.includes(prem)) return urbae.reply(from, `Nomor ini sudah ada didalam database sebelumnya`, id)
+						prem.push(yupi)
+						fs.writeFileSync('./lib/database/prem.json', JSON.stringify(prem))
+						urbae.reply(from, `Berhasil menambahkan ${args[0]} menjadi user premium\nJumlah didalam database: ${jumlahprem}`, id)
+					} else if (quotedMsgObj) {
+						var qtmgs = quotedMsgObj.sender.id
+						var jumlahprem = prem.length
+						if (qtmgs.includes(prem)) return urbae.reply(from, 'Nomor ini sudah ada didalam database sebelumnya', id)
+						prem.push(qtmgs)
+						fs.writeFileSync('./lib/database/prem.json', JSON.stringify(prem))
+						urbae.reply(from, `Berhasil menambahkan ${quotedMsgObj.sender.pushname} menjadi user Premium\nJumlah didalam database: ${jumlahprem}`, id)
+					} else {
+						urbae.reply(from, 'Format pesan salah', id)
+					}
 					break
 				case prefix + 'trash':
 					if (isMedia || isImage || isQuotedImage) {
@@ -6444,6 +6469,25 @@ module.exports = HandleMsg = async (urbae, message) => {
 						urbae.reply(from, 'Pilih on/off', id)
 					}
 					break
+				case prefix + 'antivirtex':
+					if (!isGroupMsg) return urbae.reply.reply(from, 'Fitur ini hanya bisa digunakan didalam Grup!', id)
+					if (!isGroupAdmins) return urbae.reply(from, 'Lu admin?', id)
+					if (!isBotGroupAdmins) return urbae.reply(from, 'Bot bukan admin', id)
+					if (args.length == 0) return urbae.reply(from, 'Pilih enable atau disable', id)
+					if (args[0] == 'enable') {
+						if (antivirtex.includes(groupId)) return urbae.reply(from, 'Sudah aktif sebelumnya', id)
+						antivirtex.push(groupId)
+						fs.writeFileSync('./lib/database/group/antivirtex.json', JSON.stringify(antivirtex))
+						urbae.reply(from, `Anti virtex berhasil dinyalakan pada ID Group: ${groupId}`, id)
+					} else if (args[0] == 'disable') {
+						var thisgc = antivirtez.indexOf(groupId)
+						antivirtex.splice(thisgc, 1)
+						fs.writeFileSync('./lib/database/group/antivirtex.json', JSON.stringify(antivirtex))
+						urbae.reply(from, `Anti virtex berhasil dinonaktifkan pada ID Group: ${groupId}`, id)
+					} else {
+						urbae.reply(from, 'Pilih enable atau disable', id)
+					}
+					break
 				case prefix + 'welcome':
 					if (!isGroupMsg) return urbae.reply(from, 'Perintah ini hanya bisa di gunakan didalam Grup!', id)
 					if (!isGroupAdmins) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh Admin Grup!', id)
@@ -6473,7 +6517,6 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'unban':
-				case 'prefix+odelprem':
 					var qmban2 = quotedMsgObj.sender.id
 					if (!isOwnerB) return urbae.reply(from, 'Fitur ini hanya bisa digunakan oleh Owner Bot!', id)
 					try {
@@ -6484,14 +6527,6 @@ module.exports = HandleMsg = async (urbae, message) => {
 					} catch {
 						urbae.reply(from, 'Maaf, terjadi kesalahan saat membanned member!', id)
 					}
-					break
-				case prefix + 'delprem':
-					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
-					if (args.length == 0) return urbae.reply(from, `Untuk mendelete seseorang menjadi member biasa`, id)
-					let prsl = prem.indexOf(args[0] + '@c.us')
-					prem.splice(prsl, 1)
-					fs.writeFileSync('./lib/database/prem.json', JSON.stringify(prem))
-					urbae.reply(from, 'Success delete prem member', id)
 					break
 				case prefix + 'google':
 					const googleQuery = body.slice(8)
@@ -6890,13 +6925,6 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 						const kata = dsay[Math.floor(Math.random() * (dsay.length))];
 						urbae.reply(from, kata, id)
 					}
-					break
-				case prefix + 'delprem':
-					if (!isOwnerB) return urbae.reply(from, `Perintah ini hanya bisa digunakan oleh Owner Bot`, id)
-					const delprem = prem.indexOf(body.slice(9) + '@c.us')
-					prem.splice(delprem, 1)
-					fs.writeFileSync('./lib/database/prem.json', JSON.stringify(prem))
-					urbae.reply(from, `Success delete premium member`, id)
 					break
 				case prefix + 'delsay':
 					if (!isGroupMsg) return urbae.reply(from, `Perintah ini hanya bisa di gunakan didalam grup!`, id)
