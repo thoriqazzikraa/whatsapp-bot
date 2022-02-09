@@ -89,6 +89,7 @@ const _autostiker = JSON.parse(fs.readFileSync('./lib/helper/autostiker.json'))
 const _afk = JSON.parse(fs.readFileSync('./lib/database/afk.json'))
 const _leveling = JSON.parse(fs.readFileSync('./lib/database/group/leveling.json'))
 const _level = JSON.parse(fs.readFileSync('./lib/database/level.json'))
+const viewonce = JSON.parse(fs.readFileSync('./lib/database/viewonce.json'))
 const _nsfw = JSON.parse(fs.readFileSync('./lib/database/group/nsfw.json'))
 
 let dbcot = JSON.parse(fs.readFileSync('./lib/database/bacot.json'))
@@ -228,6 +229,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
 		const isVirtexOn = isGroupMsg ? antivirtex.includes(groupId) : false
 		const isNsfwOn = _nsfw.includes(chatId)
+		const isViewOnceOn = viewonce.includes(chatId)
 		const betime = moment(t * 1000).format('DD/MM/YY')
 		const time = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
@@ -397,7 +399,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		if (listvn.includes(chats))
 			try {
 				const getvn = await fs.readFileSync('./media/audio/' + chats + '.mp3', { encoding: "base64" })
-				urbae.sendAudio(from, `data:audio/mp3;base64,${getvn.toString('base64')}`, id)
+				urbae.sendPtt(from, `data:audio/mp3;base64,${getvn.toString('base64')}`, id)
 			} catch {
 				urbae.reply(from, 'Maaf, sistem error', id)
 			}
@@ -526,7 +528,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 			}
 		}
 		
-		if (isGroupMsg && isVirtexOn && isBotGroupAdmins) {
+		if (isGroupMsg && isVirtexOn && isBotGroupAdmins && message.type == 'chat') {
 			try {
 				if (chats.length > 1000) {
 					urbae.removeParticipant(groupId, sender.id)
@@ -545,6 +547,13 @@ module.exports = HandleMsg = async (urbae, message) => {
 			const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
 			await urbae.sendImageAsSticker(from, imageBase64, StickerMetadata)
 			console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
+		}
+		
+		if (isViewOnceOn && message.isViewOnce == true) {
+			urbae.reply(from, `ViewOnce detected\nfrom: ${pushname}`, id)
+			const medta = await decryptMedia(message, uaOverride)
+			const ibase = `data:${mimetype};base64,${medta.toString('base64')}`
+			urbae.sendFile(from, ibase, '', '', id)
 		}
 
 		// Kerang Menu
@@ -1426,6 +1435,37 @@ module.exports = HandleMsg = async (urbae, message) => {
 							urbae.reply(from, err, id)
 						})
 					break
+				case prefix + 'viewonce':
+				if (args.length == 0) return urbae.reply(from, 'pilih enable atau disable', id)
+				if (isGroupMsg) {
+					if (!isGroupAdmins) return urbae.reply(from, 'Command ini hanya bisa digunakan oleh Admin Grup', id)
+					if (args[0] == 'enable') {
+						if (isViewOnceOn) return urbae.reply(from, 'Sudah aktif sebelumnya', id)
+						viewonce.push(chatId)
+						fs.writeFileSync('./lib/database/viewonce.json', JSON.stringify(viewonce))
+						urbae.reply(from, 'Berhasil menyalakan anti view once', id)
+					} else if (args[0] == 'disable') {
+						let teruy = viewonce.indexOf(chatId)
+						viewonce.splice(teruy, 1)
+						fs.writeFileSync('./lib/database/viewonce.json', JSON.stringify(viewonce))
+						urbae.reply(from, 'Berhasil menonaktifkan anti view once', id)
+					}
+				} else if (isGroupMsg == false) {
+					if (args[0] == 'enable') {
+						if (isViewOnceOn) return urbae.reply(from, 'Sudah aktif sebelumnya', id)
+						viewonce.push(chatId)
+						fs.writeFileSync('./lib/database/viewonce.json', JSON.stringify(viewonce))
+						urbae.reply(from, 'Berhasil menyalakan anti view once', id)
+					} else if (args[0] == 'disable') {
+						let teruyy = viewonce.indexOf(chatId)
+						viewonce.splice(teruyy, 1)
+						fs.writeFileSync('./lib/database/viewonce.json', JSON.stringify(viewonce))
+						urbae.reply(from, 'Berhasil menonaktifkan anti view once', id)
+					}
+				} else {
+					urbae.reply(from, 'Pilih enable atau disable', id)
+				}
+				break
 				case prefix + 'antilink':
 					if (!isGroupMsg) return urbae.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
 					if (!isGroupAdmins) return urbae.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
@@ -5433,7 +5473,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							let nowey = ytdown(res[0].videoId, {
 								quality: 'highestaudio',
 							})
-							/*if (!isPrem) {
+							if (!isPrem) {
 								yt.ytMp3(res[0].videoId)
 								.then(result => {
 									urbae.reply(from, `Karena kamu bukan user premium, silahkan download sendiri menggunakan link dibawah\nLink : ${result.url}`, id)
@@ -5441,8 +5481,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 										console.log(err)
 										urbae.reply(from, err.message, id)
 									})
-								})*/
-							//} else {
+								})
+							} else {
 							let deyy = Date.now()
 							ffmpeg(nowey)
 								.audioBitrate(128)
@@ -5466,6 +5506,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 											}, 10000)
 										})
 								})
+							}
 						})
 						.catch(err => {
 							console.log(err)
@@ -5522,7 +5563,6 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'playvid'://silahkan kalian custom sendiri jika ada yang ingin diubah
 				case prefix + 'play2':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari video dari youtube\n\nPenggunaan: ${prefix}play judul video`, id)
-					if (!isPrem) return urbae.reply(from, mess.prem, id)
 					yt.ytSearch(q)
 						.then(async (res) => {
 							console.log(color(`Title: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}`, 'magenta'))
@@ -5531,6 +5571,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							await urbae.sendFileFromUrl(from, thumbnailytSD2, 'thumb.jpg', `「 *PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfilevideo}`, id)
 							yt.ytMp4(res[0].url)
 								.then(result => {
+									if (!isPrem) return urbae.reply(from, `Karena kamu bukan user Premium, silahkan download sendiri\nContoh\n\nLink : ${result.url}`, id)
 									urbae.sendFileFromUrl(from, result.url, '', '', id)
 										.catch((err) => {
 											console.log(err)
