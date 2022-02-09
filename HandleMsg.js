@@ -280,6 +280,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const isAutoStikerOn = _autostiker.includes(chat.id)
 		const isImage = type === 'image'
 		const isPrem = prem.includes(pengirim)
+		
+		publicx = true
 
 		//
 		if (isCmd && !isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta')) }
@@ -299,10 +301,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 			} else {
 				var pfp = ras
 			}
-			urbae.reply(from, 'ngapain tag Thoriq?\npc aja kali sabii', id).then(() => {
-				urbae.sendFileFromUrl(ownerNumber, pfp, 'img.jpg', `*Note Call*\n\n*From:* ${pushname}\n*Group:* ${name}\n*Nomor:* wa.me/${serial.replace(/@c.us/g, '')}\n*Text:* ${chats}`)
+			urbae.reply(from, 'ada apa bg ngetag owner saya?', id).then(() => {
+				urbae.forwardMessages(ownerNumber, message.id)
+				//urbae.forwardMessages(ownerNumber, pfp, 'img.jpg', `*Note Call*\n\n*From:* ${pushname}\n*Group:* ${name}\n*Nomor:* wa.me/${serial.replace(/@c.us/g, '')}\n*Text:* ${chats}`)
 			})
 		}
+		
 
 		// ROLE (Change to what you want, or add) and you can change the role sort based on XP.
 		const levelRole = level.getLevelingLevel(sender.id, _level)
@@ -630,6 +634,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 		if (isBlocked && isCmd) {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua'))
 		}
+		
+
 
 		urbae.setPresence(true)
 
@@ -979,7 +985,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const userLevel = level.getLevelingLevel(sender.id, _level)
 					const userXp = level.getLevelingXp(sender.id, _level)
 					const ppLink = await urbae.getProfilePicFromServer(serial)
-					if (ppLink === 'ERROR: 404') {
+					if (ppLink === 'ERROR: 404' || ppLink == 'ERROR: 401') {
 						var pepe = menupict
 					} else {
 						pepe = ppLink
@@ -2153,6 +2159,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					let deli = listvn.indexOf(body.slice(7))
 					listvn.splice(deli, 1)
 					fs.writeFileSync('./lib/database/listvn.json', JSON.stringify(listvn))
+					fs.unlinkSync(`./media/audio/${q}.mp3`)
 					urbae.reply(from, 'vn berhasil didelete dari database', id)
 					break
 				case prefix + 'delallimg':
@@ -2161,6 +2168,9 @@ module.exports = HandleMsg = async (urbae, message) => {
 					listimg.splice(delimg)
 					fs.writeFileSync('./lib/database/listimage.json', JSON.stringify(listimg))
 					urbae.reply(from, 'semua image didalam database berhasil dihapus', id)
+					.catch(err => {
+						urbae.reply(from, err.message, id)
+					})
 					break
 				case prefix + 'delallstik':
 					if (!isOwnerB) return urbae.reply(from, 'fitur ini khusus owner bot', id)
@@ -2170,9 +2180,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.reply(from, 'semua stiker didalam database berhasil didelete', id)
 					break
 				case prefix + 'delstiker':
-					let delstik = liststicker.indexOf(body.slice(11))
+				case prefix + 'delstick':
+				case prefix + 'deletestik':
+					let delstik = liststicker.indexOf(q)
 					liststicker.splice(delstik, 1)
 					fs.writeFileSync('./lib/database/liststiker.json', JSON.stringify(liststicker))
+					fs.unlinkSync(`./media/pic/sticker/${q}.jpg`)
 					urbae.reply(from, 'sticker berhasil didelete dari database', id)
 					break
 				case prefix + 'luassegitiga':
@@ -2253,6 +2266,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'addimg':
+				case prefix + 'addimage':
 					let addmg = q
 					if (quotedMsg && quotedMsg.type === 'image') {
 						var mediaData = await decryptMedia(quotedMsg, uaOverride)
@@ -2274,6 +2288,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					let delx = listimg.indexOf(q)
 					listimg.splice(delx, 1)
 					fs.writeFileSync('./lib/database/listimage.json', JSON.stringify(listimg))
+					fs.unlinkSync(`./media/audio/${q}.jpg`)
 					urbae.reply(from, `image dengan nama ${delx} berhasil didelete dari database`, id)
 					break
 				case prefix + 'addstiker': //credit by ./NotF0und
@@ -2283,12 +2298,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 					let nmHii = q
 					if (quotedMsg && quotedMsg.type === 'image' || quotedMsg && quotedMsg.type === 'sticker') {
 						var mediaData = await decryptMedia(quotedMsg, uaOverride)
-						var filename = `./media/pic/sticker/${nmHii}.jpeg`
+						var filename = `./media/pic/sticker/${nmHii}.jpg`
 						await fs.writeFile(filename, mediaData)
 						await urbae.reply(from, `sticker dengan nama ${nmHii} berhasil disimpen!`, id)
 					} else if (isMedia && type === 'image' || isMedia && type === 'sticker') {
 						var mediaData = await decrpytMedia(message, uaOverride)
-						var filename = `./media/pic/sticker/${nmHii}.jpeg`
+						var filename = `./media/pic/sticker/${nmHii}.jpg`
 						await fs.writeFileSync(filename, mediaData)
 						await urbae.reply(from, `sticker dengan nama ${nmHii} berhasil disimpan!`, id)
 					} else {
@@ -6901,6 +6916,9 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 					await urbae.reply(from, kemtul, id)
 					break
 				case prefix + 'liststiker':
+				case prefix + 'liststicker':
+				case prefix + 'liststick':
+				case prefix + 'liststik':
 					const stiklist = liststicker
 					let kumtul = `╔══✪〘 *List Sticker!* 〙✪══\n`
 					for (let i = 0; i < stiklist.length; i++) {
@@ -7107,7 +7125,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 							const myXp = level.getLevelingXp(sender.id, _level)
 							const reqXp = 5 * Math.pow(userLevel, 2) + 50 * 1 + 100
 							const { status } = sts
-							if (pic == 'ERROR: 404') {
+							if (pic == 'ERROR: 404' || pic == 'ERROR: 401') {
 								var pfp = menupict
 							} else {
 								var pfp = pic
