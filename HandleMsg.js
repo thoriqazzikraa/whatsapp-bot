@@ -2921,28 +2921,15 @@ module.exports = HandleMsg = async (urbae, message) => {
 						.then(result => {
 							console.log(result)
 							urbae.sendFileFromUrl(from, result.thumb, 'thumb.jpg', `「 *YT MP4* 」\n\n*Title:* ${result.title}\n*Views:* ${result.views}\n*Channel:* ${result.channel}\n*Uploaded:* ${result.published}\n\n${mess.sendfileaudio}`, id)
-							let nowey = ytdown(result.videoId, {
-								quality: 'highestaudio',
+							hxzapi.youtube(q)
+							.then(res => {
+								if (Number(res.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, 'Size audio terlalu besar', id)
+								urbae.sendFileFromUrl(from, res.mp3, '', '', id)
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
 							})
-							let deyy = Date.now()
-							ffmpeg(nowey)
-								.audioBitrate(128)
-								.save(`./temp/audio/${result.videoId}.mp3`)
-								.on('progress', p => {
-									readline.cursorTo(process.stdout, 0)
-									process.stdout.write(`${p.targetSize}kb downloaded`)
-								})
-								.on('end', () => {
-									console.log(`\nDone, ${(Date.now() - deyy) / 1000}s`)
-									urbae.sendFile(from, `./temp/audio/${result.videoId}.mp3`, '', '', id)
-										.then(() => {
-											console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
-											setTimeout(() => {
-												fs.unlinkSync(`./temp/audio/${result.videoId}.mp3`)
-												console.log(color(`Success delete file ${result.videoId}.mp3`, 'cyan'))
-											}, 10000)
-										})
-								})
 						})
 						.catch(err => {
 							console.log(err)
@@ -5206,12 +5193,17 @@ module.exports = HandleMsg = async (urbae, message) => {
 						.then(result => {
 							console.log(result)
 							urbae.sendFileFromUrl(from, result.thumb, 'thumb.jpg', `「 *YT MP4* 」\n\n*Title:* ${result.title}\n*Views:* ${result.views}\n*Channel:* ${result.channel}\n*Uploaded:* ${result.published}\n\n${mess.sendfilevideo}`, id)
-							urbae.sendFileFromUrl(from, result.url, '', '', id)
-								.catch(() => {
-									urbae.reply(from, 'Sedang error', id)
+							hxzapi.youtube(q)
+							.then(data => {
+								if (Number(data.size.split(' MB')[0]) >= 50) return urbae.reply(from, 'Size video terlalu besar', id)
+								urbae.sendFileFromUrl(from, data.link, '', `*Title:* ${data.title}\n*Size:* ${data.size}\n*Quality:* ${data.quality}`, id)
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
 								})
+							})
 						})
-						.catch((err) => {
+						.catch(err => {
 							console.log(err)
 							urbae.reply(from, err.message, id)
 						})
@@ -5627,7 +5619,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							await urbae.sendFileFromUrl(from, thumbnailytSD, 'thumb.jpg', `「 *PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfileaudio}`, id)
 							hxzapi.youtube(res[0].url)
 								.then(result => {
-									if (Number(result.size_mp3.split(' MB')[0]) >= 10) return urbae.reply(from, 'Size audio terlalu besar', id)
+									if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, 'Size audio terlalu besar', id)
 									urbae.sendFileFromUrl(from, result.mp3, '', '', id)
 										.catch(err => {
 											console.log(err)
@@ -5692,17 +5684,17 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari video dari youtube\n\nPenggunaan: ${prefix}play judul video`, id)
 					yt.ytSearch(q)
 						.then(async (res) => {
-							console.log(color(`Title: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}`, 'magenta'))
-							console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res[0].title}\nDurasi: ${res[0].timestamp} seconds`, 'aqua'))
+							console.log(color(`Title:`, 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDuration:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'), color('\nViews:', 'cyan'), color(`${res[0].views}`, 'magenta'), color('\nUploaded:', 'cyan'), color(`${res[0].ago}`, 'magenta'), color('\nChannel:', 'cyan'), color(`${res[0].author.name}`, 'magenta'), color('\nUrl:', 'cyan'), color(`${res[0].url}`, 'magenta'))
+							console.log(color('Nickname:', 'cyan'), color(`${pushname}`, 'magenta'), color('\nNomor:', 'cyan'), color(`${serial.replace('@c.us', '')}`, 'magenta'), color('\nJudul:', 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDurasi:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'))
 							const thumbnailytSD2 = res[0].thumbnail
-							await urbae.sendFileFromUrl(from, thumbnailytSD2, 'thumb.jpg', `「 *PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfilevideo}`, id)
-							yt.ytMp4(res[0].url)
+							await urbae.sendFileFromUrl(from, thumbnailytSD2, 'thumb.jpg', `「 *PLAY VIDEO* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfilevideo}`, id)
+							hxzapi.youtube(res[0].url)
 								.then(result => {
-									if (!isPrem) return urbae.reply(from, `Karena kamu bukan user Premium, silahkan download sendiri\nContoh\n\nLink : ${result.url}`, id)
-									urbae.sendFileFromUrl(from, result.url, '', '', id)
-										.catch((err) => {
+									if (Number(result.size.split(' MB')[0]) >= 50) return urbae.reply(from, 'Size video terlalu besar', id)
+									urbae.sendFileFromUrl(from, result.link, '', `*Title:* ${result.title}\n*Size:* ${result.size}\n*Quality:* ${result.quality}`, id)
+										.catch(err => {
 											console.log(err)
-											urbae.reply(from, 'Sedang error', id)
+											urbae.reply(from, err.message, id)
 										})
 								})
 						})
