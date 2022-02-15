@@ -4812,6 +4812,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					})
 					break*/ //NANTI DIBENERIN
 				case prefix + 'rtiktok':
+				case prefix + 'randomtiktok':
 					if (q.length == 0) return urbae.reply(from, 'nyari random video apa?', id)
 					urbae.reply(from, mess.wait, id)
 					scrape.randomTiktok(q)
@@ -4913,6 +4914,23 @@ module.exports = HandleMsg = async (urbae, message) => {
 							console.log(err)
 						})
 					break
+				case prefix + 'mediafire':
+					if (q.length == 0) return urbae.reply(from, 'linknya mn?', id)
+					urbae.reply(from, mess.wait, id)
+					scrape.mediaFire(q)
+						.then(res => {
+							if (Number(res.size.split(' MB')[0]) >= 50) return urbae.reply(from, 'buset sizenya ga ngotak', id)
+							urbae.sendFileFromUrl(from, res.link, '', '', id)
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
+						})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
+					break
 				case prefix + 'stalkig2':
 				case prefix + 'igstalk':
 					if (args.length == 0) return urbae.reply(from, `Untuk men-stalk akun instagram seseorang\nKetik ${prefix}igstalk usernamenya\nContoh: ${prefix}igstalk thoriqazzikraa`, id)
@@ -4920,7 +4938,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					fetchJson(`https://cakrayp.herokuapp.com/api/instagram/stalk/?username=${body.slice(9)}&apikey=${cakrayp}`)
 						.then(async (res) => {
 							if (res.status == false) return urbae.reply(from, res.message.info, id)
-							const profilepicx = result.profile_pic
+							const profilepicx = res.profile_pic
 							const usernamex = res.result.username
 							const fullnamex = res.result.fullname
 							const igprivatex = res.result.private
