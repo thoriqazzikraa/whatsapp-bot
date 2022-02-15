@@ -4919,8 +4919,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 					urbae.reply(from, mess.wait, id)
 					scrape.mediaFire(q)
 						.then(res => {
-							if (Number(res.size.split(' MB')[0]) >= 50) return urbae.reply(from, 'buset sizenya ga ngotak', id)
-							urbae.sendFileFromUrl(from, res.link, '', '', id)
+							if (Number(res.size.split('MB')[0]) >= 50) return urbae.reply(from, 'buset sizenya ga ngotak', id)
+							urbae.sendFileFromUrl(from, res.link, `${res.title}`, '', id)
 								.catch(err => {
 									console.log(err)
 									urbae.reply(from, err.message, id)
@@ -6226,13 +6226,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'bot':
-					if (args.length == 0) return urbae.reply(from, 'Kirim perintah */bot [teks]*\nContoh : */ halo*', id)
-					const que = body.slice(5)
-					const sigo = await axios.get(`https://lindow-api.herokuapp.com/api/simi?text=${que}&lang=id&apikey=${lindowapi}`)
-					console.log(color(`${que}`, 'green'))
-					const sigot = sigo.data.response.text
-					urbae.reply(from, sigot, id)
-					console.log(color(`${sigot}`, 'green'))
+					if (args.length == 0) return urbae.reply(from, 'Kirim perintah */bot [teks]*\nContoh : */bot halo*', id)
+					axios.get(`https://api.simsimi.net/v2/?text=${q}&lc=id`)//if you wamt to change language, change "lc"= "country code"
+					.then(res => {
+						console.log(color(res.data.success, 'green'))
+						urbae.reply(from, res.data.success, id)
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
+					})
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					})
 					break
 				case prefix + 'github':
 				case prefix + 'githubstalk':
