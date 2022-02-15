@@ -23,8 +23,10 @@ const xteamapi = require('xteam-api')
 const hxzapi = require('hxz-api')
 const ffmpeg = require('fluent-ffmpeg')
 const request = require('request-promise')
-const emojiUnicode = require('emoji-unicode')
+const { EmojiAPI } = require('emoji-api')
+const emoji = new EmojiAPI()
 const get = require('got')
+const openAPI = require('@phaticusthiccy/open-apis')
 const { fetchJson } = require('./utils/fetcher')
 const appRoot = require('app-root-path')
 const low = require('lowdb')
@@ -55,6 +57,7 @@ const {
 	yt,
 	resep,
 	rugaapi,
+	scrape,
 	downloader,
 	sticker,
 	level
@@ -91,6 +94,7 @@ const _leveling = JSON.parse(fs.readFileSync('./lib/database/group/leveling.json
 const _level = JSON.parse(fs.readFileSync('./lib/database/level.json'))
 const viewonce = JSON.parse(fs.readFileSync('./lib/database/viewonce.json'))
 const _nsfw = JSON.parse(fs.readFileSync('./lib/database/group/nsfw.json'))
+const hit = JSON.parse(fs.readFileSync('./hit.json'))
 
 let dbcot = JSON.parse(fs.readFileSync('./lib/database/bacot.json'))
 let dsay = JSON.parse(fs.readFileSync('./lib/database/say.json'))
@@ -248,6 +252,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const arg = body.trim().substring(body.indexOf(' ') + 1)
 		const args = body.trim().split(/ +/).slice(1)
 		const q = args.join(' ')
+		const command2 = body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase()
 		const isBlocked = blockNumber.includes(sender.id)
 		const isCmd = body.startsWith(prefix)
 		const tms = (Date.now() / 1000) - (timeStart);
@@ -381,7 +386,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 			nsfwalready: 'Fitur NSFW sudah aktif sebelumnya di grup ini',
 			nsfwoff: 'Fitur NSFW berhasil dimatikan',
 			nsfwon: 'Fitur NSFW berhasil diaktifkan',
-			prem: `Command Premium!\nHalo ${pushname} Mau menjadi user premium? ga mahal kok bang\n\n20rb = PREMIUM SAMPE KIAMAT\n\nJika anda berminat, silahkan chat pada Owner\n\nwa.me/${ownerNumber.replace('@c.us', '')}\n\nTrims~\n-Thoriq Azzikra`,
+			prem: `Premium only`,
 			error: {
 				St: `[❗] Kirim gambar dengan caption *${prefix}sticker* atau tag gambar yang sudah dikirim`,
 				Ti: `[❗] Replay sticker dengan caption *${prefix}stickertoimg* atau tag sticker yang sudah dikirim`,
@@ -570,6 +575,11 @@ module.exports = HandleMsg = async (urbae, message) => {
 			urbae.sendFile(from, ibase, '', '', id)
 		}
 
+		if (isCmd) {
+			hit.push(command2)
+			fs.writeFileSync('./hit.json', JSON.stringify(hit))
+		}
+
 		// Kerang Menu
 
 		const estetek = [
@@ -583,6 +593,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 			"https://i.ibb.co/cN3Br2J/red-grunge-wallpaper-dark-edgy-aesthetic-collage-background-trendy-cool-dark-red-iphone-wallpaper.jpg",
 			"https://i.ibb.co/c8QMXZv/ee16de425985d4a1b628dddc1461b546.jpg"
 		]
+
 
 
 		const menupict = "https://i.ibb.co/fxY3Hbp/Whats-App-Image-2021-11-24-at-15-39-01.jpg"
@@ -855,7 +866,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'menu':
 					const jame = moment(t * 1000).format('HH:mm:ss')
 					const pictrand = menupict
-					urbae.sendFileFromUrl(from, pictrand, '', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
+					urbae.sendFileFromUrl(from, pictrand, '', menuId.help(prefix, jame, betime, prem, blockNumber, banned, hit, cts, waver), id)
 						.then(() => ((isGroupMsg) && (isGroupAdmins)) ? urbae.reply(from, `Menu Admin Grup: *${prefix}menuadmin*`, id) : null)
 					break
 				case prefix + 'menuadmin':
@@ -2965,14 +2976,25 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'emojisticker':
 				case prefix + 'emojistiker':
-					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}emojisticker [emoji]\nContoh : ${prefix}emojisticker 😫`, id)
-					const emoji = emojiUnicode(q)
-					await urbae.reply(from, `Wait....`, id)
-					console.log(`Creating code emoji => ${emoji}`)
-					urbae.sendStickerfromUrl(from, `https://api.zeks.me/api/emoji-image?apikey=${apikeyvinz}&emoji=${emoji}`, StickerMetadata)
-						.catch((err) => {
+				case prefix + 'emoji':
+				case prefix + 'emot':
+					if (q.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}emojisticker [emoji]\nContoh : ${prefix}emojisticker 😫`, id)
+					emoji.get(q)
+						.then(emoji => {
+							urbae.reply(from, mess.wait, id)
+							console.log(color(`Creating sticker emoji => ${emoji.emoji}`, 'cyan'))
+							urbae.sendImageAsSticker(from, emoji.images[0].url, StickerMetadata)
+								.then(() => {
+									console.log(color(`Success sending sticker emoji`, 'magenta'))
+								})
+								.catch(err => {
+									console.log(err)
+									urbae.reply(from, err.message, id)
+								})
+						})
+						.catch(err => {
 							console.log(err)
-							urbae.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'qotd':
@@ -4779,16 +4801,43 @@ module.exports = HandleMsg = async (urbae, message) => {
 								})
 						})
 					break
-				case prefix + 'stalktiktok':
+				/*case prefix + 'stalktiktok':
 				case prefix + 'stalktik':
 				case prefix + 'stalktt':
 					if (args.length == 0) return urbae.reply(from, `Untuk men-stalk akun Tiktok seseorang\nUsage ${prefix}stalktiktok [username]\ncontoh : ${prefix}stalktiktok @itsandani`, id)
 					urbae.reply(from, mess.wait, id)
-					const stalktik = await rugaapi.stalktt(args[0])
-					const pictt = await rugaapi.ttpict(args[0])
-					await urbae.sendFileFromUrl(from, pictt, '', stalktik, id)
-						.catch(() => {
-							urbae.reply(from, 'Akun tidak dapat ditemukan...', id)
+					scrape.ttUser(q)
+					.then(res => {
+						console.log(res)
+					})
+					break*/ //NANTI DIBENERIN
+				case prefix + 'rtiktok':
+					if (q.length == 0) return urbae.reply(from, 'nyari random video apa?', id)
+					urbae.reply(from, mess.wait, id)
+					scrape.randomTiktok(q)
+						.then(res => {
+							console.log(res.username)
+							ffmpeg(res.video)
+								.videoBitrate(1000)
+								.save(`./temp/video/${q}.mp4`)
+								.on('progress', p => {
+									console.log(color(`${p.targetSize}`, 'cyan'), color('downloaded', 'magenta'))
+								})
+								.on('end', () => {
+									console.log(color('[DONE]', 'cyan'), color('Fetching video', 'magenta'))
+									urbae.sendFile(from, `./temp/video/${q}.mp4`, '', `Username: ${res.username}\nLikes: ${res.likes}\nComments: ${res.comment}\nShare: ${res.share}`, id)
+										.then(() => {
+											console.log(color('[WAPI]', 'cyan'), color('Success sending video', 'magenta'))
+											setTimeout(() => {
+												fs.unlinkSync(`./temp/video/${q}.mp4`)
+												console.log(color('[SUCCESS]', 'cyan'), color(`Delete file temp/video/${q}.mp4`, 'magenta'))
+											}, 5000)
+										})
+								})
+						})
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'gsmarena':
@@ -4871,7 +4920,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					fetchJson(`https://cakrayp.herokuapp.com/api/instagram/stalk/?username=${body.slice(9)}&apikey=${cakrayp}`)
 						.then(async (res) => {
 							if (res.status == false) return urbae.reply(from, res.message.info, id)
-							const profilepicx = res.result.profile_pic
+							const profilepicx = result.profile_pic
 							const usernamex = res.result.username
 							const fullnamex = res.result.fullname
 							const igprivatex = res.result.private
@@ -4883,7 +4932,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							const externalinkx = res.result.mediadata.external_link
 							const mediaresultx = res.result.mediadata.feed_totally
 							const igtxn1 = `• *Username:* ${usernamex}\n• *Name:* ${fullnamex}\n• *Private:* ${igprivatex}\n• *Verified:* ${igverifiedx}\n• *Followers:* ${followersigx}\n• *Following:* ${followingigx}\n• *Total Posts:* ${mediaresultx}\n• *Url Profile:* ${profileurlx}\n• *External Url:* ${externalinkx}\n• *Bio:* ${bioinstagramx}`
-							await urbae.sendFileFromUrl(from, profilepicx, 'profile.jpg', igtxn1, id)
+							urbae.sendFileFromUrl(from, profilepicx, 'profile.jpg', igtxn1, id)
 						})
 						.catch(err => {
 							console.log(err)
@@ -5549,52 +5598,24 @@ module.exports = HandleMsg = async (urbae, message) => {
 							urbae.reply(from, err.message, id)
 						})
 					break
-				case prefix + 'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
+				case prefix + 'play': //lasilahkan kalian custom sendiri jika ada yang ingin diubah
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
 					urbae.reply(from, mess.wait, id)
 					yt.ytSearch(q)
 						.then(async (res) => {
-							console.log(color(`Title: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}`, 'magenta'))
-							console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res[0].title}\nDurasi: ${res[0].timestamp} seconds`, 'aqua'))
+							console.log(color(`Title:`, 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDuration:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'), color('\nViews:', 'cyan'), color(`${res[0].views}`, 'magenta'), color('\nUploaded:', 'cyan'), color(`${res[0].ago}`, 'magenta'), color('\nChannel:', 'cyan'), color(`${res[0].author.name}`, 'magenta'), color('\nUrl:', 'cyan'), color(`${res[0].url}`, 'magenta'))
+							console.log(color('Nickname:', 'cyan'), color(`${pushname}`, 'magenta'), color('\nNomor:', 'cyan'), color(`${serial.replace('@c.us', '')}`, 'magenta'), color('\nJudul:', 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDurasi:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'))
 							const thumbnailytSD = res[0].thumbnail
 							await urbae.sendFileFromUrl(from, thumbnailytSD, 'thumb.jpg', `「 *PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfileaudio}`, id)
-							let nowey = ytdown(res[0].videoId, {
-								quality: 'highestaudio',
-							})
-							if (!isPrem) {
-								yt.ytMp3(res[0].videoId)
-									.then(result => {
-										urbae.reply(from, `Karena kamu bukan user premium, silahkan download sendiri menggunakan link dibawah\nLink : ${result.url}`, id)
-											.catch(err => {
-												console.log(err)
-												urbae.reply(from, err.message, id)
-											})
-									})
-							} else {
-								let deyy = Date.now()
-								ffmpeg(nowey)
-									.audioBitrate(128)
-									.save(`./temp/audio/${res[0].videoId}.mp3`)
-									.on('progress', p => {
-										readline.cursorTo(process.stdout, 0)
-										process.stdout.write(`${p.targetSize}kb downloaded`)
-									})
-									.on('end', () => {
-										console.log(`\nDone, ${(Date.now() - deyy) / 1000}s`)
-										urbae.sendFile(from, `./temp/audio/${res[0].videoId}.mp3`, '', '', id)
-											.catch(err => {
-												console.log(err)
-												urbae.reply(from, err.message, id)
-											})
-											.then(() => {
-												console.log(color('[WAPI]', 'cyan'), color('Success sending song!', 'magenta'))
-												setTimeout(() => {
-													fs.unlinkSync(`./temp/audio/${res[0].videoId}.mp3`)
-													console.log(color(`Success delete file ${res[0].videoId}.mp3`, 'cyan'))
-												}, 10000)
-											})
-									})
-							}
+							hxzapi.youtube(res[0].url)
+								.then(result => {
+									if (Number(result.size_mp3.split(' MB')[0]) >= 10) return urbae.reply(from, 'Size audio terlalu besar', id)
+									urbae.sendFileFromUrl(from, result.mp3, '', '', id)
+										.catch(err => {
+											console.log(err)
+											urbae.reply(from, err.message, id)
+										})
+								})
 						})
 						.catch(err => {
 							console.log(err)
