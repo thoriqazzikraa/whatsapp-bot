@@ -2,7 +2,7 @@
 <img src="https://avatars.githubusercontent.com/Urbaexyz" width="225" height="225"/>
 </p>
 <p align="center">
-<a href="https://chat.whatsapp.com/EGl7538B4W82E19BxZGqno"><img alt="WhatsApp" src="https://img.shields.io/badge/WhatsApp%20Group-%23017e40?style=for-the-badge&logo=whatsapp&logoColor=white"/></a></p>
+<a href="https://chat.whatsapp.com/LQZZLcKiDBnGSPWs1eRBQ9"><img alt="WhatsApp" src="https://img.shields.io/badge/WhatsApp%20Group-%23017e40?style=for-the-badge&logo=whatsapp&logoColor=white"/></a></p>
 <p align="center">
  <a href="https://www.facebook.com/groups/569012454419629"><img alt="Facebook" src="https://img.shields.io/badge/Facebook%20Group-blue?style=for-the-badge&logo=facebook&logoColor=white"/></a></p>
 <p align="center">
@@ -35,10 +35,6 @@
   <a href="https://github.com/Urbaexyz/whatsapp-bot#thanks-to">Thanks to</a>
 </p>
 </div>
-
-<p align="center">
- <img src="https://user-images.githubusercontent.com/75126993/128907522-ad352035-dee4-4a7f-ac9a-84b8f49b434e.gif" width="600" height="338"/>
- </p>
 
 
 # Donate
