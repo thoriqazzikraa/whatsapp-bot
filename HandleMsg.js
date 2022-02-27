@@ -275,7 +275,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const StickerMetadatacrop = { author: authorstc, pack: packstc, keepScale: false }
 
 		// [IDENTIFY]
-		const ownerNumber = "62895334951166@c.us"
+		const ownerNumber = ["62895334951166@c.us", "6287772354740@c.us"]
 		const errorImg = "https://i.ibb.co/DYLd6fk/baukrysie.jpg"
 		const isOwnerBot = ownerNumber.includes(pengirim)
 		const isOwner = ownerNumber.includes(pengirim)
@@ -1748,25 +1748,21 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'cuaca':
 					if (args.length == 0) return urbae.reply(from, `Untuk melihat cuaca pada suatu daerah\nketik: ${prefix}cuaca kab/kota nama kota/kab\nContoh Kabupaten: ${prefix}cuaca kab Bengkayang\nContoh Kota: ${prefix}cuaca kota Pontianak`, id)
-					const cuacaq = body.slice(7)
+					const cuacaq = q
 					urbae.reply(from, mess.wait, id)
-					try {
-						const cuca = await axios.get(`https://urbaee-xyz.herokuapp.com/api/cuaca?kabupaten=${cuacaq}&apikey=Urbaeexyz`)
-						const cucaq = cuca.data.result
-						const nama2 = cucaq.nama2
-						let cuacaqi = `*「 Info Cuaca 」*`
-						for (let i = 0; i < cucaq.data.length; i++) {
-							cuacaqi += `\n─────────────────\n\n• *Nama:* ${nama2}\n• *Cuaca:* ${cucaq.data[i].cuaca}\n• *Waktu:* ${cucaq.data[i].waktu}\n• *Kelembapan*: ${cucaq.data[i].kelembaban}\n• *Temperatur Celcius:* ${cucaq.data[i].temperatur.celsius}\n• *Temperatur Fahrenheit:* ${cucaq.data[i].temperatur.fahrenheit}\n\n`
-						}
-						await urbae.reply(from, cuacaqi, id)
-							.catch(() => {
-								urbae.reply(from, 'Maaf, daerah yang anda cari tidak tersedia')
-							})
-					} catch (err) {
-						urbae.reply(from, 'Maaf, daerah yang kamu cari tidak tersedia', id)
+					axios.get(`https://freerestapi.herokuapp.com/api/cuaca?p=${cuacaq}`)
+					.then(res => {
+						urbae.reply(from, `Info Cuaca ${res.data.hasil.Nama}\n\nKota: ${res.data.hasil.Nama}\nLongitude: ${res.data.hasil.Koordinat.Lon}\nLatitude: ${res.data.hasil.Koordinat.Lat}\nSuhu: ${res.data.hasil.Suhu}\nAngin: ${res.data.hasil.Angin}\nKelembaban: ${res.data.hasil.Kelembaban}\nCuaca: ${res.data.hasil.Cuaca}\nUdara: ${res.data.hasil.Udara}\nKeterangan: ${res.data.hasil.Keterangan}`, id)
+						.catch(err => {
+							consolre.log(err)
+							urbae.reply(Yfrom, err.message, id)
+						})
+					})
+					.catch(err => {
 						console.log(err)
-					}
-					break
+						urbae.reply(from, err.message, id)
+					})
+				break
 				case prefix + 'doaharian':
 					urbae.reply(from, mess.wait, id)
 					try {
