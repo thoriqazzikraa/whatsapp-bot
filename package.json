@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-bot",
-  "version": "2.9.0",
+  "version": "2.9.2",
   "description": "whatsapp-bot with NodeJS",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Urbaexyz/whatsapp-bot",
   "dependencies": {
-    "@open-wa/wa-automate": "^4.30.12",
+    "@open-wa/wa-automate": "^4.31.7",
     "@phaticusthiccy/open-apis": "^1.6.0",
     "app-root-path": "^3.0.0",
     "axios": "^0.21.4",
@@ -41,6 +41,7 @@
     "fs-extra": "^10.0.0",
     "google-it": "^1.6.2",
     "hxz-api": "^1.0.1",
+    "lolis.life": "^4.0.0",
     "lowdb": "1.0.0",
     "marked": "^4.0.9",
     "moment-timezone": "^0.5.34",
@@ -56,11 +57,12 @@
     "promise": "^8.1.0",
     "readline": "^1.3.0",
     "remove.bg": "^1.3.0",
-    "request-promise": "^4.2.6",
     "rumus-bdr": "^1.0.0",
+    "rzkyfdlh-api": "^0.3.2",
     "sharp": "0.28.3",
     "stream": "0.0.2",
     "translatte": "^3.0.1",
+    "waifu.pics-wrapper": "^1.0.0",
     "xfarr-api": "^1.0.3",
     "xteam-api": "^0.0.7",
     "yt-search": "^2.10.3",
