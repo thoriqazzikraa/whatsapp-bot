@@ -29,13 +29,13 @@ const start = async (urbae = new urbae()) => {
     }))
 
     urbae.onMessage((message) => {
-	urbae.getAmountOfLoadedMessages()
-	.then(msg => {
-		if (msg >= 3000) {
-		urbae.cutMsgCache()
-		}
-	    })
-        HandleMsg(urbae, message)
+        urbae.getAmountOfLoadedMessages()
+        .then(msg => {
+          if (msg >= 3000) {
+           urbae.cutMsgCache()
+         }
+      })
+      HandleMsg(urbae, message)
     })
 
     urbae.onIncomingCall(async (callData) => {
