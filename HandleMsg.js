@@ -7,6 +7,20 @@ const FormData = require('form-data')
 const os = require('os')
 const apirizky = require('rzkyfdlh-api')
 const lolis = require('lolis.life')
+const buffeerr = require('buffer-from')
+const spotdl = require('spotifydl-core').default
+const credentials = {
+		clientId: '271f6e790fb943cdb34679a4adcc34cc',
+		clientSecret: 'c009525564304209b7d8b705c28fd294'
+	}
+const spotify = new spotdl(credentials)
+const spotapi = require('spotify-finder')
+const spotsearch = new spotapi({
+		consumer: {
+			key: '271f6e790fb943cdb34679a4adcc34cc',
+			secret: 'c009525564304209b7d8b705c28fd294'
+		}
+	})
 const loliwrap = new lolis()
 const { getSFWImage, getNSFWImage } = require('waifu.pics-wrapper')
 const speed = require('performance-now')
@@ -5180,6 +5194,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 							urbae.sendFileFromUrl(from, result.nowm, '', '', id)
 								.then(() => {
 									console.log('Success sending video')
+									stalkuy.getMusic(q)
+									.then(res => {
+										urbae.sendFileFromUrl(from, res.playURL, '', '', id)
+									})
 								})
 								.catch(() => {
 									urbae.reply(from, 'Sedang error atau mungkin link video tidak valid', id)
@@ -5552,23 +5570,49 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'spotify':
-					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify2 judul lagu`, id)
-					const carispot2 = body.slice(9)
-					const spos2 = await axios.get(`https://api.zeks.me/api/spotify?apikey=${apikeyvinz}&q=${carispot2}`)
+					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify judul lagu`, id)
 					urbae.reply(from, mess.wait, id)
-					urbae.sendFileFromUrl(from, spos2.data.data[0].thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${spos2.data.data[0].title}\n*•Artists:* ${spos2.data.data[0].artists}\n*•Album:* ${spos2.data.data[0].album}\n*•Url:* ${spos2.data.data[0].url}\n\n${mess.sendfileaudio}`, id)
-					rugaapi.spotify(spos2.data.data[0].url)
-						.then(async (res) => {
-							if (res.status == 500) return urbae.reply(from, 'Link tidak valid atau rest api sedang error', id)
-							urbae.sendFileFromUrl(from, res.mp3, '', '', id)
-								.catch(() => {
-									urbae.reply(from, 'Meng-error', id)
-								})
+					const spos2 = async (query) => {
+						searchthis = await spotsearch.search({ q: query, type: 'track', limit: 1 })
+						datpot = searchthis.tracks.items[0]
+						artis = []
+						datpot.artists.map(s => {
+							artis.push({ 
+								name: s.name 
+							})
 						})
-						.catch(err => {
-							console.log(err)
-							urbae.reply(from, err.message, id)
+						return {
+							title: datpot.name,
+							artists: artis,
+							releaseDate: datpot.album.release_date,
+							popularity: datpot.popularity,
+							thumb: datpot.album.images[0].url,
+							url: datpot.external_urls.spotify
+						}
+					}
+					spos2(q)
+					.then(res => {
+						if (res.artists.length == 2) {
+							var hasil2 = `${res.artists[0].name}, ${res.artists[1].name}`
+						} else {
+							var hasil2 = res.artists[0].name
+						}
+						urbae.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${res.title}\n*•Artists:* ${hasil2}\n*•Release Date:* ${res.releaseDate}\n*•Popularity:* ${res.popularity}\n*•Url:* ${res.url}\n\n${mess.sendfileaudio}`, id)
+						spotify.downloadTrack(res.url)
+						.then(data => {
+							const buffaudio = buffeerr(data)
+							fs.writeFile(`./temp/audio/${res.title}.mp3`, buffaudio)
+							sleep(10000)
+							urbae.sendFile(from, `./temp/audio/${res.title}.mp3`, '', '', id)
+							setTimeout(() => {
+								fs.unlinkSync(`./temp/audio/${res.title}.mp3`)
+							}, 5000)
 						})
+					})
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					})
 					break
 				case prefix + 'spotify2':
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify judul lagu`, id)
