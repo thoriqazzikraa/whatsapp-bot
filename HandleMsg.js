@@ -11,6 +11,8 @@ const loliwrap = new lolis()
 const { getSFWImage, getNSFWImage } = require('waifu.pics-wrapper')
 const speed = require('performance-now')
 const fetch = require('node-fetch')
+const { TTScraper } = require('tiktok-scraper-ts')
+const stalkuy = new TTScraper()
 const ytdown = require('ytdl-core')
 const readline = require('readline')
 const chalk = require('chalk')
@@ -3469,7 +3471,11 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'asupan':
 					urbae.reply(from, mess.wait, id)
-					await urbae.sendFileFromUrl(from, `https://dapuhy-api.herokuapp.com/api/asupan/asupan?apikey=${dapuhyapi}`, 'vid.mp4', '', id)
+					urbae.sendFileFromUrl(from, 'https://api.akuari.my.id/asupan/62', '', '', id)
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					})
 					break
 				/*case prefix+'ranal':
 				urbae.reply(from, mess.wait, id)
@@ -4816,16 +4822,25 @@ module.exports = HandleMsg = async (urbae, message) => {
 								})
 						})
 					break
-				/*case prefix + 'stalktiktok':
+				case prefix + 'stalktiktok':
 				case prefix + 'stalktik':
 				case prefix + 'stalktt':
 					if (args.length == 0) return urbae.reply(from, `Untuk men-stalk akun Tiktok seseorang\nUsage ${prefix}stalktiktok [username]\ncontoh : ${prefix}stalktiktok @itsandani`, id)
 					urbae.reply(from, mess.wait, id)
-					scrape.ttUser(q)
-					.then(res => {
-						console.log(res)
+					stalkuy.user(q)
+					.then(User => {
+						console.log(User)
+						urbae.sendFileFromUrl(from, User.avatar, '', `*- Username:* ${User.uniqueId}\n*- Nickname:* ${User.nickname}\n*- Followers:* ${User.followers}\n*- Following:* ${User.following}\n*- Verified:* ${User.verified}\n*- Private:* ${User.privateAccount}\n*- Total Likes:* ${User.hearts}\n*- Total Videos:* ${User.videos}\n*- Created At:* ${User.createdAt}\n*- Bio:* ${User.signature}\n*- Bio Url:* ${User.bioLink}`, id)
+						.catch(err => {
+							console.log(err)
+							urbae.reply(from, err.message, id)
+						})
 					})
-					break*/ //NANTI DIBENERIN
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					})
+					break
 				case prefix + 'rtiktok':
 				case prefix + 'randomtiktok':
 					if (q.length == 0) return urbae.reply(from, 'nyari random video apa?', id)
@@ -6907,17 +6922,20 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 					break
 				case prefix + 'tiktokaudio':
 					if (args.length == 0) return urbae.reply(from, `Fitur untuk mengkonversi Video menjadi Audio!\nKirim perintah ${prefix}tiktokaudio link tiktok`, id)
-					const linktk = body.slice(13)
 					urbae.reply(from, mess.wait, id)
-					axios.get(`http://docs-jojo.herokuapp.com/api/tiktok_audio?url=${linktk}`)
-						.then(async (res) => {
-							await urbae.sendFileFromUrl(from, res.data.result, '', '', id)
-								.catch(() => {
-									urbae.reply(from, 'error', id)
+					stalkuy.getMusic(q)
+						.then(res => {
+							urbae.sendFileFromUrl(from, res.coverLarge, '', `*- Title:* ${res.title}\n*- Author:* ${res.author}\n*- Duration:* ${res.duration}\n*- Original:* ${res.original}\n*- Album:* ${res.album}`, id)
+							.then(() => {
+								urbae.sendFileFromUrl(from, res.playURL, '', '', id)
+								.catch((err) => {
+									urbae.reply(from, err.message, id)
 								})
+							})
 						})
 						.catch((err) => {
 							console.log(err)
+							urbae.reply(from, err.message, id)
 						})
 					break
 				case prefix + 'math':
