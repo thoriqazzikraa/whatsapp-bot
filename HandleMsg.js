@@ -5577,8 +5577,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 						datpot = searchthis.tracks.items[0]
 						artis = []
 						datpot.artists.map(s => {
-							artis.push({ 
-								name: s.name 
+							artis.push({
+								name: s.name
 							})
 						})
 						return {
@@ -5597,16 +5597,18 @@ module.exports = HandleMsg = async (urbae, message) => {
 						} else {
 							var hasil2 = res.artists[0].name
 						}
-						urbae.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${res.title}\n*•Artists:* ${hasil2}\n*•Release Date:* ${res.releaseDate}\n*•Popularity:* ${res.popularity}\n*•Url:* ${res.url}\n\n${mess.sendfileaudio}`, id)
+						urbae.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*• Title:* ${res.title}\n*• Artists:* ${hasil2}\n*• Release Date:* ${res.releaseDate}\n*• Popularity:* ${res.popularity}\n*• Url:* ${res.url}\n\n${mess.sendfileaudio}`, id)
 						spotify.downloadTrack(res.url)
 						.then(data => {
 							const buffaudio = buffeerr(data)
 							fs.writeFile(`./temp/audio/${res.title}.mp3`, buffaudio)
-							sleep(10000)
+						})
+						.then(() => {
 							urbae.sendFile(from, `./temp/audio/${res.title}.mp3`, '', '', id)
 							setTimeout(() => {
 								fs.unlinkSync(`./temp/audio/${res.title}.mp3`)
-							}, 5000)
+								console.log(color(`Success delete file /temp/audio/${res.title}.mp3`, 'magenta'))
+							}, 10000)
 						})
 					})
 					.catch(err => {
