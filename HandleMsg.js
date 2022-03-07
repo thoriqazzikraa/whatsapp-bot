@@ -2133,11 +2133,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'kisahnabi':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}kisahnabi nama nabi\nContoh : ${prefix}kisahnabi adam`, id)
-					const dudo2 = body.slice(11)
-					axios.get(`https://kisahnabi-api-zhirrr.vercel.app/api/searchnabi?q=${dudo2}`)
+					apirizky.search.kisahnabi(q)
 						.then(async (res) => {
-							const textnab = `Nama : *${res.data.nabi.nama}*\nLahir : *${res.data.nabi.lahir}*\nUmur : *${res.data.nabi.umur}*\nTempat : *${res.data.nabi.tempat}*\n\nKisah : ${res.data.nabi.kisah}`
-							urbae.reply(from, textnab, id)
+							const textnab = `*- Nama:* ${res.result.name}\n*- Lahir:* ${res.result.thn_kelahiran}\n*- Umur:* ${res.result.usia}\n*- Kisah:*\n\n${res.result.description}`
+							await urbae.reply(from, textnab, id)
 								.catch((err) => {
 									urbae.reply(from, 'Maaf, nama nabi yang anda masukkan salah', id)
 								})
@@ -2450,7 +2449,6 @@ module.exports = HandleMsg = async (urbae, message) => {
 					} else {
 						urbae.reply(from, mess.error.St, id)
 					}
-					lists
 					break
 				case prefix + 'fakethumb':
 					if (isMedia && isImage || isQuotedImage) {

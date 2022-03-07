@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Urbaexyz/whatsapp-bot",
   "dependencies": {
-    "@open-wa/wa-automate": "^4.31.7",
+    "@open-wa/wa-automate": "^4.31.12",
     "@phaticusthiccy/open-apis": "^1.6.0",
     "app-root-path": "^3.0.0",
     "axios": "^0.21.4",
@@ -69,8 +69,7 @@
     "xfarr-api": "^1.0.3",
     "xteam-api": "^0.0.7",
     "yt-search": "^2.10.3",
-    "ytdl-core": "^4.11.0",
-    "yuzzu-api": "^1.0.2"
+    "ytdl-core": "^4.11.0"
   },
   "directories": {
     "lib": "lib"
