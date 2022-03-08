@@ -25,7 +25,7 @@
     "@open-wa/wa-automate": "^4.32.0",
     "@phaticusthiccy/open-apis": "^1.6.0",
     "app-root-path": "^3.0.0",
-    "axios": "^0.21.4",
+    "axios": "^0.26.0",
     "bent": "^7.3.12",
     "brainly-scraper-v2": "^1.0.3",
     "canvacord": "^5.1.0",
