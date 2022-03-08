@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-bot",
-  "version": "2.9.2",
+  "version": "2.9.3",
   "description": "whatsapp-bot with NodeJS",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Urbaexyz/whatsapp-bot",
   "dependencies": {
-    "@open-wa/wa-automate": "^4.31.12",
+    "@open-wa/wa-automate": "^4.32.0",
     "@phaticusthiccy/open-apis": "^1.6.0",
     "app-root-path": "^3.0.0",
     "axios": "^0.21.4",

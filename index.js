@@ -4,7 +4,12 @@ const left = require('./lib/left')
 const welcome = require('./lib/welcome')
 const figlet = require('figlet')
 const fs = require('fs-extra')
+const ms = require('parse-ms')
 const HandleMsg = require('./HandleMsg')
+
+const sleep = async (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 const start = async (urbae = new urbae()) => {
     console.log(color('------------------------------------------------------------------------', 'white'))
@@ -12,7 +17,7 @@ const start = async (urbae = new urbae()) => {
     console.log(color('------------------------------------------------------------------------', 'white'))
     console.log(color('[CREATOR]', 'aqua'), color('Thoriq Azzikra', 'magenta'))
     console.log(color('[BOT]', 'aqua'), color('URBAE BOT is now Online!', 'magenta'))
-    console.log(color('[VER]', 'aqua'), color('2.9.2', 'magenta'))
+    console.log(color('[VER]', 'aqua'), color('2.9.3', 'magenta'))
     urbae.onStateChanged((state) => {
         console.log(color('-> [STATE]'), state)
         if (state === 'CONFLICT') urbae.forceRefocus()
@@ -42,6 +47,7 @@ const start = async (urbae = new urbae()) => {
         // ketika seseorang menelpon nomor bot akan mengirim pesan
         await urbae.sendText(callData.peerJid, 'Maaf sedang tidak bisa menerima panggilan.\n\n-bot')
             .then(async () => {
+		await sleep(3000)
                 // bot akan memblock nomor itu
                 await urbae.contactBlock(callData.peerJid)
             })

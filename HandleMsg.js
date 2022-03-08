@@ -2668,11 +2668,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 						urbae.reply(from, ayamgrg, id)
 					})
 					break
-				case prefix + 'setdesc':
-					if (!isGroupAdmins) return urbae.reply(from, 'Fitur ini hanya bisa digunakan oleh Admin!')
-					const descnya = body.slice(9)
-					const ganti = await urbae.setGroupDescription(descnya)
-					urbae.setGroupDescription(groupId, ganti)
+				case prefix + 'setdesc': //WORK IF YOU HAVE INSIDERS LICENSE KEY
+				case prefix + 'setdesk':
+					if (!isGroupMsg) return urbae.reply(from, 'Fitur ini hanya bisa digunakan didalam grup', id)
+					if (!isGroupAdmins) return urbae.reply(from, 'Fitur ini hanya bisa digunakan oleh Admin!', id)
+					if (!isBotGroupAdmins) return urbae.reply(from, 'Bot harus menjadi admin terlebih dahulu', id)
+					try {
+						urbae.setGroupDescription(groupId, q)
+						.then(() => {
+							urbae.reply(from, `Berhasil mengubah deskripsi grup\nDesk: ${q}`, id)
+						})
+					} catch (err) {
+						console.log(err)
+						urbae.reply(from, err.message, id)
+					}
 					break
 				case prefix + 'dankmemes':
 					urbae.reply(from, mess.wait, id)
@@ -6448,6 +6457,16 @@ module.exports = HandleMsg = async (urbae, message) => {
 						await urbae.removeParticipant(groupId, mentionedJidList[i])
 						await sleep(1000)
 						await urbae.addParticipant(from, `${mentionedJidList}`)
+					}
+					break
+				case prefix + 'hidetag': //WORK IF YOU HAVE INSIDERS LICENSE KEY
+					if (!isGroupMsg) return urbae.reply(from, 'Command ini hanya bisa digunakan didalam Grup', id)
+					if (!isGroupAdmins) return urbae.reply(from, 'Kamu bukan admin', id)
+					try {
+							urbae.tagEveryone(groupId, q, true)
+					} catch (err) {
+						console.log(err)
+						urbae.reply(from, err.message, id)
 					}
 					break
 				case prefix + 'infoall':
