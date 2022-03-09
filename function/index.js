@@ -38,7 +38,7 @@ const processTime = (timestamp, now) => {
 const options = (start) => {
     const options = {
         sessionId: 'URBAE',
-	licenseKey: 'YOUR-LICENSE-KEY',,
+	licenseKey: 'YOUR-LICENSE-KEY',
 	headless: true,
         qrTimeout: 0,
         authTimeout: 0,
