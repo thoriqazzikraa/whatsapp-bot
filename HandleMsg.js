@@ -5116,7 +5116,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						.then(data => {
 							console.log(data)
 							const fbdownhd = data.medias[1].url
-							if (fbdownhd == 0 || fbdownhd == '') {
+							if (data.medias[1] == 0 || data.medias[1] == '' || data.medias[1] == undefined || data.medias[1] == null) {
 								var fbdownsd = data.medias[0].url
 							} else {
 								var fbdownsd = fbdownhd
