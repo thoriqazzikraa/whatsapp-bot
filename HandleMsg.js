@@ -5,6 +5,8 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 const axios = require('axios')
 const FormData = require('form-data')
 const os = require('os')
+const gplay = require('google-play-scraper')
+const appstore = require('app-store-scraper')
 const apirizky = require('rzkyfdlh-api')
 const lolis = require('lolis.life')
 const buffeerr = require('buffer-from')
@@ -1815,21 +1817,25 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'playstore':
 					if (args.length === 0) return urbae.reply(from, `Kirim perintah *${prefix}playstore [ Query ]*, Contoh : *${prefix}playstore Mobile Legends*`)
-					const keywotp = body.slice(11)
 					urbae.reply(from, mess.wait, id)
-					try {
-						const dataplai = await axios.get(`https://api.zeks.me/api/sgplay?apikey=${apikeyvinz}&q=${keywotp}`)
-						const dataplay = dataplai.data
-						if (dataplay.status == false) return urbae.reply(from, 'Aplikasi yang kamu cari tidak dapat ditemukan atau mungkin Rest Api sedang error', id)
-						const dataresultt = dataplay.result
-						let keluarplay = `*「 P L A Y S T O R E 」*`
-						for (let i = 0; i < dataresultt.length; i++) {
-							keluarplay += `\n─────────────────\n\n• *Nama* : ${dataresultt[i].title}\n• *Developer* : ${dataresultt[i].developer}\n• *Id App* : ${dataresultt[i].appid}\n• *Harga* : ${dataresultt[i].price}\n• *Rating* : ${dataresultt[i].rating}\n• *Link App* : ${dataresultt[i].url}\n`
+					gplay.search({
+						term: q,
+						num: 10,
+						lang: 'id', //CHANGE IT TO 'EN' IF YOU WANT TO GET DATA WITH ENGLISH LANGUAGE
+						country: 'id',
+						fullDetail: true
+					})
+					.then(res => {
+						let playdatapp = '「  *PLAYSTORE* 」\n\n'
+						for (let i = 0; i < res.length; i++) {
+							playdatapp += `*- Title:* ${res[i].title}\n*- Installs:* ${res[i].installs}\n*- Score:* ${res[i].scoreText}\n*- Ratings:* ${res[i].ratings}\n*- Reviews:* ${res[i].reviews}\n*- Price:* ${res[i].priceText}\n*- Available:* ${res[i].available}\n*- Size:* ${res[i].size}\n*- Android Version:* ${res[i].androidVersionText}\n*- Developer:* ${res[i].developer}\n*- Genre:* ${res[i].genre}\n*- Content Rating:* ${res[i].contentRating}\n*- Released:* ${res[i].released}\n*- App Id:* ${res[i].appId}\n*- Url:* ${res[i].url}\n\n`
 						}
-						await urbae.sendFileFromUrl(from, dataresultt[0].thumb, ``, keluarplay, id)
-					} catch (err) {
+						urbae.sendFileFromUrl(from, res[0].icon, '', playdatapp, id)
+					})
+					.catch(err => {
 						console.log(err)
-					}
+						urbae.reply(from, err.message, id)
+					})
 					break
 				case prefix + 'infoapp':
 				case prefix + 'infoapk':
@@ -4347,20 +4353,25 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'appstore':
 					if (args.length == 0) return urbae.reply(from, `Mencari aplikasi dari AppStore!\nGunakan ${prefix}appstore nama aplikasi\nContoh: ${prefix}appstore instagram`, id)
-					const apps = body.slice(10)
 					urbae.reply(from, mess.wait, id)
-					const appslink = await axios.get(`https://h4ck3rs404-api.herokuapp.com/api/appstore?q=${apps}&apikey=${hackapi}`)
-					const appsdata = appslink.data
-					const appstores = appsdata.result
-					let apptext = `*「 App Store 」*\n`
-					for (let i = 0; i < appstores.length; i++) {
-						apptext += `\n─────────────────\n\n• *Nama Apk:* ${appstores[i].title}\n• *Deskripsi:* ${appstores[i].desc}\n• *Url:* ${appstores[i].url}\n`
-					}
-					await urbae.sendFileFromUrl(from, appstores[0].thumb, 'thumb.jpg', apptext, id)
-						.catch(err => {
-							console.log(err)
-							urbae.reply(from, 'Terjadi kesalahan, coba lagi nanti', id)
-						})
+					appstore.search({
+						term: q,
+						num: 10,
+						lang: 'id',
+						country: 'id',
+						fullDetail: true
+					})
+					.then(res => {
+						let apptext = `*「 App Store 」*\n\n`
+						for (let i = 0; i < res.length; i++) {
+							apptext += `*- Title:* ${res[i].title}\n*- Developer:* ${res[i].developer}\n*- App Id:* ${res[i].appId}\n*- Genres:* ${res[i].genres}\n*- Content Rating:* ${res[i].contentRating}\n*- Languages:* ${res[i].languages}\n*- Size:* ${res[i].size}\n*- Required OS Version:* ${res[i].requiredOsVersion}\n*- Released:* ${res[i].released}\n*- Updated:* ${res[i].updated}\n*- Version:* ${res[i].version}\n*- Price:* ${res[i].price}\n*- Score:* ${res[i].score}\n*- Reviews:* ${res[i].reviews}\n*- Release Notes:* ${res[i].releaseNotes}\n*- Supported Devices:* {\n\n${res[i].supportedDevices}\n\n}\n\n`
+						}
+						urbae.sendFileFromUrl(from, res[0].icon, '', apptext, id)
+					})
+					.catch(err => {
+						console.log(err)
+						urbae.reply(from, `Aplikasi yang kamu cari tidak tersedia\n\n${err.message}`, id)
+					})
 					break
 				case prefix + 'ytsearch':
 					if (args.length === 0) return urbae.reply(from, `Kirim perintah *${prefix}ytsearch [ Query ]*, Contoh : ${prefix}ytsearch alan walker alone`)
