@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-bot",
-  "version": "2.9.3",
+  "version": "2.9.5",
   "description": "whatsapp-bot with NodeJS",
   "main": "index.js",
   "scripts": {
