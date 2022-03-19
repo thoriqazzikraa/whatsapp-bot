@@ -52,7 +52,7 @@
   
   
  
-<p align="left"><a href="https://wa.me/62895334962050?text=/menu" target="_blank">My Whatsapp BOT</a>.</p>
+<p align="left"><a href="https://wa.me/628882104495?text=/menu" target="_blank">My Whatsapp BOT</a>.</p>
 </div>
   
   
