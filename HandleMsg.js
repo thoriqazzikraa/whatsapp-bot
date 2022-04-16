@@ -7,7 +7,9 @@ const FormData = require('form-data')
 const os = require('os')
 const gplay = require('google-play-scraper')
 const appstore = require('app-store-scraper')
-const apirizky = require('rzkyfdlh-api')
+const thisris = require('rzkyfdlh-api')
+const tokenrizky = '237991cy34fq2ct245fr2ojoqoset92ooua71r49i121x6b21i'
+const apirizky = new thisris(tokenrizky)
 const lolis = require('lolis.life')
 const buffeerr = require('buffer-from')
 const spotdl = require('spotifydl-core').default
@@ -1140,7 +1142,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 							if (resp[i].level > 100) {
 								roles = 'Exterminator'
 							}
-							leaderboard += `${i + 1}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
+							const returnpushname = await urbae.getContact(_level[i].id)
+							leaderboard += `${i + 1}. *Pushname*: ${returnpushname.pushname}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
 						}
 						await urbae.reply(from, leaderboard, id)
 					} catch (err) {
@@ -1232,7 +1235,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'ownerbot':
 				case prefix + 'owner':
-					await urbae.sendContact(from, ownerNumber)
+					const owntolink = '62895334951166'
+					await urbae.sendLinkWithAutoPreview(from,`https://wa.me/${owntolink}`, `Here's my owner number\nhttps://wa.me/${owntolink}`)
 					break
 				case prefix + 'maps':
 				case prefix + 'map':
