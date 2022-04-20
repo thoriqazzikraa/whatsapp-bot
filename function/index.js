@@ -38,6 +38,7 @@ const processTime = (timestamp, now) => {
 const options = (start) => {
     const options = {
         sessionId: 'URBAE',
+        multiDevice: true,
 	licenseKey: 'YOUR-LICENSE-KEY',
 	headless: true,
         qrTimeout: 0,
