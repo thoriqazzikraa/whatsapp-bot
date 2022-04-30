@@ -5628,12 +5628,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 							}
 							urbae.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*• Title:* ${res.title}\n*• Artists:* ${hasil2}\n*• Release Date:* ${res.releaseDate}\n*• Popularity:* ${res.popularity}\n*• Url:* ${res.url}\n\n${mess.sendfileaudio}`, id)
 							spotify.downloadTrack(res.url)
-								.then(data => {
-									const buffaudio = buffeerr(data)
-									fs.writeFile(`./temp/audio/${res.title}.mp3`, buffaudio)
+								.then(async (data) => {
+									const buffaudio = await buffeerr(data)
+									await fs.writeFile(`./temp/audio/${res.title}.mp3`, buffaudio)
 								})
-								.then(() => {
-									urbae.sendFile(from, `./temp/audio/${res.title}.mp3`, '', '', id)
+								.then(async () => {
+									await urbae.sendFile(from, `./temp/audio/${res.title}.mp3`, '', '', id)
 									setTimeout(() => {
 										fs.unlinkSync(`./temp/audio/${res.title}.mp3`)
 										console.log(color(`Success delete file /temp/audio/${res.title}.mp3`, 'magenta'))
