@@ -28,7 +28,7 @@
     "app-store-scraper": "^0.17.0",
     "axios": "^0.21.4",
     "bent": "^7.3.12",
-    "brainly-scraper-v2": "^1.0.3",
+    "brainly-scraper-v2": "^2.0.12",
     "canvacord": "^5.1.0",
     "chalk": "4.1.2",
     "colors": "1.4.0",
