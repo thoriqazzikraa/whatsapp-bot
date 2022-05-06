@@ -6481,7 +6481,19 @@ module.exports = HandleMsg = async (urbae, message) => {
 						await urbae.addParticipant(from, `${mentionedJidList}`)
 					}
 					break
-				case prefix + 'hidetag': //WORK IF YOU HAVE INSIDERS LICENSE KEY
+				case prefix + 'hidetag':
+					if (!isGroupMsg) return urbae.reply(from, `Command ini hanya bisa digunakan didalam grup!`, id)
+					if (!isGroupAdmins) return urbae.reply(from, `Command ini hanya bisa digunakan oleh Admin Grup`, id)
+					await urbae.getGroupMembersId(groupId)
+						.then(async (member) => {
+							let thistext = q
+							for (let i = 0; i < member.length; i++) {
+								thistext += `@${member[i].replace(/@c.us/g, '')}`
+							}
+							await urbae.sendTextWithMentions(from, thistext, true)
+						})
+					break
+				case prefix + 'ohidetag': //WORK IF YOU HAVE INSIDERS LICENSE KEY
 					if (!isGroupMsg) return urbae.reply(from, 'Command ini hanya bisa digunakan didalam Grup', id)
 					if (!isGroupAdmins) return urbae.reply(from, 'Kamu bukan admin', id)
 					try {
