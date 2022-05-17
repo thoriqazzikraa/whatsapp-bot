@@ -9,7 +9,7 @@
 <a href="https://github.com/thoriqazzikraa"><img title="Author" src="https://img.shields.io/badge/Author-Thoriq Azzikra-blue.svg?style=flat&logo=github"></a>
 <p align="center">
 <a href="https://github.com/thoriqazzikraa?tab=followers"><img title="Followers" src="https://img.shields.io/github/followers/thoriqazzikraa?color=blue&style=flat-square"></a>
-<a href="https://github.com/thoriqazzikraa/whatsapp-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/thoriqazzzikraa/whatsapp-bot?color=blue&style=flat-square"></a>
+<a href="https://github.com/thoriqazzikraa/whatsapp-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/thoriqazzikraa/whatsapp-bot?color=blue&style=flat-square"></a>
 <a href="https://github.com/thoriqazzikraa/whatsapp-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/thoriqazzikraa/whatsapp-bot?color=blue&style=flat-square"></a>
 <a href="https://github.com/thoriqazzikraa/whatsapp-bot/blob/main/package.json#L3"><img src="https://img.shields.io/github/package-json/v/thoriqazzikraa/whatsapp-bot"></a>
 <img src="https://img.shields.io/github/languages/top/thoriqazzikraa/whatsapp-bot">
