@@ -7,10 +7,11 @@ const FormData = require('form-data')
 const os = require('os')
 const gplay = require('google-play-scraper')
 const appstore = require('app-store-scraper')
-const thisris = require('rzkyfdlh-api')
-const tokenrizky = '237991cy34fq2ct245fr2ojoqoset92ooua71r49i121x6b21k'
-const apirizky = new thisris(tokenrizky)
+const thisris = require('ikyy')
+const apirizky = new thisris()
 const lolis = require('lolis.life')
+const { igApi } = require('insta-fetcher')
+const insta = new igApi('40194017622%3AaRqzskOBlc8KpX%3A24')
 const buffeerr = require('buffer-from')
 const spotdl = require('spotifydl-core').default
 const credentials = {
@@ -32,6 +33,7 @@ const fetch = require('node-fetch')
 const { TTScraper } = require('tiktok-scraper-ts')
 const stalkuy = new TTScraper()
 const ytdown = require('ytdl-core')
+const prettyms = require('pretty-ms')
 const readline = require('readline')
 const chalk = require('chalk')
 const translatte = require('translatte')
@@ -119,6 +121,7 @@ const viewonce = JSON.parse(fs.readFileSync('./lib/database/viewonce.json'))
 const _nsfw = JSON.parse(fs.readFileSync('./lib/database/group/nsfw.json'))
 const hit = JSON.parse(fs.readFileSync('./hit.json'))
 
+let antidel = JSON.parse(fs.readFileSync('./lib/database/antidelete.json'))
 let dbcot = JSON.parse(fs.readFileSync('./lib/database/bacot.json'))
 let dsay = JSON.parse(fs.readFileSync('./lib/database/say.json'))
 let left = JSON.parse(fs.readFileSync('./lib/database/left.json'))
@@ -251,7 +254,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const groupId = isGroupMsg ? chat.groupMetadata.id : ''
 		const groupAdmins = isGroupMsg ? await urbae.getGroupAdmins(groupId) : ''
 		const isGroupAdmins = groupAdmins.includes(sender.id) || false
-		const chats = (type === 'chat') ? body : (type === 'image' || type === 'video') ? caption : ''
+		const chats = (type === 'chat') ? body : (type === 'image' || type === 'video') ? caption : (type == 'buttons_response') ? message.selectedButtonId: ''
 		const pengirim = sender.id
 		const serial = sender.id
 		const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
@@ -267,11 +270,11 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const GroupLinkDetector = antilink.includes(chatId)
 
 		// Bot Prefix
-		const commands = caption || body || ''
+		const commands = chats || caption || body || ''
 		const command = commands.toLowerCase().split(' ')[0] || ''
 		const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~`,*zxcv!?@#$%^&.\/\\©^]/.test(command) ? command.match(/^[!?#$,^.,/\/\\©^]/gi) : '-'
 		global.prefix
-		body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
+		body = (type === 'buttons_response' && message.selectedButtonId.startsWith(prefix)) ? message.selectedButtonId : (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
 		const arg = body.trim().substring(body.indexOf(' ') + 1)
 		const args = body.trim().split(/ +/).slice(1)
 		const q = args.join(' ')
@@ -463,7 +466,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 			}
 
 		const addAfk = (userId, time) => {
-			let obj = { id: `${userId}`, time: `${time}`, reason: `${reason}` }
+			let obj = { id: `${userId}`, time: Date.now(), reason: `${reason}` }
 			_afk.push(obj)
 			fs.writeFileSync('./lib/database/afk.json', JSON.stringify(_afk))
 		}
@@ -524,14 +527,26 @@ module.exports = HandleMsg = async (urbae, message) => {
 					const getId = getAfkId(ment)
 					const getReason = getAfkReason(getId)
 					const getTime = getAfkTime(getId)
-					await urbae.reply(from, `*「 AFK MODE 」*\n\nSssttt! Orangnya lagi afk, jangan diganggu!\n➸ *Alasan*: ${getReason}\n➸ *Sejak*: ${getTime}`, id)
-					urbae.sendText(userId, `Seseorang telah tag anda bernama @{pushname}`)
+					await urbae.reply(from, `*「AFK MODE 」*\n\nSssttt! Orangnya lagi afk, jangan diganggu!\n- Alasan: ${getReason}\n- Sejak: _${prettyms(Date.now() - getTime, { verbose: true })}_`, id)
+					urbae.sendText(getId, `Seseorang telah men-tag anda dari *${message.sender.pushname} di ${message.chat.formattedTitle}*\nPesan: *${message.body}*`)
+				}
+			}
+			if (message.quotedMsg && !message.fromMe) {
+				if (getAfk(message.quotedMsg.sender.id)) {
+					const getId = getAfkId(message.quotedMsg.sender.id)
+					const getReason = getAfkReason(getId)
+					const getTime = getAfkTime(getId)
+					urbae.reply(from, `*「AFK MODE 」*\n\nSssttt! Orangnya lagi afk, jangan diganggu!\n- Alasan ${getReason}\n- Sejak: _${prettyms(Date.now() - getTime, { verbose: true })}_`, id)
+					await urbae.sendText(getId, `Seseorang telah men-tag anda di *${message.chat.formattedTitle}* oleh *${message.sender.pushname}\nPesan: *${message.body}*`)
 				}
 			}
 			if (checking && !isCmd) {
+				const getId = getAfkId(sender.id)
+				const getTime = getAfkTime(getId)
+				let thisof = _afk.indexOf(getId)
+				urbae.reply(from, `Kamu telah berhenti afk selama ${prettyms(Date.now() - getTime, { verbose: true })}`, id)
 				_afk.splice(sender.id, 1)
 				fs.writeFileSync('./lib/database/afk.json', JSON.stringify(_afk))
-				urbae.sendReplyWithMentions(from, `*@${sender.id.replace(/@c.us/g, '')} SEKARANG TIDAK AFK*`, id)
 			}
 		}
 
@@ -4999,12 +5014,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'stalkig':
 				case prefix + 'igstalk':
-					if (args.length == 0) return urbae.reply(from, `Untuk men-stalk akun instagram seseorang\nKetik ${prefix}igstalk usernamenya\nContoh: ${prefix}igstalk thoriqazzikraa`, id)
+					if (q.length == 0) return urbae.reply(from, `Untuk men-stalk akun instagram seseorang\nKetik ${prefix}igstalk usernamenya\nContoh: ${prefix}igstalk thoriqazzikraa`, id)
 					urbae.reply(from, mess.wait, id)
-					scrape.igstalk(q)
-						.then(result => {
+					insta.fetchUser(q)
+						.then(async (result) => {
 							console.log(result)
-							urbae.sendFileFromUrl(from, result.thumbnail, '', `*- Username:* ${result.username}\n*- Fullname:* ${result.fullname}\n*- Followers:* ${result.followers}\n*- Following:* ${result.following}\n*- Verified:* ${result.verified}\n*- Bio:* ${result.bio}`, id)
+							await urbae.sendFileFromUrl(from, result.hd_profile_pic_url_info.url, '', `*- Username:* ${result.username}\n*- Fullname:* ${result.fullname}\n*- Followers:* ${result.followers} Followers\n*- Following:* ${result.following} Following\n*- Verified:* ${result.is_verified}\n*- Private:* ${result.is_private}\n*- Bio:* ${result.biography}\n*- External Url:* ${result.external_url}\n*- Url Account:* https://instagram.com/${q}`, id)
 								.catch(err => {
 									console.log(err)
 									urbae.reply(from, err.message, id)
@@ -5209,33 +5224,21 @@ module.exports = HandleMsg = async (urbae, message) => {
 						})
 					break
 				case prefix + 'tiktok':
-					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
+					if (q.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
 					urbae.reply(from, mess.wait, id)
-					scrape.tiktok(q)
-						.then(async (result) => {
-							if (result.status == false) {
-								scrape.noWeem(q)
-									.then(async (res) => {
-										console.log(res)
-										urbae.sendFileFromUrl(from, res, '', '', id)
-											.catch(err => {
-												console.log(err)
-												urbae.reply(from, err.message, id)
-											})
-									})
-							} else {
-								console.log(result)
-								await urbae.sendFileFromUrl(from, result.data.video, '', '', id)
-									.catch(err => {
-										console.log(err)
-										urbae.reply(from, err.message, id)
-									})
-							}
-						})
+					stalkuy.noWaterMark(q)
+					.then(async (result) => {
+						await urbae.sendFileFromUrl(from, result, '', '', id)
+						await urbae.sendButtons(from, '\nPress the button if you want the audio\n', [{ id: `${prefix}tiktokaudio ${q}`, text: 'Get Audio' }], '', '')
 						.catch(err => {
-							console.log(err)
-							urbae.reply(from, err.message, id)
+							console.error(err)
+							urbae.reply(from, 'Error: ' + err.message, id)
 						})
+					})
+					.catch(err => {
+						console.error(err)
+						urbae.reply(from, 'Error: ' + err.message, id)
+					})
 					break
 				case prefix + 'tiktoknowm':
 					if (args.length == 0) return urbae.reply(from, `Untuk mendownload video dari tiktok, gunakan ${prefix}tiktoknowm link`, id)
@@ -5721,26 +5724,35 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'play': //lasilahkan kalian custom sendiri jika ada yang ingin diubah
 					if (args.length == 0) return urbae.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
 					urbae.reply(from, mess.wait, id)
-					yt.ytSearch(q)
-						.then(async (res) => {
-							console.log(color(`Title:`, 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDuration:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'), color('\nViews:', 'cyan'), color(`${res[0].views}`, 'magenta'), color('\nUploaded:', 'cyan'), color(`${res[0].ago}`, 'magenta'), color('\nChannel:', 'cyan'), color(`${res[0].author.name}`, 'magenta'), color('\nUrl:', 'cyan'), color(`${res[0].url}`, 'magenta'))
-							console.log(color('Nickname:', 'cyan'), color(`${pushname}`, 'magenta'), color('\nNomor:', 'cyan'), color(`${serial.replace('@c.us', '')}`, 'magenta'), color('\nJudul:', 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDurasi:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'))
-							const thumbnailytSD = res[0].thumbnail
-							await urbae.sendFileFromUrl(from, thumbnailytSD, 'thumb.jpg', `「 *PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfileaudio}`, id)
-							hxzapi.youtube(res[0].url)
-								.then(result => {
-									if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download sendiri menggunakan link dibawah\nLink: ${result.mp3}`, id)
-									urbae.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id)
+					if (args[0] == '-f') {
+						yt.ytSearch(body.slice(10))
+							.then(async (res) => {
+								await urbae.sendFileFromUrl(from, res[0].thumbnail, 'thumb.jpg', `「*PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfileaudio}`, id)
+								hxzapi.youtube(res[0].url)
+									.then(async (result) => {
+										if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download manual menggunakan link dibawah\nLink: ${result.mp3}`, id)
+										await urbae.sendFileFromUrl(from, result.mp3, `${result.title}`, '', id, false, false, true)
+									})
+							})
+					} else {
+						yt.ytSearch(q)
+							.then(async (res) => {
+								console.log(color(`Title:`, 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDuration:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'), color('\nViews:', 'cyan'), color(`${res[0].views}`, 'magenta'), color('\nUploaded:', 'cyan'), color(`${res[0].ago}`, 'magenta'), color('\nChannel:', 'cyan'), color(`${res[0].author.name}`, 'magenta'), color('\nUrl:', 'cyan'), color(`${res[0].url}`, 'magenta'))
+								console.log(color('Nickname:', 'cyan'), color(`${pushname}`, 'magenta'), color('\nNomor:', 'cyan'), color(`${serial.replace('@c.us', '')}`, 'magenta'), color('\nJudul:', 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDurasi:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'))
+								const thumbnailytSD = res[0].thumbnail
+								await urbae.sendFileFromUrl(from, thumbnailytSD, 'thumb.jpg', `「*PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfileaudio}`, id)
+								hxzapi.youtube(res[0].url)
+									.then(async (result) => {
+										if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download sendiri menggunakan link dibawah\nLink: ${result.mp3}`, id)
+										await urbae.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id)
+										await urbae.sendButtons(from, '\nPress the button if you want get the lyric\n', [{ id: `${prefix}lirik ${q}`, text: 'Get Lyric' }], '', '')
 										.catch(err => {
 											console.log(err)
 											urbae.reply(from, err.message, id)
 										})
-								})
-						})
-						.catch(err => {
-							console.log(err)
-							urbae.reply(from, err.message, id)
-						})
+									})
+							})
+					}
 					break
 				case prefix + 'trendingtwit':
 				case prefix + 'trendtwit':
@@ -6722,7 +6734,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (!isGroupMsg) return await urbae.reply(from, 'Maaf, fitur ini hanya bisa digunakan didalam Grup!', id)
 					if (isAfkOn) return await urbae.sendReplyWithMentions(from, `@${pushname} sekarang sedang *AFK (AWAY FROM KEYBOARD)*\n\nReason: ${reason}`, id)
 					addAfk(sender.id, time, reason)
-					urbae.sendReplyWithMentions(from, `*@${sender.id.replace(/@c.us/g, '')} SEKARANG SEDANG AFK! (AWAY FROM KEYBOARD)*\n\n*Alasan: ${reason}*`, id)
+					urbae.reply(from, `Kamu sekarang AFK\n- Alasan: ${reason}`, id)
 					break
 				case prefix + 'left':
 					if (!isGroupMsg) return urbae.reply(from, 'Perintah ini hanya bisa digunakan didalam Grup!', id)
@@ -6761,6 +6773,23 @@ module.exports = HandleMsg = async (urbae, message) => {
 					welkom.splice(walcm)
 					fs.writeFileSync('./lib/database/welcome.json', JSON.stringify(welkom))
 					urbae.reply(from, 'berhasil mendelete semua id didalam database welcome.json', id)
+					break
+				case prefix + 'antidelete':
+					if (!isGroupMsg) return urbae.reply(from, 'Group only', id)
+					if (!isGroupAdmins) return urbae.reply(from, 'Only Admin Group', id)
+					if (args[0] == 'enable') {
+						if (antidel.includes(groupId)) return urbae.reply(from, 'Sudah aktif sebelumnya', id)
+						antidel.push(groupId)
+						fs.writeFileSync('./lib/database/antidelete.json', JSON.stringify(antidel))
+						urbae.reply(from, 'Anti delete berhasil diaktifkan di grup ini', id)
+					} else if (args[0] == 'disable') {
+						let thisgroup1 = antidel.indexOf(groupId)
+						antidel.splice(thisgroup1, 1)
+						fs.writeFileSync('./lib/database/antidelete.json', JSON.stringify(antidel))
+						urbae.reply(from, 'Anti delete berhasil dinonaktifkan pada grup ini', id)
+					} else {
+						urbae.reply(from, `Ketik ${prefix}antidelete enable (untuk mengaktifkan) atau ${prefix}antidelete disable (untuk menonaktifkan)`, id)
+					}
 					break
 				case prefix + 'nsfw':
 					if (args[0] === 'on') {
@@ -7018,7 +7047,8 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 					await urbae.reply(from, `English :\nNew feature is discord emoji, if u send code emoji from discord, bot will send it to be a sticker\nIndonesian :\nFitur terbaru adalah emoji discord, jika kamu mengirim kode emoji dari discord, Bot akan mengirimkan emoji berupa stiker\nExample: :veryangry:`, id)
 					break
 				case prefix + 'tiktokaudio':
-					if (args.length == 0) return urbae.reply(from, `Fitur untuk mengkonversi Video menjadi Audio!\nKirim perintah ${prefix}tiktokaudio link tiktok`, id)
+				case prefix + 'tiktokmp3':
+					if (q.length == 0) return urbae.reply(from, `Fitur untuk mengkonversi Video menjadi Audio!\nKirim perintah ${prefix}tiktokaudio link tiktok`, id)
 					urbae.reply(from, mess.wait, id)
 					stalkuy.getMusic(q)
 						.then(res => {
