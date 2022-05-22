@@ -63,7 +63,7 @@ const start = async (urbae = new urbae()) => {
 		}
 		await urbae.sendFileFromUrl(message.from, picture, '', `Selamat tinggal @${message.recipients[0].split('@')[0]}\nAnda telah dikick oleh @${message.sender.id.split('@')[0]}`)
 	} else if (message.isGroupMsg == true && message.isNotification == true && message.subtype == 'invite' && !botnum.includes(message.recipients) && isWelcome) {
-		const mediaData = await urbae.geProfilePicFromServer(message.recipients)
+		const mediaData = await urbae.getProfilePicFromServer(message.recipients)
 		if (mediaData == null || mediaData == undefined || mediaData == 'ERROR: 404' || mediaData == 'ERROR: 401') {
                         var picture = errorpicture
                 } else {
