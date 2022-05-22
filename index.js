@@ -34,7 +34,7 @@ const start = async (urbae = new urbae()) => {
 	const left = JSON.parse(fs.readFileSync('./lib/database/left.json'))
 	const isLeft = left.includes(message.from)
 	if (message.isGroupMsg == true && message.isNotification == true && message.subtype == 'description') {
-		await urbae.sendTextWithMentions(message.from, `Deskripsi grup telah diubah oleh admin @${message.sender.id.split('@')[0]}\nDeskripsi baru:\n${mesaage.body}`)
+		await urbae.sendTextWithMentions(message.from, `Deskripsi grup telah diubah oleh admin @${message.sender.id.split('@')[0]}\nDeskripsi baru:\n${message.body}`)
 	} else if (message.isGroupMsg == true && message.isNotification == true && message.subtype == 'subject') {
 		await urbae.sendTextWithMentions(message.from, `Nama grup telah diubah oleh admin @${message.sender.id.split('@')[0]} menjadi *${message.body}*`)
 	} else if (message.isGroupMsg == true && message.isNotification == true && message.subtype == 'picture') {
