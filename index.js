@@ -71,7 +71,7 @@ const start = async (urbae = new urbae()) => {
                 }
 		await urbae.sendFileFromUrl(message.from, picture, '', `Halo @${message.recipients[0].split('@')[0]}\nSelamat datang di grup *${message.chat.formattedTitle}*\n\nDeskripsi Grup: {\n\n${message.chat.groupMetadata.desc}\n\n}`)
 	} else if (message.isGroupMsg == true && message.isNotification == true && message.subtype == 'leave' && !botnum.includes(message.recipients) && isLeft) {
-		const mediaData = await urbae.geProfilePicFromServer(message.recipients)
+		const mediaData = await urbae.getProfilePicFromServer(message.recipients)
                 if (mediaData == null || mediaData == undefined || mediaData == 'ERROR: 404' || mediaData == 'ERROR: 401') {
                         var picture = errorpicture
                 } else {
@@ -86,7 +86,7 @@ const start = async (urbae = new urbae()) => {
 	const isDelete = antidel.includes(message.from)
 	if (message.self == 'in' && message.type == 'chat' && isDelete) {
 		await urbae.sendTextWithMentions(message.from, `Terdeteksi @${message.author.split('@')[0]} menghapus pesan bertipe ${message.type}\nPesan: ${message.body}`)
-	} else if (message.self == 'in' && message.type == 'image' || message.type == 'video' && isDelete) {
+	} else if (message.self == 'in' && isDelete && message.type == 'image' || message.type == 'video') {
 		const mediaData = await decryptMedia(message, uaOverride)
 		const base64 = `data:${message.mimetype};base64, ${mediaData.toString('base64')}`
 		await urbae.sendTextWithMentions(message.from, `Terdeteksi @${message.author.split('@')[0]} telah menghapus pesan bertipe ${message.type}`)
