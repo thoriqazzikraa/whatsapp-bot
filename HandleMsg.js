@@ -6090,7 +6090,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					xteamapi.API.free.attp(txtx)
 						.then(res => {
 							console.log(color(res.status, 'cyan'))
-							urbae.sendRawWebpAsSticker(from, res.result)
+							urbae.sendImageAsSticker(from, res.result, StickerMetadata)
 								.then(async () => {
 									console.log(color(`Animation Text To Picture processed for ${processTime(t, moment())} seconds`, 'aqua'))
 								})
