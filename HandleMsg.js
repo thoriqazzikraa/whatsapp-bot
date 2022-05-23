@@ -5731,7 +5731,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 								hxzapi.youtube(res[0].url)
 									.then(async (result) => {
 										if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download manual menggunakan link dibawah\nLink: ${result.mp3}`, id)
-										await urbae.sendFileFromUrl(from, result.mp3, `${result.title}`, '', id, false, false, true)
+										await urbae.sendFileFromUrl(from, result.mp3, `${result.title}`, '', id, false, false, false, true)
 									})
 							})
 					} else {
@@ -6783,6 +6783,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						fs.writeFileSync('./lib/database/antidelete.json', JSON.stringify(antidel))
 						urbae.reply(from, 'Anti delete berhasil diaktifkan di grup ini', id)
 					} else if (args[0] == 'disable') {
+						if (!antidel.includes(groupId)) return urbae.reply(from, 'Anti delete tidak pernah aktif sebelumnya di grup ini', id)
 						let thisgroup1 = antidel.indexOf(groupId)
 						antidel.splice(thisgroup1, 1)
 						fs.writeFileSync('./lib/database/antidelete.json', JSON.stringify(antidel))
