@@ -301,7 +301,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const StickerMetadatacrop = { author: authorstc, pack: packstc, keepScale: false }
 
 		// [IDENTIFY]
-		const ownerNumber = ["62895334951166@c.us", "6287772354740@c.us"]
+		const ownerNumber = ["6282119359995@c.us", "6282119359995@c.us"]
 		const errorImg = "https://i.ibb.co/DYLd6fk/baukrysie.jpg"
 		const isOwnerBot = ownerNumber.includes(pengirim)
 		const isOwner = ownerNumber.includes(pengirim)
