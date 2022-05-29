@@ -301,7 +301,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const StickerMetadatacrop = { author: authorstc, pack: packstc, keepScale: false }
 
 		// [IDENTIFY]
-		const ownerNumber = ["62895334951166@c.us", "6287772354740@c.us"]
+		const ownerNumber = "62895334951166@c.us"
 		const errorImg = "https://i.ibb.co/DYLd6fk/baukrysie.jpg"
 		const isOwnerBot = ownerNumber.includes(pengirim)
 		const isOwner = ownerNumber.includes(pengirim)
@@ -1250,8 +1250,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'ownerbot':
 				case prefix + 'owner':
-					const owntolink = '62895334951166'
-					await urbae.sendLinkWithAutoPreview(from,`https://wa.me/${owntolink}`, `Here's my owner number\nhttps://wa.me/${owntolink}`)
+					await urbae.sendContact(from, ownerNumber)
 					break
 				case prefix + 'maps':
 				case prefix + 'map':
@@ -6741,10 +6740,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (!isGroupAdmins) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh Admin Grup!', id)
 					if (args.length === 0) return urbae.reply(from, 'Pilih enable atau disable tod', id)
 					if (args[0].toLowerCase() === 'enable') {
-						left.push(chat.id)
+						if (left.includes(groupId)) return urbae.reply(from, 'Sudah aktif sebelumnya', id)
+						left.push(groupId)
 						fs.writeFileSync('./lib/database/left.json', JSON.stringify(left))
 						urbae.reply(from, 'Fitur left berhasil di aktifkan di group ini!', id)
 					} else if (args[0].toLowerCase() === 'disable') {
+						if (!left.includes(groupId)) return urbae.reply(from, 'Fitur left tidak pernah aktif sebelumnya', id)
 						var thisgc = left.indexOf(groupId)
 						left.splice(thisgc, 1)
 						fs.writeFileSync('./lib/database/left.json', JSON.stringify(left))
@@ -6831,10 +6832,12 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (!isGroupAdmins) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh Admin Grup!', id)
 					if (args.length === 0) return urbae.reply(from, 'Pilih enable atau disable', id)
 					if (args[0].toLowerCase() === 'enable') {
+						if (welkom.includes(groupId)) return urbae.reply(from, 'Sudah aktif sebelumnya', id)
 						welkom.push(chat.id)
 						fs.writeFileSync('./lib/database/welcome.json', JSON.stringify(welkom))
 						urbae.reply(from, 'Fitur welcome berhasil di aktifkan di group ini!', id)
 					} else if (args[0].toLowerCase() === 'disable') {
+						if (!welkom.includes(groupId)) return urbae.reply(from, 'Fitur welcome tidak pernah aktif sebelumnya', id)
 						var thisgc = welkom.indexOf(groupId)
 						welkom.splice(thisgc, 1)
 						fs.writeFileSync('./lib/database/welcome.json', JSON.stringify(welkom))
