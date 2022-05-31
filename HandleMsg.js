@@ -6586,19 +6586,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
 					if (quotedMsgObj) {
 						var qmunblok = quotedMsgObj.sender.id
-						if (qmunblok.includes(blockNumber)) return urbae.reply(from, `${quotedMsgObj.sender.pushname} sudah di block sebelumnya`, id)
+						if (blockNumber.includes(qmunblok)) return urbae.reply(from, `${quotedMsgObj.sender.pushname} sudah di block sebelumnya`, id)
 						urbae.contactBlock(qmunblok)
 						urbae.reply(from, `Berhasil memblokir ${quotedMsgObj.sender.pushname}`, id)
 					} else if (q) {
 						var yepo = q + '@c.us'
-						if (yepo.includes(blockNumber)) return urbae.reply(from, `${args[0]} sudah diblock sebelumnya`, id)
+						if (blockNumber.includes(yepo)) return urbae.reply(from, `${args[0]} sudah diblock sebelumnya`, id)
 						urbae.contactBlock(yepo)
-						urbae.reply(from, `Berhasil mengunblock ${yepo}`, id)
+						const getpushname = await urbae.getContact(yepo)
+						urbae.reply(from, `Berhasil memblokir ${getpushname.pushname}`, id)
 					} else if (mentionedJidList) {
-						if (mentionedJidList[0].includes(blockNumber)) return urbae.reply(from, `${mentionedJidList[0]} sudah diblock sebelumnya`, id)
+						if (blockNumber.includes(mentionedJidList[0]) return urbae.reply(from, `${mentionedJidList[0]} sudah diblock sebelumnya`, id)
 						for (let i = 0; i < mentionedJidList.length; i++) {
 							await urbae.contactUnblock(mentionedJidList[i])
-							urbae.reply(from, `Berhasil mengunblock ${mentionedJidList[0]}`, id)
+							urbae.sendReplyWithMentions(from, `Berhasil memblokir @${mentionedJidList[0]}`, id)
 						}
 					} else {
 						urbae.reply(from, 'format pesan salah', id)
@@ -6608,19 +6609,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 					if (!isOwnerB) return urbae.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
 					if (quotedMsgObj) {
 						var qmunblok = quotedMsgObj.sender.id
-						if (qmunblok.includes(blockNumber)) return urbae.reply(from, `${quotedMsgObj.sender.pushname} tidak ada didalam database Block`, id)
+						if (!blockNumber.includes(qmunblok)) return urbae.reply(from, `${quotedMsgObj.sender.pushname} tidak ada didalam database Block`, id)
 						urbae.contactUnblock(qmunblok)
 						urbae.reply(from, `Berhasil mengunblock ${quotedMsgObj.sender.pushname}`, id)
 					} else if (q) {
 						var yepo = q + '@c.us'
-						if (yepo.includes(blockNumber)) return urbae.reply(from, `${args[0]} tidak ada didalam database block`, id)
+						if (!blockNumber.includes(yepo)) return urbae.reply(from, `${args[0]} tidak ada didalam database block`, id)
 						urbae.contactUnblock(yepo)
-						urbae.reply(from, `Berhasil mengunblock ${yepo}`, id)
+						const get_push = await urbae.getContact(yepo)
+						urbae.reply(from, `Berhasil mengunblock ${get_push.pushname}`, id)
 					} else if (mentionedJidList) {
-						if (mentionedJidList[0].includes(blockNumber)) return urbae.reply(from, `${mentionedJidList[0]} tidak ada didalam database block`, id)
+						if (!blockNumber.includes(mentionedJidList[0])) return urbae.reply(from, `${mentionedJidList[0]} tidak ada didalam database block`, id)
 						for (let i = 0; i < mentionedJidList.length; i++) {
 							await urbae.contactUnblock(mentionedJidList[i])
-							urbae.reply(from, `Berhasil mengunblock ${mentionedJidList[0]}`, id)
+							urbae.sendReplyWithMentions(from, `Berhasil mengunblock @${mentionedJidList[0]}`, id)
 						}
 					} else {
 						urbae.reply(from, 'format pesan salah', id)
