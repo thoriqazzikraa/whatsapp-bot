@@ -3414,15 +3414,15 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'instagram':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
 					urbae.reply(from, mess.wait, id)
-					scrape.igdl(args[0])
-						.then(result => {
+					insta.fetchPost(args[0])
+						.then(async (result) => {
 							if (args[1] == '' || args[1] == undefined) {
 								var beone = 1
 							} else {
 								var beone = args[1]
 							}
 							for (let i = 0; i < beone; i++) {
-								urbae.sendFileFromUrl(from, result[i], '', '', id)
+								await urbae.sendFileFromUrl(from, result.links[i].url, '', '', id)
 									.then(() => {
 										console.log('Success sending Media')
 									})
