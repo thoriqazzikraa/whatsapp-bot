@@ -6519,7 +6519,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'tagall':
 					if (!isGroupMsg) return urbae.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
 					if (!isGroupAdmins & !isOwnerB) return urbae.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-					const textInfo = body.slice(8)
+					const textInfo = q
 					const namagcnih = name
 					const memchu = chat.groupMetadata.participants.length
 					const groupMem = await urbae.getGroupMembers(groupId)
@@ -7541,12 +7541,6 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 						await urbae.deleteChat(dchat.id)
 					}
 					urbae.reply(from, 'Success clear all chat!', id)
-					break
-				default:
-					if (isCmd) {
-						const slh = body.trim().split(' ')
-						urbae.reply(from, `Maaf *_${pushname}_*, Command *${slh[0]}* tidak ada didalam menu!\n\nSilahkan ketik *${prefix}menu* Untuk menampilkan command`, id)
-					}
 					break
 				case prefix + 'adminlist':
 					if (!isGroupMsg) return urbae.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
