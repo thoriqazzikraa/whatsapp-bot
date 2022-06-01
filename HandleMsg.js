@@ -783,15 +783,9 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'speed':
 				case prefix + 'ping':
-					const loadedMsg = await urbae.getAmountOfLoadedMessages()
-					const chatIds = await urbae.getAllChatIds()
-					const groups = await urbae.getAllGroups()
 					const timestamp = speed();
 					const latensi = speed() - timestamp
-					const charged = await urbae.getIsPlugged();
-					const device = await urbae.getMe()
-					const deviceinfo = `- Battery Level : ${device.battery}%\n ├ Device : ${device.phone.device_manufacturer}\n ├ Device Model : ${device.phone.device_model}\n ├ Is Charging : ${charged}\n ├ 24 Hours Online : ${device.is24h}\n ├ OS Version : ${device.phone.os_version}\n └ Build Number : ${device.phone.os_build_number}\n\n _*Jam :*_ ${moment(t * 1000).format('HH:mm:ss')}`
-					urbae.sendText(from, `*Device Info*\n${deviceinfo}\n\nPenggunaan RAM: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB*\nCPU: *${os.cpus().length}*\n\nStatus :\n- *${loadedMsg}* Loaded Messages\n- *${groups.length}* Group Chats\n- *${chatIds.length - groups.length}* Personal Chats\n- *${chatIds.length}* Total Chats\n\nSpeed: ${latensi.toFixed(4)} _Second_`)
+					urbae.reply(from, `Speed: ${latensi.toFixed(4)} _Second_`, id)
 					break
 				case prefix + 'setpic':
 					if (!isOwnerB) return urbae.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner Bot!`, id)
@@ -1923,13 +1917,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'botstat': {
 					const loadedMsg = await urbae.getAmountOfLoadedMessages()
-					const charged = await urbae.getIsPlugged();
-					const device = await urbae.getMe();
-					const deviceinfo = `- Battery Level : ${device.battery}%\n  ├ Is Charging : ${charged}\n  └ 24 Hours Online : ${device.is24h}\n  ├ OS Version : ${device.phone.os_version}\n  └ Build Number : ${device.phone.os_build_number}\n\n\n _*Jam :*_ ${moment(t * 1000).format('HH:mm:ss')}\n`
 					const chatIds = await urbae.getAllChatIds()
 					const groups = await urbae.getAllGroups()
 					const groupsIn = groups.filter(x => x.groupMetadata.participants.map(x => [botNumber, '62895334962050@c.us'].includes(x.id._serialized)).includes(true))
-					urbae.sendText(from, `*Device Info*\n${deviceinfo}\n\n\nStatus :\n- *${loadedMsg}* Loaded Messages\n- *${groupsIn.length}* Group Joined\n- *${groups.length - groupsIn.length}* Groups Left\n- *${groups.length}* Group Chats\n- *${chatIds.length - groups.length}* Personal Chats\n- *${chatIds.length - groups.length - groupsIn.length}* Personal Chats Active\n- *${chatIds.length}* Total Chats\n- *${chatIds.length - groupsIn.length}* Total Chats Active\n\n*Whatsapp Version :* ${waver}`)
+					urbae.reply(from, `Status :\n- *${loadedMsg}* Loaded Messages\n- *${groupsIn.length}* Group Joined\n- *${groups.length - groupsIn.length}* Groups Left\n- *${groups.length}* Group Chats\n- *${chatIds.length - groups.length}* Personal Chats\n- *${chatIds.length - groups.length - groupsIn.length}* Personal Chats Active\n- *${chatIds.length}* Total Chats\n- *${chatIds.length - groupsIn.length}* Total Chats Active\n\n*Whatsapp Version :* ${waver}`, id)
 					break
 				}
 
