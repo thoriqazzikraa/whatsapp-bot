@@ -3417,8 +3417,8 @@ module.exports = HandleMsg = async (urbae, message) => {
 									.then(() => {
 										console.log('Success sending Media')
 									})
-									.catch(() => {
-										urbae.reply(from, 'Sedang error', id)
+									.catch((err) => {
+										console.error(err)
 									})
 							}
 						})
