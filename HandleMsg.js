@@ -5364,9 +5364,17 @@ module.exports = HandleMsg = async (urbae, message) => {
 					hxzapi.igstory(xas1)
 						.then(result => {
 							if (xas2 > 11) return urbae.reply(from, 'Maksimal 10!', id)
+							if (result.error == 'No media found.') {
+								insta.fetchStories(xas1)
+								.then(async (s) => {
+									for (let i = 0; i < xas2; i++) {
+									await urbae.sendFileFromUrl(from, s.stories[i].url, '', '', id)
+								}
+						} else {
 							for (let i = 0; i < xas2; i++) {
 								urbae.sendFileFromUrl(from, result.medias[i].url, '', '', id)
 							}
+						}
 						})
 						.catch(err => {
 							console.log(err)
