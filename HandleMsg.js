@@ -5370,6 +5370,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 									for (let i = 0; i < xas2; i++) {
 									await urbae.sendFileFromUrl(from, s.stories[i].url, '', '', id)
 								}
+							})
 						} else {
 							for (let i = 0; i < xas2; i++) {
 								urbae.sendFileFromUrl(from, result.medias[i].url, '', '', id)
