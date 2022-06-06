@@ -3,6 +3,7 @@ const { decryptMedia } = require('@open-wa/wa-automate')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const axios = require('axios')
+const gis = require('async-g-i-s')
 const FormData = require('form-data')
 const os = require('os')
 const gplay = require('google-play-scraper')
@@ -6322,21 +6323,18 @@ module.exports = HandleMsg = async (urbae, message) => {
 					}
 					break
 				case prefix + 'googleimg':
-					if (args.length == 0) return urbae.reply(from, `Kirim perintah ${prefix}googleimg aesthetic|jumlah`, id)
-					const searchimage = q.split('|')[0]
-					const jumlahimage = q.split('|')[1]
-					if (jumlahimage > 13) return urbae.reply(from, 'Maksimal 13', id)
-					urbae.reply(from, mess.wait, id)
-					try {
-						const imageaxios = await axios.get(`https://lindow-api.herokuapp.com/api/googleimg?q=${searchimage}&apikey=${lindowapi}`)
-						const imagedata = imageaxios.data
-						for (let i = 0; i < jumlahimage; i++) {
-							await urbae.sendFileFromUrl(from, imagedata.result[i], '', '', id)
-						}
-					} catch (err) {
-						console.log(err)
-						urbae.reply(from, 'Image yang anda cari tidak ada', id)
-					}
+				case prefix + 'gimg':
+					if (q.length == 0) return urbae.reply(from, 'nyari apa?', id)
+					await urbae.reply(from, mess.wait, id)
+					gis(q)
+					.then(async (img) => {
+						const imgRandom = Math.floor(Math.random() * img.length)
+						await urbae.sendFileFromUrl(from, img[imgRandom].url, '', '', id)
+						.catch(err => {
+							console.error(err)
+							urbae.reply(from, 'Error :' + err.message, id)
+						})
+					})
 					break
 				case prefix + 'bot':
 					if (args.length == 0) return urbae.reply(from, 'Kirim perintah */bot [teks]*\nContoh : */bot halo*', id)
