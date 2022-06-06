@@ -6594,7 +6594,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						const getpushname = await urbae.getContact(yepo)
 						urbae.reply(from, `Berhasil memblokir ${getpushname.pushname}`, id)
 					} else if (mentionedJidList) {
-						if (blockNumber.includes(mentionedJidList[0]) return urbae.reply(from, `${mentionedJidList[0]} sudah diblock sebelumnya`, id)
+						if (blockNumber.includes(mentionedJidList[0])) return urbae.reply(from, `${mentionedJidList[0]} sudah diblock sebelumnya`, id)
 						for (let i = 0; i < mentionedJidList.length; i++) {
 							await urbae.contactUnblock(mentionedJidList[i])
 							urbae.sendReplyWithMentions(from, `Berhasil memblokir @${mentionedJidList[0]}`, id)
