@@ -1,16 +1,16 @@
 <p align="center">
-<img src="https://avatars.githubusercontent.com/Urbaexyz" width="225" height="225"/>
+<img src="https://avatars.githubusercontent.com/Achmadcstllo" width="225" height="225"/>
 </p>
 <p align="center">
 <a href="https://chat.whatsapp.com/LQZZLcKiDBnGSPWs1eRBQ9"><img alt="WhatsApp" src="https://img.shields.io/badge/WhatsApp%20Group-%23017e40?style=for-the-badge&logo=whatsapp&logoColor=white"/></a></p>
 <p align="center">
-<a href="https://github.com/Achmadcstllo"><img title="Author" src="https://img.shields.io/badge/Author-Thoriq Azzikra-blue.svg?style=flat&logo=github"></a>
+<a href="https://github.com/Achmadcstllo"><img title="Author" src="https://img.shields.io/badge/Author-Achmadcstllo-blue.svg?style=flat&logo=github"></a>
 <p align="center">
 <a href="https://github.com/Achmadcstllo?tab=followers"><img title="Followers" src="https://img.shields.io/github/followers/Urbaexyz?color=blue&style=flat-square"></a>
 <a href="https://github.com/Achmadcstllo/whatsapp-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Urbaexyz/whatsapp-bot?color=blue&style=flat-square"></a>
 <a href="https://github.com/Achmadcstllo/whatsapp-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Urbaexyz/whatsapp-bot?color=blue&style=flat-square"></a>
 <a href="https://github.com/Achmadcstllo/whatsapp-bot/blob/main/package.json#L3"><img src="https://img.shields.io/github/package-json/v/Urbaexyz/whatsapp-bot"></a>
-<img src="https://img.shields.io/github/languages/top/Urbaexyz/whatsapp-bot">
+<img src="https://img.shields.io/github/languages/top/Achmadcstllo/whatsapp-bot">
 <img src="https://img.shields.io/github/search/Urbaexyz/whatsapp-bot/whatsapp-bot">
 <img src="https://img.shields.io/github/repo-size/Urbaexyz/whatsapp-bot">
 <a href="https://github.com/Achmadcstllo/whatsapp-bot/issues"> <img src="https://img.shields.io/github/issues/Urbaexyz/whatsapp-bot"></a>
@@ -36,7 +36,7 @@
 
 
 # Donate
-- [Saweria](https://saweria.co/Achmadcstllo)
+- [Saweria](https://saweria.co/Achmdcstllo)
 
  ## Things I Code With
 <p>
