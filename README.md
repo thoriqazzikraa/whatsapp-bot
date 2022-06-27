@@ -4,44 +4,39 @@
 <p align="center">
 <a href="https://chat.whatsapp.com/LQZZLcKiDBnGSPWs1eRBQ9"><img alt="WhatsApp" src="https://img.shields.io/badge/WhatsApp%20Group-%23017e40?style=for-the-badge&logo=whatsapp&logoColor=white"/></a></p>
 <p align="center">
- <a href="https://www.facebook.com/groups/569012454419629"><img alt="Facebook" src="https://img.shields.io/badge/Facebook%20Group-blue?style=for-the-badge&logo=facebook&logoColor=white"/></a></p>
+<a href="https://github.com/Achmadcstllo"><img title="Author" src="https://img.shields.io/badge/Author-Thoriq Azzikra-blue.svg?style=flat&logo=github"></a>
 <p align="center">
-<a href="https://github.com/Urbaexyz"><img title="Author" src="https://img.shields.io/badge/Author-Thoriq Azzikra-blue.svg?style=flat&logo=github"></a>
-<p align="center">
-<a href="https://github.com/Urbaexyz?tab=followers"><img title="Followers" src="https://img.shields.io/github/followers/Urbaexyz?color=blue&style=flat-square"></a>
-<a href="https://github.com/Urbaexyz/whatsapp-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Urbaexyz/whatsapp-bot?color=blue&style=flat-square"></a>
-<a href="https://github.com/Urbaexyz/whatsapp-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Urbaexyz/whatsapp-bot?color=blue&style=flat-square"></a>
-<a href="https://github.com/Urbaexyz/whatsapp-bot/blob/main/package.json#L3"><img src="https://img.shields.io/github/package-json/v/Urbaexyz/whatsapp-bot"></a>
+<a href="https://github.com/Achmadcstllo?tab=followers"><img title="Followers" src="https://img.shields.io/github/followers/Urbaexyz?color=blue&style=flat-square"></a>
+<a href="https://github.com/Achmadcstllo/whatsapp-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Urbaexyz/whatsapp-bot?color=blue&style=flat-square"></a>
+<a href="https://github.com/Achmadcstllo/whatsapp-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Urbaexyz/whatsapp-bot?color=blue&style=flat-square"></a>
+<a href="https://github.com/Achmadcstllo/whatsapp-bot/blob/main/package.json#L3"><img src="https://img.shields.io/github/package-json/v/Urbaexyz/whatsapp-bot"></a>
 <img src="https://img.shields.io/github/languages/top/Urbaexyz/whatsapp-bot">
 <img src="https://img.shields.io/github/search/Urbaexyz/whatsapp-bot/whatsapp-bot">
 <img src="https://img.shields.io/github/repo-size/Urbaexyz/whatsapp-bot">
-<a href="https://github.com/Urbaexyz/whatsapp-bot/issues"> <img src="https://img.shields.io/github/issues/Urbaexyz/whatsapp-bot"></a>
-<a href="https://github.com/Urbaexyz/whatsapp-bot/issues?q=is%3Aissue+is%3Aclosed"> <img src="https://img.shields.io/github/issues-closed/Urbaexyz/whatsapp-bot"></a>
-<a href="https://github.com/Urbaexyz/whatsapp-bot/blob/main/LICENSE"> <img src="https://img.shields.io/github/license/Urbaexyz/whatsapp-bot"></a>
-<a href="https://github.com/Urbaexyz/whatsapp-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Urbaexyz/whatsapp-bot?label=Watchers&color=blue&style=flat-square"></a>
+<a href="https://github.com/Achmadcstllo/whatsapp-bot/issues"> <img src="https://img.shields.io/github/issues/Urbaexyz/whatsapp-bot"></a>
+<a href="https://github.com/Achmadcstllo/whatsapp-bot/issues?q=is%3Aissue+is%3Aclosed"> <img src="https://img.shields.io/github/issues-closed/Urbaexyz/whatsapp-bot"></a>
+<a href="https://github.com/Achmadcstllo/whatsapp-bot/blob/main/LICENSE"> <img src="https://img.shields.io/github/license/Urbaexyz/whatsapp-bot"></a>
+<a href="https://github.com/Achmadcstllo/whatsapp-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Urbaexyz/whatsapp-bot?label=Watchers&color=blue&style=flat-square"></a>
 <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FUrbaexyz%2Fwhatsapp-bot&count_bg=%23476FFF&title_bg=%23868080&icon=openbadges.svg&icon_color=%23E7E7E7&title=visitors&edge_flat=false"/></a>
 
 <p align="left">
  <img src="https://github-readme-stats.vercel.app/api/pin/?username=Urbaexyz&repo=whatsapp-bot&bg_color=20,e96443,904e89&title_color=fff&text_color=fff&icon_color=fff&hide_border=true&show_icons=true&show_owner=true" />
   </p>
  <p align="center">
-  <a href="https://github.com/Urbaexyz/whatsapp-bot#Requirements">Requirements</a> •
-  <a href="https://github.com/Urbaexyz/whatsapp-bot#install">Installation</a> •
-  <a href="https://github.com/Urbaexyz/whatsapp-bot#Usage">Usage</a> •
-  <a href="https://github.com/Urbaexyz/whatsapp-bot#Information">Information</a> •
-  <a href="https://github.com/Urbaexyz/whatsapp-bot#features">Features</a> •
-  <a href="https://github.com/Urbaexyz/whatsapp-bot#To-Do">To-Do</a> •
-  <a href="https://github.com/Urbaexyz/whatsapp-bot#Troubleshooting">Troubleshooting</a> •
-  <a href="https://github.com/Urbaexyz/whatsapp-bot#thanks-to">Thanks to</a>
+  <a href="https://github.com/Achmadcstllo/whatsapp-bot#Requirements">Requirements</a> •
+  <a href="https://github.com/Achmadcstllo/whatsapp-bot#install">Installation</a> •
+  <a href="https://github.com/Achmadcstllo/whatsapp-bot#Usage">Usage</a> •
+  <a href="https://github.com/Achmadcstllo/whatsapp-bot#Information">Information</a> •
+  <a href="https://github.com/Achmadcstllo/whatsapp-bot#features">Features</a> •
+  <a href="https://github.com/Achmadcstllo/whatsapp-bot#To-Do">To-Do</a> •
+  <a href="https://github.com/Achmadcstllo/whatsapp-bot#Troubleshooting">Troubleshooting</a> •
+  <a href="https://github.com/Achmadcstllo/whatsapp-bot#thanks-to">Thanks to</a>
 </p>
 </div>
 
 
 # Donate
-- [Saweria](https://saweria.co/thoriqazzikra)
-- [Paypal](https://www.paypal.com/paypalme/thoriqazzikra)
-- [Trakteer](https://trakteer.id/thoriqazzikra)
-- [Nyawer](https://nyawer.co/thoriqazzikra)
+- [Saweria](https://saweria.co/Achmadcstllo)
 
  ## Things I Code With
 <p>
