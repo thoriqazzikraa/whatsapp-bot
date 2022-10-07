@@ -12,7 +12,7 @@ const thisris = require('ikyy')
 const apirizky = new thisris()
 const lolis = require('lolis.life')
 const { igApi } = require('insta-fetcher')
-const insta = new igApi('40194017622%3AaRqzskOBlc8KpX%3A24')
+const insta = new igApi('csrftoken=iMB8YQcIv1mxBLKwDVzwtttaGwDHSRlc; rur="EAG\05440194017622\0541696701869:01f734f04958fcfade1f78f696ff05f3039af3836a2ba9efa2041364052e2d8156d880ca"; sessionid=40194017622%3AeeuvYD4sYYd7R5%3A22%3AAYeu1vMQ8cvmofAmp4ojW7iP0xGjSOKyf3nrcBySpg; ig_did=333B18EB-C36E-4D3A-9132-279770A8346E; ig_nrcb=1; mid=Y0BqKwALAAFzUyLDAfKxj7664vYN; ds_user_id=40194017622')
 const buffeerr = require('buffer-from')
 const spotdl = require('spotifydl-core').default
 const credentials = {
