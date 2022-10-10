@@ -2983,15 +2983,15 @@ module.exports = HandleMsg = async (urbae, message) => {
 				//Media
 				case prefix + 'ytmp3':
 					if (args.length == 0) return urbae.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp3 [link_yt]`, id)
-					if (!isPrem) return urbae.reply(from, mess.prem, id)
+					//if (!isPrem) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					yt.ytMp3(q)
 						.then(result => {
 							console.log(result)
 							urbae.sendFileFromUrl(from, result.thumb, 'thumb.jpg', `「 *YT MP4* 」\n\n*Title:* ${result.title}\n*Views:* ${result.views}\n*Channel:* ${result.channel}\n*Uploaded:* ${result.published}\n\n${mess.sendfileaudio}`, id)
-							hxzapi.youtube(q)
+							scrape.youtubedown(q)
 								.then(res => {
-									if (Number(res.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, 'Size audio terlalu besar', id)
+									//if (Number(res.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, 'Size audio terlalu besar', id)
 									urbae.sendFileFromUrl(from, res.mp3, '', '', id)
 										.catch(err => {
 											console.log(err)
@@ -5217,10 +5217,10 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'tiktok':
 					if (q.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
 					urbae.reply(from, mess.wait, id)
-					stalkuy.noWaterMark(q)
+					apirizky.downloader.tiktok(q)
 					.then(async (result) => {
-						await urbae.sendFileFromUrl(from, result, '', '', id)
-						await urbae.sendButtons(from, '\nPress the button if you want the audio\n', [{ id: `${prefix}tiktokaudio ${q}`, text: 'Get Audio' }], '', '')
+						await urbae.sendFileFromUrl(from, result.result.video.nowm.video_url, '', '', id)
+						//await urbae.sendButtons(from, '\nPress the button if you want the audio\n', [{ id: `${prefix}tiktokaudio ${q}`, text: 'Get Audio' }], '', '')
 						.catch(err => {
 							console.error(err)
 							urbae.reply(from, 'Error: ' + err.message, id)
@@ -5263,15 +5263,15 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'ytmp4':
 					if (args.length == 0) return urbae.reply(from, `Untuk mendownload video dari youtube\nketik: ${prefix}ytmp4 [link_yt]`, id)
-					if (!isPrem) return urbae.reply(from, mess.prem, id)
+					//if (!isPrem) return urbae.reply(from, mess.prem, id)
 					urbae.reply(from, mess.wait, id)
 					yt.ytMp4(q)
 						.then(result => {
 							console.log(result)
 							urbae.sendFileFromUrl(from, result.thumb, 'thumb.jpg', `「 *YT MP4* 」\n\n*Title:* ${result.title}\n*Views:* ${result.views}\n*Channel:* ${result.channel}\n*Uploaded:* ${result.published}\n\n${mess.sendfilevideo}`, id)
-							hxzapi.youtube(q)
+							scrape.youtubedown(q)
 								.then(data => {
-									if (Number(data.size.split(' MB')[0]) >= 50) return urbae.reply(from, 'Size video terlalu besar', id)
+									//if (Number(data.size.split(' MB')[0]) >= 50) return urbae.reply(from, 'Size video terlalu besar', id)
 									urbae.sendFileFromUrl(from, data.link, '', `*Title:* ${data.title}\n*Size:* ${data.size}\n*Quality:* ${data.quality}`, id)
 										.catch(err => {
 											console.log(err)
@@ -5728,9 +5728,9 @@ module.exports = HandleMsg = async (urbae, message) => {
 						yt.ytSearch(body.slice(10))
 							.then(async (res) => {
 								await urbae.sendFileFromUrl(from, res[0].thumbnail, 'thumb.jpg', `「*PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfileaudio}`, id)
-								hxzapi.youtube(res[0].url)
+								scrape.youtubedown(res[0].url)
 									.then(async (result) => {
-										if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download manual menggunakan link dibawah\nLink: ${result.mp3}`, id)
+										//if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download manual menggunakan link dibawah\nLink: ${result.mp3}`, id)
 										await urbae.sendFileFromUrl(from, result.mp3, `${result.title}`, '', id, false, false, false, true)
 									})
 							})
@@ -5741,11 +5741,11 @@ module.exports = HandleMsg = async (urbae, message) => {
 								console.log(color('Nickname:', 'cyan'), color(`${pushname}`, 'magenta'), color('\nNomor:', 'cyan'), color(`${serial.replace('@c.us', '')}`, 'magenta'), color('\nJudul:', 'cyan'), color(`${res[0].title}`, 'magenta'), color('\nDurasi:', 'cyan'), color(`${res[0].timestamp} seconds`, 'magenta'))
 								const thumbnailytSD = res[0].thumbnail
 								await urbae.sendFileFromUrl(from, thumbnailytSD, 'thumb.jpg', `「*PLAY* 」\n\nTitle: ${res[0].title}\nDuration: ${res[0].timestamp} seconds\nViews: ${res[0].views}\nUploaded: ${res[0].ago}\nChannel: ${res[0].author.name}\nUrl: ${res[0].url}\n\n${mess.sendfileaudio}`, id)
-								hxzapi.youtube(res[0].url)
+								scrape.youtubedown(res[0].url)
 									.then(async (result) => {
-										if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download sendiri menggunakan link dibawah\nLink: ${result.mp3}`, id)
+										//if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download sendiri menggunakan link dibawah\nLink: ${result.mp3}`, id)
 										await urbae.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id)
-										await urbae.sendButtons(from, '\nPress the button if you want get the lyric\n', [{ id: `${prefix}lirik ${q}`, text: 'Get Lyric' }], '', '')
+										//await urbae.sendButtons(from, '\nPress the button if you want get the lyric\n', [{ id: `${prefix}lirik ${q}`, text: 'Get Lyric' }], '', '')
 										.catch(err => {
 											console.log(err)
 											urbae.reply(from, err.message, id)
@@ -7054,19 +7054,13 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us', '')} pad
 				case prefix + 'tiktokmp3':
 					if (q.length == 0) return urbae.reply(from, `Fitur untuk mengkonversi Video menjadi Audio!\nKirim perintah ${prefix}tiktokaudio link tiktok`, id)
 					urbae.reply(from, mess.wait, id)
-					stalkuy.getMusic(q)
+					apirizky.downloader.tiktok(q)
 						.then(res => {
-							urbae.sendFileFromUrl(from, res.coverLarge, '', `*- Title:* ${res.title}\n*- Author:* ${res.author}\n*- Duration:* ${res.duration}\n*- Original:* ${res.original}\n*- Album:* ${res.album}`, id)
-								.then(() => {
-									urbae.sendFileFromUrl(from, res.playURL, '', '', id)
-										.catch((err) => {
-											urbae.reply(from, err.message, id)
-										})
-								})
-						})
-						.catch((err) => {
-							console.log(err)
-							urbae.reply(from, err.message, id)
+							urbae.sendFileFromUrl(from, res.result.audio.audio_url, '', '', id)
+							.catch(err => {
+								console.log(err)
+								urbae.reply(from, err.message, id)
+							})
 						})
 					break
 				case prefix + 'math':
