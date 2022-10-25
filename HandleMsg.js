@@ -4826,7 +4826,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						.then(async (res) => {
 							console.log(res)
 							await urbae.sendFileFromUrl(from, res.data.result.avatar, '', `- Username: ${res.data.result.username}\n- Nickname: ${res.data.result.nickname}\n- Followers: ${res.data.result.followers} Followers\n- Followings: ${res.data.result.followings} Followings\n- Verified: ${res.data.result.verified}\n- Private: ${res.data.result.private}\n- Total Likes: ${res.data.result.hearts}\n- Total Videos: ${res.data.result.videos}\n- Bio: ${res.data.result.signature}`, id)
-								.catch(err => {
+								.catch(async (err) => {
 									console.log(err)
 									await urbae.reply(from, err.message, id)
 								})
