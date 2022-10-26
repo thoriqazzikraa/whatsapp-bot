@@ -2944,7 +2944,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							scrape.youtubedown(q)
 								.then(res => {
 									//if (Number(res.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, 'Size audio terlalu besar', id)
-									urbae.sendFileFromUrl(from, res.mp3, '', '', id)
+									urbae.sendFileFromUrl(from, res.mp3.replace('https', 'http'), '', '', id)
 										.catch(err => {
 											console.log(err)
 											urbae.reply(from, err.message, id)
@@ -5138,7 +5138,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							scrape.youtubedown(q)
 								.then(data => {
 									//if (Number(data.size.split(' MB')[0]) >= 50) return urbae.reply(from, 'Size video terlalu besar', id)
-									urbae.sendFileFromUrl(from, data.link, '', `*Title:* ${data.title}\n*Size:* ${data.size}\n*Quality:* ${data.quality}`, id)
+									urbae.sendFileFromUrl(from, data.link.replace('https', 'http'), '', `*Title:* ${data.title}\n*Size:* ${data.size}\n*Quality:* ${data.quality}`, id)
 										.catch(err => {
 											console.log(err)
 											urbae.reply(from, err.message, id)
@@ -5434,7 +5434,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 								scrape.youtubedown(res[0].url)
 									.then(async (result) => {
 										//if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download manual menggunakan link dibawah\nLink: ${result.mp3}`, id)
-										await urbae.sendFileFromUrl(from, result.mp3, `${result.title}`, '', id, false, false, false, true)
+										await urbae.sendFileFromUrl(from, result.mp3.replace('https', 'http'), `${result.title}`, '', id, false, false, false, true)
 									})
 							})
 					} else {
@@ -5447,7 +5447,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 								scrape.youtubedown(res[0].url)
 									.then(async (result) => {
 										//if (Number(result.size_mp3.split(' MB')[0]) >= 15) return urbae.reply(from, `Size audio terlalu besar\nSilahkan download sendiri menggunakan link dibawah\nLink: ${result.mp3}`, id)
-										await urbae.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id)
+										await urbae.sendFileFromUrl(from, result.mp3.replace('https', 'http'), `${result.title}.mp3`, '', id)
 											//await urbae.sendButtons(from, '\nPress the button if you want get the lyric\n', [{ id: `${prefix}lirik ${q}`, text: 'Get Lyric' }], '', '')
 											.catch(err => {
 												console.log(err)
@@ -5516,7 +5516,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 							scrape.youtubedown(res[0].url)
 								.then(result => {
 									if (Number(result.size.split(' MB')[0]) >= 50) return urbae.reply(from, 'Size video terlalu besar', id)
-									urbae.sendFileFromUrl(from, result.link, '', `*Title:* ${result.title}\n*Size:* ${result.size}\n*Quality:* 480P`, id)
+									urbae.sendFileFromUrl(from, result.link.replace('https', 'http'), '', `*Title:* ${result.title}\n*Size:* ${result.size}\n*Quality:* 480P`, id)
 										.catch(err => {
 											console.log(err)
 											urbae.reply(from, err.message, id)
