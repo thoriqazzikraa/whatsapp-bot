@@ -12,8 +12,6 @@ const thisris = require('ikyy')
 const apirizky = new thisris()
 const lolis = require('lolis.life')
 const caliphapi = require('caliph-api')
-const { igApi } = require('insta-fetcher')
-const insta = new igApi('csrftoken=iMB8YQcIv1mxBLKwDVzwtttaGwDHSRlc; rur="EAG\05440194017622\0541696701869:01f734f04958fcfade1f78f696ff05f3039af3836a2ba9efa2041364052e2d8156d880ca"; sessionid=40194017622%3AeeuvYD4sYYd7R5%3A22%3AAYeu1vMQ8cvmofAmp4ojW7iP0xGjSOKyf3nrcBySpg; ig_did=333B18EB-C36E-4D3A-9132-279770A8346E; ig_nrcb=1; mid=Y0BqKwALAAFzUyLDAfKxj7664vYN; ds_user_id=40194017622')
 const buffeerr = require('buffer-from')
 const spotdl = require('spotifydl-core').default
 const credentials = {
@@ -87,7 +85,8 @@ const {
 	scrape,
 	downloader,
 	sticker,
-	level
+	level,
+	instaAPI
 } = require('./lib')
 
 
@@ -3359,7 +3358,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'instagram':
 					if (args.length == 0) return urbae.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
 					urbae.reply(from, mess.wait, id)
-					insta.fetchPost(args[0])
+					instaAPI.ig.fetchPost(args[0])
 						.then(async (result) => {
 							if (args[1] == '' || args[1] == undefined) {
 								var beone = 1
@@ -4956,7 +4955,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 				case prefix + 'igstalk':
 					if (q.length == 0) return urbae.reply(from, `Untuk men-stalk akun instagram seseorang\nKetik ${prefix}igstalk usernamenya\nContoh: ${prefix}igstalk thoriqazzikraa`, id)
 					urbae.reply(from, mess.wait, id)
-					insta.fetchUser(q)
+					instaAPI.ig.fetchUser(q)
 						.then(async (result) => {
 							console.log(result)
 							await urbae.sendFileFromUrl(from, result.hd_profile_pic_url_info.url, '', `*- Username:* ${result.username}\n*- Fullname:* ${result.fullname}\n*- Followers:* ${result.followers} Followers\n*- Following:* ${result.following} Following\n*- Verified:* ${result.is_verified}\n*- Private:* ${result.is_private}\n*- Bio:* ${result.biography}\n*- External Url:* ${result.external_url}\n*- Url Account:* https://instagram.com/${q}`, id)
@@ -5197,7 +5196,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 						.then(result => {
 							if (xas2 > 11) return urbae.reply(from, 'Maksimal 10!', id)
 							if (result.error == 'No media found.') {
-								insta.fetchStories(xas1)
+								instaAPI.ig.fetchStories(xas1)
 									.then(async (s) => {
 										for (let i = 0; i < xas2; i++) {
 											await urbae.sendFileFromUrl(from, s.stories[i].url, '', '', id)
