@@ -5188,24 +5188,20 @@ module.exports = HandleMsg = async (urbae, message) => {
 					break
 				case prefix + 'igstory':
 				case prefix + 'instastory':
-					if (args.length == 0) return urbae.reply(from, `Mencari story dari username, Gunakan ${prefix}igstory username jumlahyangingindidownload\nContoh: ${prefix}igstory ewkharis|2`, id)
-					const xas1 = args[0]
-					const xas2 = args[1]
+					if (args.length == 0) return urbae.reply(from, `Mencari story dari username, Gunakan ${prefix}igstory username|jumlah\nContoh: ${prefix}igstory ewkharis|2`, id)
+					const xas1 = q.split('|')[0]
+					const xas2 = q.split('|')[1]
 					urbae.reply(from, mess.wait, id)
-					hxzapi.igstory(xas1)
-						.then(result => {
-							if (xas2 > 11) return urbae.reply(from, 'Maksimal 10!', id)
-							if (result.error == 'No media found.') {
-								instaAPI.ig.fetchStories(xas1)
-									.then(async (s) => {
-										for (let i = 0; i < xas2; i++) {
-											await urbae.sendFileFromUrl(from, s.stories[i].url, '', '', id)
-										}
-									})
+					if (xas2 > 11) return urbae.reply(from, 'Maksimal 10!', id)
+					instaAPI.ig.fetchStories(xas1)
+						.then(async (s) => {
+							if (xas2 == undefined || xas2 == '' || xas2 == null) {
+								var beOne = 1
 							} else {
-								for (let i = 0; i < xas2; i++) {
-									urbae.sendFileFromUrl(from, result.medias[i].url, '', '', id)
-								}
+								var beOne = xas2
+							}
+							for (let i = 0; i < beOne; i++) {
+								await urbae.sendFileFromUrl(from, s.stories[i].url, '', '', id)
 							}
 						})
 						.catch(err => {

@@ -39,10 +39,11 @@ const options = (start) => {
     const options = {
         sessionId: 'URBAE',
         multiDevice: true,
-	licenseKey: 'YOUR-LICENSE-KEY',
-	headless: true,
+        licenseKey: 'YOUR-LICENSE-KEY',
+        headless: true,
         qrTimeout: 0,
         authTimeout: 0,
+        disableSpins: true,
         restartOnCrash: start,
         cacheEnabled: false,
         useChrome: true,
