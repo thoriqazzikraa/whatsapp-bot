@@ -68,6 +68,16 @@ const {
 } = require('remove.bg')
 
 const {
+	addAfk,
+    getAfk,
+    getAfkPosition,
+    getAfkReason,
+    getAfkTime,
+    getAfkId
+} = require('./lib/afk.js')
+
+
+const {
 	exec
 } = require('child_process')
 
@@ -464,71 +474,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 			} catch (err) {
 				console.log(err)
 				urbae.reply(from, err.message, id)
-			}
-
-		const addAfk = (userId, time) => {
-			let obj = { id: `${userId}`, time: Date.now(), reason: `${reason}` }
-			_afk.push(obj)
-			fs.writeFileSync('./lib/database/afk.json', JSON.stringify(_afk))
 		}
-
-		const getAfk = (userId) => {
-			let isAfk = false
-			Object.keys(_afk).forEach((i) => {
-				if (_afk[i].id === userId) {
-					isAfk = true
-
-				}
-			})
-			return isAfk
-		}
-
-		const getAfkPosition = (userId) => {
-			let position = false
-			Object.keys(_afk).forEach((i) => {
-				if (_afk[i].id == userId) {
-					position = i
-				}
-			})
-			return position
-		}
-
-		const getAfkReason = (userId) => {
-			let position = false
-			Object.keys(_afk).forEach((i) => {
-				if (_afk[i].id === userId) {
-					position = i
-				}
-			})
-			if (position !== false) {
-				return _afk[position].reason
-			}
-		}
-
-		const getAfkTime = (userId) => {
-			let position = false
-			Object.keys(_afk).forEach((i) => {
-				if (_afk[i].id === userId) {
-					position = i
-				}
-			})
-			if (position !== false) {
-				return _afk[position].time
-			}
-		}
-
-		const getAfkId = (userId) => {
-			let position = false
-			Object.keys(_afk).forEach((i) => {
-				if (_afk[i].id === userId) {
-					position = i
-				}
-			})
-			if (position !== false) {
-				return _afk[position].id
-			}
-		}
-
 
 		const isAfkOn = getAfk(sender.id)
 		if (isGroupMsg) {
@@ -1174,6 +1120,29 @@ module.exports = HandleMsg = async (urbae, message) => {
 						console.error(err.message)
 						await urbae.sendFileFromUrl(from, errorurl2, 'error.png', '💔️ Maaf, Soal Quiz tidak ditemukan')
 					}
+					break
+					case prefix+'fasttype':
+						const randomcoek = [ "observe", "omit", "alcoholic", "wash", "meet", "far", "pencil", "redundant", "organic", "gamy", "tough", "warn", "linen", "beast", "fall", "expensive", "cannon", "kill", "flower", "illegal", "town", "functional", "whispering", "right", "relax", "quick", "detect", "mellow", "sassy", "lovely", "quince", "table", "guard", "ring", "tidy", "place", "cheap", "disgust", "quill", "unused", "decorous", "station", "purring", "store", "dapper", "separate", "trail", "push", "cause", "ready", "forbid", "relax", "legs", "rise", "save", "return", "stitch", "quartz", "brush", "female", "run", "flop", "grandmother", "healthy", "spring", "grain", "difficult", "incise", "fight", "abject", "voracious", "dapper", "sound", "pest", "greet", "writer", "enlighten", "store", "bet", "lyrical", "reuse", "ignore", "melt", "week", "relate", "curvy", "silent", "heavenly", "leather", "gabby", "endorse", "abrasive", "read", "son", "club", "coil", "bash", "godly", "ragged", "mould", "promise", "bait", "gainsay", "book", "dash", "clumsy", "gain", "disagreeable", "chat", "lacking", "scab", "shaggy", "resolve", "telling", "renew", "roar", "learning", "reduce", "piquant", "scale", "creator", "tart", "happy", "learned", "measure", "correct", "crush", "cope", "art", "country", "thump", "contrive", "elegant", "mailbox", "symptomatic", "scant", "letter", "lick", "conquer", "suppose", "exclude", "female", "bustling", "show", "needy", "beautiful", "representative", "imperil", "learning", "growth", "bashful", "kid", "carry", "retain", "set", "careless", "frantic", "touch", "wave", "dwell", "leap", "agree", "ball", "pardon", "beggar", "frame", "soda", "scared", "swim", "statement", "contribute", "dynamic", "fallacious", "install", "tiresome", "beseech", "abate", "fallacious", "bray", "cable", "cost", "foot", "chicken", "balloon", "sidewalk", "classify", "tough", "sheep", "bit", "tender", "beneficial", "flippant", "attractive", "magnificent", "pricey", "illegal", "fierce", "stitch", "like", "suffer", "break", "feast", "hill", "mammoth", "spotted", "wise", "stupid", "collapse", "sail", "plucky", "impinge", "expert", "flop", "harsh", "hammer", "concerned", "battle", "sag", "break", "honorable", "salvage", "aspiring", "abiding", "cautious", "breakable", "normal", "sleep", "assorted", "float", "medical", "birds", "adjustment", "hate", "contrive", "coast", "shiver", "invent", "exuberant", "fixed", "friends", "visitor", "motivate", "dolls", "tax", "subtract", "lazy", "crime", "disobey", "resonant", "ugliest", "daughter", "representative", "snow", "envious", "growth", "father", "racial", "persuade", "rich", "scan", "throw", "coil", "hapless", "paint", "elderly", "compare", "teach", "fetch", "winter", "hurried", "historical", "party", "comfortable", "saponify", "sink", "profit", "sticky", "heavenly", "aloof", "find", "encourage", "boorish", "impress", "force", "family", "fight", "handy", "stem", "far", "desk", "discreet", "five", "robust", "thrive", "murmur", "far", "obeisant", "venomous", "versed", "bash", "earsplitting", "beggar", "guarded", "disturbed", "solicit", "forlese", "great", "friend"];
+						let word = randomcoek[Math.floor(Math.random() * randomcoek.length)]
+						let filter = m => m.content.startsWith(word)
+						urbae.sendText(from, `FastType Akan Dimulai Dalam 5 Detik`, id)
+						await sleep(5000)
+						urbae.sendText(from, `the word ${word}`, id).then(() => {
+							urbae.awaitMessages(message, filter, {
+							  max: 1,
+							  time: 30000,
+							  errors: ['time']
+							})
+							.then(message => {
+		
+								urbae.sendText(from, `*Pemenangnya adalah ${message.first().sender.pushname}*`)
+								message = message.first()
+							  
+							})
+							.catch(collected => {
+								urbae.sendText(from ,'Terlalu Lambar', id);
+							});
+						})
 					break
 				case prefix + 'caklontong':
 					if (!isGroupMsg) return urbae.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
