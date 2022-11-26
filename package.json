@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Urbaexyz/whatsapp-bot",
   "dependencies": {
-    "@open-wa/wa-automate": "4.48.0",
+    "@open-wa/wa-automate": "4.51.1",
     "@phaticusthiccy/open-apis": "^1.6.0",
     "app-root-path": "^3.0.0",
     "app-store-scraper": "^0.17.0",
