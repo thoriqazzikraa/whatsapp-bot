@@ -38,7 +38,7 @@
     "emoji-api": "^2.0.1",
     "figlet": "^1.5.2",
     "file-type": "16.5.3",
-    "flag": "^4.4.0",
+    "flag": "^5.0.1",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
     "fs-extra": "^10.0.0",
