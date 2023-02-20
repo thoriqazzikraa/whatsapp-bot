@@ -37,7 +37,7 @@
     "dotenv": "^10.0.0",
     "emoji-api": "^2.0.1",
     "figlet": "^1.5.2",
-    "file-type": "16.5.3",
+    "file-type": "18.2.1",
     "flag": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
