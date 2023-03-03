@@ -43,6 +43,8 @@
 - [Trakteer](https://trakteer.id/thoriqazzikra)
 - [Nyawer](https://nyawer.co/thoriqazzikra)
 
+## SOME FEATURES MAY NOT WORK
+
  ## Things I Code With
 <p>
     <img
