@@ -275,7 +275,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const betime = moment(t * 1000).format('DD/MM/YY')
 		const time = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
-		const userId = sender.id.substring(9, 13)
+		const userId = sender.id.substring(62895609911700, 6282112256051)
 		const blockNumber = await urbae.getBlockedIds()
 		const groupMembers = isGroupMsg ? await urbae.getGroupMembersId(groupId) : ''
 		const GroupLinkDetector = antilink.includes(chatId)
@@ -312,7 +312,7 @@ module.exports = HandleMsg = async (urbae, message) => {
 		const StickerMetadatacrop = { author: authorstc, pack: packstc, keepScale: false }
 
 		// [IDENTIFY]
-		const ownerNumber = "62895334951166@c.us"
+		const ownerNumber = "62895609911700@c.us"
 		const errorImg = "https://i.ibb.co/DYLd6fk/baukrysie.jpg"
 		const isOwnerBot = ownerNumber.includes(pengirim)
 		const isOwner = ownerNumber.includes(pengirim)
