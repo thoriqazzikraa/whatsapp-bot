@@ -41,7 +41,7 @@
     "flag": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^11.2.0",
     "google-it": "^1.6.2",
     "google-play-scraper": "^9.0.0",
     "hxz-api": "^1.0.1",
