@@ -30,7 +30,7 @@
     "axios": "^0.21.4",
     "bent": "^7.3.12",
     "brainly-scraper-v2": "^1.0.3",
-    "caliph-api": "^0.9.4",
+    "caliph-api": "^1.0.1",
     "canvacord": "^5.1.0",
     "chalk": "4.1.2",
     "colors": "1.4.0",
